@@ -57,7 +57,7 @@ export const staticRouters = [
     meta: {
       icon: "logo-windows",
       title: "admin",
-      access: ['1'],
+      access: [1],
       // notCache: "true",
       hideInMenu: false
     },
