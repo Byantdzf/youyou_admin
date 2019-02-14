@@ -14,7 +14,7 @@ const resolve = dir => {
 // const BASE_URL = process.env.NODE_ENV === 'production'
 //     ? '/iview-admin/'
 //     : '/'
-const BASE_URL = '/'
+const BASE_URL = '/admin/'
 
 module.exports = {
   // Project deployment base
