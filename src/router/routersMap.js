@@ -164,15 +164,6 @@ export const staticRouters = [
         component: () => import('@/view/users/user_recommend.vue')
       },
       {
-        path: 'user_recommend/:user_recommend_id',
-        name: 'user_recommend',
-        meta: {
-          title: '推荐',
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/user_recommend.vue')
-      },
-      {
         path: 'user_note/:user_note_id',
         name: 'user_note',
         meta: {
