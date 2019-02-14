@@ -42,13 +42,12 @@ export default {
           password
         }).then(res => {
           const data = res.data.data
-          const code = data.is_admin === 1 ? 'super_admin' : 'admin'
           console.log(data)
           commit('setToken', data.access_token)
           commit('setAvator', data.avatar)
           commit('setUserName', data.name)
           commit('setUserId', data.id)
-          commit('setAccess', [code])
+          commit('setAccess', [data.is_admin === 1 ? 'super_admin' : 'admin'])
           resolve(res.data)
         }).catch(err => {
           reject(err)
