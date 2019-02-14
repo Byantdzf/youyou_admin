@@ -57,7 +57,7 @@ export const staticRouters = [
     meta: {
       icon: "logo-windows",
       title: "admin",
-      access: [1],
+      access: ['super_admin'],
       // notCache: "true",
       hideInMenu: false
     },
@@ -68,6 +68,7 @@ export const staticRouters = [
         name: "statistics",
         meta: {
           icon: "md-analytics",
+          access: [1],
           title: "数据统计",
         },
         component: routerMap['Home']
