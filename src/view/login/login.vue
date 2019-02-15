@@ -5,7 +5,7 @@
 <template>
     <div class="login">
         <div class="login-con">
-            <Card icon="md-pulse" title="福恋智能后台管理系统" :bordered="false">
+            <Card icon="md-heart-outline" title="福恋智能后台管理系统" :bordered="false">
                 <div class="form-con">
                     <login-form @on-success-valid="handleSubmit" :load="loading"></login-form>
                     <p class="login-tip">【福恋智能】 -- 后台

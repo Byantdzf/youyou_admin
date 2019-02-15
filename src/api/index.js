@@ -2,7 +2,9 @@ import { Model } from 'iview';
 import axios from 'axios';
 import config from './config';
 let uAxios = axios.create(config);
-import {getToken, setToken} from '@/libs/util'
+import {getToken, setToken} from '@/libs/util';
+import { login, logout } from '@/api/user'
+
 // http request 拦截器
 uAxios.interceptors.request.use(config => {
     config.headers['Authorization'] ='Bearer ' + getToken();
@@ -16,8 +18,12 @@ uAxios.interceptors.request.use(config => {
 // http response 拦截器
 uAxios.interceptors.response.use(response => {
     if (response.status === 200 && response.data.code === 2) { // token过期
-        window.localStorage.removeItem('ACCESS_TOKEN');
-        window.location.href = window.location.pathname + '#/login';
+      window.localStorage.removeItem('ACCESS_TOKEN');
+      console.log(window.location.pathname)
+        // window.location.href = window.location.pathname;
+      this.$router.push({
+        name: 'login'
+      })
     }else if(response.status === 200 && response.data.code === 1){
        return alert(response.data.message);
     }

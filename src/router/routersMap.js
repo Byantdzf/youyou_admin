@@ -19,8 +19,8 @@ export const routerMap = {
   Error401,
   Error500,
   Error404,
-  Markdown,
-  Editor,
+  // Markdown,
+  // Editor,
   homeSet,
   recommend,
   userlist
@@ -92,6 +92,15 @@ export const staticRouters = [
         component: routerMap['recommend']
       },
       {
+        path: "referres",
+        name: "referres",
+        meta: {
+          icon: "logo-yen",
+          title: "用户推荐",
+        },
+        component: () => import('@/view/referres/list.vue')
+      },
+      {
         path: "userlist",
         name: "userlist",
         meta: {
@@ -104,7 +113,7 @@ export const staticRouters = [
         path: "userPay",
         name: "userPay",
         meta: {
-          icon: "logo-yen",
+          icon: "logo-usd",
           title: "用户充值",
         },
         component: () => import('@/view/userPay/list.vue')
@@ -163,6 +172,16 @@ export const staticRouters = [
         },
         component: () => import('@/view/users/user_recommend.vue')
       },
+      {
+        path: 'record/:record_id',
+        name: 'record',
+        meta: {
+          title: '收益记录',
+          hideInMenu: true
+        },
+        component: () => import('@/view/referres/record.vue')
+      },
+
       {
         path: 'user_note/:user_note_id',
         name: 'user_note',

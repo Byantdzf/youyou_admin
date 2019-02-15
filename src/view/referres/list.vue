@@ -1,27 +1,24 @@
 <template>
   <div v-model="activeTab">
-    <Card>
-      <p slot="title">充值</p>
+    <Card icon="ios-people" title="用户推荐" :bordered="false">
       <div style="margin: 22px">
         <Row>
           <Col span="11">
-            <span> 充值用户：</span>
-            <Select v-model="PayID" style="width: 300px;"  filterable @on-query-change="getGropData">
+            <span> 选择用户：</span>
+            <Select v-model="referresID" style="width: 300px;"  filterable @on-query-change="getGropData">
               <Option v-for="item in userList" :value="item.id" :key="item.id" >{{ item.name }}</Option>
             </Select>
-            <!--<dropdown :dropData="userList" v-on:getGropData="user_pay" title="请选择充值用户" style="display: inline-block"></dropdown>-->
+            <Button type="success" style="margin-left: 12px;" @click="setReferres">设置为推荐人</Button>
           </Col>
         </Row>
       </div>
-      <div style="margin: 22px">
-        <Row>
-          <!--<Col span="11">-->
-          <span>充值金额：</span>
-          <Input  placeholder="请输入充值金额"  v-model="money" style="width: 300px" ></Input>
-          <Button type="success" style="margin-left: 12px;" @click="pay_user">确认充值</Button>
-          <!--</Col>-->
-        </Row>
-      </div>
+      <!--<div style="margin: 22px">-->
+        <!--<Row>-->
+          <!--<span>充值金额：</span>-->
+          <!--<Input  placeholder="请输入充值金额"  v-model="money" style="width: 300px" ></Input>-->
+          <!--<Button type="success" style="margin-left: 12px;" @click="pay_user">确认充值</Button>-->
+        <!--</Row>-->
+      <!--</div>-->
     </Card>
     <Tabs @on-click="getTab" style="margin-top: 12px;">
       <TabPane label="充值记录"  name="score">
@@ -76,22 +73,22 @@ export default {
       searchKeyword: '', // 搜索
       orgTotal: 0, // 分页
       userList: [], // 用户列表
-      PayID: '', // 充值用户
+      referresID: '', // 充值用户
       id: '',
       money: 0, // 充值金额
       orgColumns: [
         {
-          title: '序号',
-          type: 'index',
-          //                        width: 80,
-          align: 'center',
-          sortable: true
-        },
-        {
           title: 'ID',
           key: 'id',
           align: 'center',
-          //                        width: 100,
+          width: 100,
+          editable: true
+        },
+        {
+          title: 'UserID',
+          key: 'user_id',
+          align: 'center',
+          width: 100,
           editable: true
         },
         {
@@ -103,11 +100,11 @@ export default {
         },
         {
           title: '头像',
-          key: 'avatar',
+          key: 'circle_avatar',
           render: (h, params) => {
             return h('img', {
               attrs: {
-                src: params.row.avatar
+                src: params.row.circle_avatar
               },
               style: {
                 width: '48px',
@@ -119,10 +116,10 @@ export default {
               on: {
                 click: () => {
                   let argu = { user_detail_id: params.row.user_id }
-                  // this.$router.push({
-                  //   name: 'user_detail',
-                  //   params: argu
-                  // })
+                  this.$router.push({
+                    name: 'user_detail',
+                    params: argu
+                  })
                 }
               }
             })
@@ -131,59 +128,47 @@ export default {
           align: 'center'
         },
         {
-          title: '充值福分',
+          title: '推荐总人数',
+          key: 'num',
+          align: 'center',
+          editable: true
+        },
+        {
+          title: '推荐总金额',
           key: 'amount',
           align: 'center',
-          //                        width: 100,
           editable: true
         },
         {
-          title: '剩余福分',
-          key: 'value',
-          align: 'center',
-          //                        width: 100,
-          editable: true
-        },
-        {
-          title: '消费类型',
-          key: 'message',
-          align: 'center',
-          //                        width: 100,
-          editable: true
-        },
-        {
-          title: '消费时间',
+          title: '成为推荐人时间',
           key: 'created_at',
           align: 'center',
-          //                        width: 100,
           editable: true
+        },
+        {
+           title: '操作',
+           key: 'user_id',
+           align: 'center',
+           render: (h, params) => {
+               return h('div', [
+                   h('Button', {
+                       props: {
+                           type: 'primary',
+                       },
+                       on: {
+                           click: () => {
+                               console.log(params.row.id)
+                               let argu = {record_id: params.row.user_id};
+                               this.$router.push({
+                                   name: 'record',
+                                   params: argu
+                               });
+                           }
+                       }
+                   }, '查看推荐用户收益记录')
+               ]);
+           }
         }
-        //                    {
-        //                        title: '操作',
-        //                        key: 'action',
-        //                        width: 150,
-        //                        align: 'center',
-        //                        render: (h, params) => {
-        //                            return h('div', [
-        //                                h('Button', {
-        //                                    props: {
-        //                                        type: 'primary',
-        //                                        size: 'small'
-        //                                    },
-        //                                    on: {
-        //                                        click: () => {
-        //                                            console.log(params.row.id)
-        //                                            let argu = {order_id: params.row.id};
-        //                                            this.$router.push({
-        //                                                name: 'order-detail',
-        //                                                params: argu
-        //                                            });
-        //                                        }
-        //                                    }
-        //                                }, '详情')
-        //                            ]);
-        //                        }
-        //                    }
       ],
       modal: false,
       information: [],
@@ -192,8 +177,22 @@ export default {
     }
   },
   methods: {
-    user_pay (_ID) {
-      this.PayID = _ID // 充值用户
+    setReferres () {
+      // 设置为推荐人
+      console.log(this.referresID)
+      if (!this.referresID) { return this.$Message.error('请选择要设置为推荐人的用户！') }
+      // let reg = /^[0-9]*$/
+      // if (!reg.test(this.money)) {
+      //   return this.$Message.error('请输入正确的充值金额！')
+      // }
+      uAxios.post(`admin/referres/users/${this.referresID}`)
+        .then(res => {
+          let result = res.data
+          if (result.code == 0) {
+            this.$Message.success('设置成功！')
+            this.getlist()
+          }
+        })
     },
     getGropData (value) {
       let self = this
@@ -209,24 +208,6 @@ export default {
           })
         })
     },
-    pay_user () {
-      console.log(this.PayID)
-      if (!this.PayID) { return this.$Message.error('请选择充值用户！') }
-      let reg = /^[0-9]*$/
-      if (!reg.test(this.money)) {
-        return this.$Message.error('请输入正确的充值金额！')
-      }
-      console.log(this.money)
-      console.log(this.PayID)
-      uAxios.post(`admin/users/${this.PayID}/score/recharge`, { score: this.money })
-        .then(res => {
-          let result = res.data
-          if (result.code == 0) {
-            this.$Message.success('充值成功！')
-            this.getlist()
-          }
-        })
-    },
     getTab (type) {
       this.activeTab = type
       this.getlist(1)
@@ -238,7 +219,7 @@ export default {
     getlist (page) {
       let self = this
       self.loading = true
-      uAxios.get(`admin/users/score/recharge/histories?page=${page}&keyword=${self.searchKeyword}`)
+      uAxios.get(`admin/referres?page=${page}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
           if (result != null) {
@@ -267,9 +248,9 @@ export default {
     //     okText: '请求数据中...',
     //     loading: true
     // });
-    setTimeout(() => {
-      this.$Modal.remove()
-    }, 5000)
+    // setTimeout(() => {
+    //   this.$Modal.remove()
+    // }, 5000)
   }
 }
 </script>
