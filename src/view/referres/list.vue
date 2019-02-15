@@ -21,7 +21,7 @@
       <!--</div>-->
     </Card>
     <Tabs @on-click="getTab" style="margin-top: 12px;">
-      <TabPane label="充值记录"  name="score">
+      <TabPane label="推荐人列表"  name="score">
         <Col span="24">
           <Input
             v-model="searchKeyword"
