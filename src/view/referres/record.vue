@@ -157,9 +157,9 @@ export default {
               id: self.information[0].id
             }
             self.orgTotal = result.total
-            self.loading = false
             // self.searchKeyword = ''
           }
+          self.loading = false
         })
     },
     handleSearch () {

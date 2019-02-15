@@ -150,23 +150,41 @@ export default {
            key: 'user_id',
            align: 'center',
            render: (h, params) => {
+            console.log(params.row.num)
+             if (params.row.num) {
                return h('div', [
-                   h('Button', {
-                       props: {
-                           type: 'primary',
-                       },
-                       on: {
-                           click: () => {
-                               console.log(params.row.id)
-                               let argu = {record_id: params.row.user_id};
-                               this.$router.push({
-                                   name: 'record',
-                                   params: argu
-                               });
-                           }
-                       }
-                   }, '查看推荐用户收益记录')
+                 h('Button', {
+                   props: {
+                     type: 'primary',
+                   },
+                   on: {
+                     click: () => {
+                       console.log(params.row.id)
+                       let argu = {record_id: params.row.user_id};
+                       this.$router.push({
+                         name: 'record',
+                         params: argu
+                       });
+                     }
+                   }
+                 }, '查看推荐用户收益记录')
                ]);
+             } else {
+               return h('div', [
+                 h('Button', {
+                   props: {
+                     type: 'primary',
+                     disabled: true
+                   },
+                   on: {
+                     click: () => {
+                       console.log(params.row.id)
+                       let argu = {record_id: params.row.user_id};
+                     }
+                   }
+                 }, '该用户暂无收益记录')
+               ]);
+             }
            }
         }
       ],
@@ -225,9 +243,9 @@ export default {
           if (result != null) {
             self.information = result.data
             self.orgTotal = result.total
-            self.loading = false
             // self.searchKeyword = ''
           }
+          self.loading = false
         })
     },
     handleSearch () {

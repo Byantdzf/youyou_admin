@@ -244,9 +244,9 @@ export default {
           if (result != null) {
             self.information = result.data
             self.orgTotal = result.total
-            self.loading = false
             // self.searchKeyword = ''
           }
+          self.loading = false
         })
     },
     handleSearch () {
