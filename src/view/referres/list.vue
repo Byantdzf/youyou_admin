@@ -240,7 +240,7 @@ export default {
       uAxios.get(`admin/referres?page=${page}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
-          if (result != null) {
+          if (result) {
             self.information = result.data
             self.orgTotal = result.total
             // self.searchKeyword = ''
