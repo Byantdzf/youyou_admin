@@ -146,7 +146,7 @@ export default {
       uAxios.get(`admin/users/${self.id}/referre/award/histories?page=${page}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
-          if (result) {
+          if (result.data) {
             self.information = result.data
             for(let item of self.information){
               item.type = item.type === 'approve'? '实名认证收益': '注册收益';

@@ -241,7 +241,7 @@ export default {
       uAxios.get(`admin/users/score/recharge/histories?page=${page}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
-          if (result) {
+          if (result.data) {
             self.information = result.data
             self.orgTotal = result.total
             // self.searchKeyword = ''
