@@ -56,9 +56,9 @@ export default {
             _this.$Message.error(res.data.message || '你尚未注册')
           }, 1000)
         } else {
-          if (res.data.is_admin !== 1) {
-            return _this.$Message.error('抱歉！你没有权限访问后台系统')
-          }
+          // if (res.data.is_admin !== 1) {
+          //   return _this.$Message.error('抱歉！你没有权限访问后台系统')
+          // }
           _this.$Message.loading({
             content: '登录系统中...',
             duration: 1.5,
