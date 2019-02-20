@@ -113,7 +113,7 @@
                                     click: () => {
                                         let argu = {user_detail_id: params.row.id};
                                         this.$router.push({
-                                            name: 'user_detail',
+                                            name: 'activity',
                                             params: argu
                                         });
                                     }
