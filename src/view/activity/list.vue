@@ -111,11 +111,11 @@
                                 },
                                 on: {
                                     click: () => {
-                                        let argu = {user_detail_id: params.row.id};
-                                        this.$router.push({
-                                            name: 'activity',
-                                            params: argu
-                                        });
+                                        // let argu = {user_detail_id: params.row.id};
+                                        // this.$router.push({
+                                        //     name: 'activity',
+                                        //     params: argu
+                                        // });
                                     }
                                 }
                             });
