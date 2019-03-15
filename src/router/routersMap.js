@@ -226,6 +226,16 @@ export const staticRouters = [
         component: () => import('@/view/users/complain.vue')
       },
       {
+        path: 'feedbacks',
+        name: 'feedbacks',
+        meta: {
+          title: '反馈列表',
+          access: ['super_admin'],
+          hideInMenu: true
+        },
+        component: () => import('@/view/users/feedbacks.vue')
+      },
+      {
         path: 'order/:order_id',
         name: 'order-detail',
         meta: {
