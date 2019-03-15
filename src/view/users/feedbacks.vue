@@ -39,7 +39,7 @@
                 @on-ok="cancel"
         >
           <Card style="margin-top: 12px;">
-            <p slot="title">内容：{{feedbackItem.content}}</p>
+            <p style="border-bottom: 4px solid #eeeeee;padding-bottom: 12px;">内容：{{feedbackItem.content}}</p>
             <span v-for="(item,index) in feedbackItem.photos" style="margin: 0 10px;">
 						<img :src="item" alt="" width="80rpx" @click="showModel(item)">
 					</span>
