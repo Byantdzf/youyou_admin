@@ -1,7 +1,7 @@
 <template>
     <div v-model="activeTab">
         <Tabs @on-click="getTab">
-            <TabPane label="用户投诉列表"  name="complain">
+            <TabPane label="未处理"  name="0">
                 <Col span="24">
                 <Input
                         v-model="searchKeyword"
@@ -16,19 +16,35 @@
                       style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
                 </Col>
             </TabPane>
+          <TabPane label="已处理"  name="1">
+            <Col span="24">
+              <Input
+                v-model="searchKeyword"
+                @on-enter="handleSearch"
+                placeholder="关键字搜索..."
+                style="width: 200px; margin-bottom: 22px;"/>
+              <span @click="handleSearch" >
+                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                </span>
+              <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
+              <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                    style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
+            </Col>
+          </TabPane>
         </Tabs>
-      <Modal
-        v-model="modal"
-        title="投诉内容"
-        @on-ok="cancel"
-      >
-        <Card style="margin-top: 12px;">
-          <p style="border-bottom: 4px solid #eeeeee;padding-bottom: 12px;margin-bottom: 16rpx;">内容：{{complainItem.content}}</p>
-          <span v-for="(item,index) in complainItem.photos" style="margin: 0 10px;">
+        <Modal
+                v-model="modal"
+                title="反馈内容"
+                :ok-text="text"
+                @on-ok="cancel"
+        >
+          <Card style="margin-top: 12px;">
+            <p style="border-bottom: 4px solid #eeeeee;padding-bottom: 12px;margin-bottom: 16rpx;">内容：{{feedbackItem.content}}</p>
+            <span v-for="(item,index) in feedbackItem.photos" style="margin: 0 10px;">
 						<img :src="item" alt="" width="80rpx" @click="showModel(item)">
 					</span>
-        </Card>
-      </Modal>
+          </Card>
+        </Modal>
       <Modal
         v-model="modal1"
         title="反馈照片"
@@ -48,10 +64,10 @@
 
     export default {
         search: '',
-        name: 'complain',
+        name: 'feedbacks',
         data () {
             return {
-                activeTab: 'complain',
+                activeTab: 0,
                 currentPage: 1,
                 searchKeyword: '',
                 orgTotal: 0,
@@ -61,7 +77,8 @@
                 id: '',
                 addressList: [],
                 modal1: false,
-                complainItem: {},
+                image: '',
+                text: '标记为已处理',
                 orgColumns: [
                     {
                         title: '序号',
@@ -71,20 +88,20 @@
                         sortable: true
                     },
                     {
-                        title: '投诉人ID',
+                        title: '反馈人ID',
                         align: 'center',
                         key: 'user_id'
                     },
                     {
-                        title: '投诉人',
+                        title: '反馈人',
                         key: 'user_name',
                         align: 'center',
 //                        width: 100,
                         editable: true
                     },
                     {
-                        title: '投诉人头像',
-                        key: 'headimg',
+                        title: '反馈人头像',
+                        key: 'user_avatar',
                         render: (h, params) => {
                             return h('img', {
                                     attrs: {
@@ -93,7 +110,6 @@
                                     style:{
                                         width: '42px',
                                         height: '42px',
-//                                        borderRadius: '50%',
                                         marginTop: '6px',
                                     },
                                     on: {
@@ -110,52 +126,20 @@
                         align: 'center'
                     },
                     {
-                        title: '被投诉人ID',
-                        align: 'center',
-                        key: 'complaint_id'
+                      title: '联系方式',
+                      key: 'user_mobile',
+                      align: 'center',
+                      editable: true
                     },
                     {
-                        title: '被投诉人',
-                        key: 'complaint_name',
-                        align: 'center',
-//                        width: 100,
-                        editable: true
+                      title: '反馈内容',
+                      key: 'content',
+                      align: 'center'
                     },
                     {
-                        title: '被投诉人头像',
-                        key: 'headimg',
-                        render: (h, params) => {
-                            return h('img', {
-                                attrs: {
-                                    src: params.row.complaint_avatar
-                                },
-                                style:{
-                                    width: '48px',
-                                    height: '48px',
-                                    borderRadius: '50%',
-                                    marginTop: '6px',
-                                    border: '4px solid #f4f4f4'
-                                },
-                                on: {
-                                    click: () => {
-                                        let argu = {user_detail_id: params.row.complaint_id};
-                                        this.$router.push({
-                                            name: 'user_detail',
-                                            params: argu
-                                        });
-                                    }
-                                }
-                            });
-                        },
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '投诉时间',
+                        title: '反馈时间',
                         key: 'created_at',
-                        align: 'center',
-//                        width: 100,
-                        editable: true
+                        align: 'center'
                     },
                    {
                        title: '操作',
@@ -171,63 +155,81 @@
                                    on: {
                                        click: () => {
                                          this.modal = true
-                                         this.complainItem = params.row
-                                         console.log(this.complainItem)
+                                         this.feedbackItem = params.row
+                                         console.log(this.feedbackItem)
                                        }
                                    }
-                               }, '查看投诉详情')
+                               }, '查看反馈详情')
                            ]);
                        }
                    }
                 ],
                 modal: false,
                 value: '',
-                image: '',
-                information: [
-                    {id: 250, updatedAt: '数据缺失'},
-                    {id: 256, updatedAt: '数据缺失'},
-                    {id: 257, updatedAt: '数据缺失'}
-                ],
+                information: [],
+                feedbackItem: {},
                 title:'',
                 msgBiz: '',
                 loading: false,
                 brokerLecturerData: []
             };
         },
+        watch:{
+          activeTab () {
+            console.log(this.activeTab)
+            if (this.activeTab == 1) {
+              return this.text = '标记为未处理'
+            }
+            this.text = '标记为已处理'
+          }
+        },
         methods: {
-          showModel (item) {
-            this.modal1 = true
-            this.image = item
-          },
-          cancel () {
-            this.modal = false
-            let status = 1
-            // if (this.activeTab == 1) {
-            //   status = 0
-            // }
-            // uAxios.put(`admin/change/feedback/${this.feedbackItem.id}/status?status=${status}`)
-            //   .then(res => {
-            //     if(res.data.code === 0) this.$Message.info('已处理');
-            //     this.getlist(1)
-            //   });
-          },
+            cancel () {
+              this.modal = false
+              let status = 1
+              if (this.activeTab == 1) {
+                status = 0
+              }
+              uAxios.put(`admin/change/feedback/${this.feedbackItem.id}/status?status=${status}`)
+                .then(res => {
+                  if(res.data.code === 0) this.$Message.info('已处理');
+                  this.getlist(1)
+                });
+            },
             getTab (type) {
                 // 获得激活的Tab页
                 this.activeTab = type;
+                this.getlist(1)
             },
             getlist (page) {
                 let self = this;
                 self.loading = true
-                uAxios.get('admin/complaints?page=' + page )
+                uAxios.get(`admin/feedbacks?page=${page}&status=${self.activeTab}` )
                     .then(res => {
                         let result = res.data.data;
                         console.log(result)
-                        self.information = result.data
+                        self.information = result.data.map((item,inde,arr) => {
+                          return {
+                            content: item.content,
+                            created_at: item.created_at,
+                            id: item.id,
+                            photos: item.photos,
+                            status: item.status,
+                            updated_at: item.updated_at,
+                            user_id: item.user.id,
+                            user_name : item.user.name,
+                            user_avatar: item.user.circle_avatar,
+                            user_mobile: item.user.mobile
+                          }
+                        })
                         self.orgTotal = result.total;
                         self.loading = false
                         // self.searchKeyword = ''
-
                     });
+            },
+            showModel (item) {
+              this.modal1 = true
+              this.image = item
             },
             handlePage (num) {
                 // 分页
@@ -239,7 +241,7 @@
                 let query = '&keyword=' + this.searchKeyword;
                 let self = this;
                 let page = 1;
-                uAxios.get('admin/complaints?page=' + page + query)
+                uAxios.get(`admin/complaints?page=${page}&${query}&status=${self.activeTab}`)
                     .then(res => {
                         let result = res.data.data;
                         console.log(result)
@@ -247,14 +249,6 @@
                         self.orgTotal = result.total;
                         self.searchKeyword = ''
                     });
-//            },
-//            remove (index,_id) {
-//                this.information.splice(index, 1);
-//                console.log(_id)
-//                uAxios.delete('profiles/' + _id)
-//                    .then(res => {
-//                        this.$Message.info('删除成功');
-//                    });
             }
         },
         mounted () {

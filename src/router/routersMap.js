@@ -68,8 +68,9 @@ export const staticRouters = [
         name: "statistics",
         meta: {
           icon: "md-analytics",
-          access: [1],
+          access: ['super_admin'],
           title: "数据统计",
+
         },
         component: routerMap['Home']
       },
@@ -79,6 +80,7 @@ export const staticRouters = [
         meta: {
           icon: "md-cog",
           title: "首页设置",
+          access: ['super_admin'],
         },
         component: routerMap['homeSet']
       },
@@ -88,6 +90,7 @@ export const staticRouters = [
         meta: {
           icon: "ios-contacts",
           title: "平台推荐",
+          access: ['super_admin'],
         },
         component: routerMap['recommend']
       },
@@ -97,6 +100,7 @@ export const staticRouters = [
         meta: {
           icon: "logo-yen",
           title: "用户推荐",
+          access: ['super_admin'],
         },
         component: () => import('@/view/referres/list.vue')
       },
@@ -106,6 +110,7 @@ export const staticRouters = [
         meta: {
           icon: "ios-contact",
           title: "用户列表",
+          access: ['super_admin'],
         },
         component: () => import('@/view/users/list.vue')
       },
@@ -115,6 +120,7 @@ export const staticRouters = [
         meta: {
           icon: "logo-usd",
           title: "用户充值",
+          access: ['super_admin'],
         },
         component: () => import('@/view/userPay/list.vue')
       },
@@ -124,6 +130,7 @@ export const staticRouters = [
         meta: {
           icon: "ios-paper",
           title: "用户订单",
+          access: ['super_admin'],
         },
         component:  () => import('@/view/orders/list.vue')
       },
@@ -133,6 +140,7 @@ export const staticRouters = [
         meta: {
           icon: "md-contacts",
           title: "红娘服务",
+          access: ['super_admin'],
         },
         component: () => import('@/view/redlove/list.vue')
       },
@@ -142,6 +150,7 @@ export const staticRouters = [
         meta: {
           icon: "ios-card",
           title: "实名认证",
+          access: ['super_admin'],
         },
         component: () => import('@/view/authentication/list.vue')
       },
@@ -151,6 +160,7 @@ export const staticRouters = [
         meta: {
           icon: "md-clipboard",
           title: "认证申请",
+          access: ['super_admin'],
         },
         component:  () => import('@/view/beloved/list.vue')
       },
@@ -159,7 +169,8 @@ export const staticRouters = [
         name: 'user_detail',
         meta: {
           title: '用户详情',
-          hideInMenu: true
+          hideInMenu: true,
+          // access: ['super_admin']
         },
         component: () => import('@/view/users/user_detail.vue')
       },
@@ -168,7 +179,8 @@ export const staticRouters = [
         name: 'user_recommend',
         meta: {
           title: '推荐',
-          hideInMenu: true
+          hideInMenu: true,
+          access: ['super_admin']
         },
         component: () => import('@/view/users/user_recommend.vue')
       },
@@ -177,7 +189,8 @@ export const staticRouters = [
         name: 'record',
         meta: {
           title: '收益记录',
-          hideInMenu: true
+          hideInMenu: true,
+          access: ['super_admin']
         },
         component: () => import('@/view/referres/record.vue')
       },
@@ -187,7 +200,8 @@ export const staticRouters = [
         name: 'user_note',
         meta: {
           title: '备注管理',
-          hideInMenu: true
+          hideInMenu: true,
+          // access: ['super_admin']
         },
         component: () => import('@/view/users/user_note.vue')
       },
@@ -196,6 +210,7 @@ export const staticRouters = [
         name: 'note_detail',
         meta: {
           title: '备注详情',
+          // access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/noteDetail.vue')
@@ -205,15 +220,27 @@ export const staticRouters = [
         name: 'complain',
         meta: {
           title: '投诉列表',
+          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/complain.vue')
+      },
+      {
+        path: 'feedbacks',
+        name: 'feedbacks',
+        meta: {
+          title: '反馈列表',
+          access: ['super_admin'],
+          hideInMenu: true
+        },
+        component: () => import('@/view/users/feedbacks.vue')
       },
       {
         path: 'order/:order_id',
         name: 'order-detail',
         meta: {
           title: '订单详情',
+          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/orders/detail.vue')
@@ -223,6 +250,7 @@ export const staticRouters = [
         name: 'clients',
         meta: {
           title: '客户列表',
+          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/clientlist.vue')
@@ -232,6 +260,7 @@ export const staticRouters = [
         name: 'edit_user_detail',
         meta: {
           title: '编辑用户',
+          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/edituserDetail.vue')
@@ -241,6 +270,7 @@ export const staticRouters = [
         name: 'user_order',
         meta: {
           title: '订单列表',
+          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_order.vue')
@@ -250,6 +280,7 @@ export const staticRouters = [
         name: 'user_gift',
         meta: {
           title: '礼物列表',
+          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_gift.vue')
@@ -259,6 +290,7 @@ export const staticRouters = [
         name: 'user_integral',
         meta: {
           title: '福分记录',
+          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_integral.vue')

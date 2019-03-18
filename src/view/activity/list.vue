@@ -111,11 +111,11 @@
                                 },
                                 on: {
                                     click: () => {
-                                        let argu = {user_detail_id: params.row.id};
-                                        this.$router.push({
-                                            name: 'user_detail',
-                                            params: argu
-                                        });
+                                        // let argu = {user_detail_id: params.row.id};
+                                        // this.$router.push({
+                                        //     name: 'activity',
+                                        //     params: argu
+                                        // });
                                     }
                                 }
                             });
@@ -160,11 +160,15 @@
                                     on: {
                                         click: () => {
                                             let argu = {activity_id: params.row.id};
-                                            const { href } = this.$router.resolve({
-                                                name: 'activity',
-                                                params: argu
+                                            this.$router.push({
+                                              name: 'activity',
+                                              params: argu
                                             });
-                                            window.open(href, '_blank');
+                                            // const { href } = this.$router.resolve({
+                                            //     name: 'activity',
+                                            //     params: argu
+                                            // });
+                                            // window.open(href, '_blank');
                                         }
                                     }
                                 }, '活动详情'),
@@ -178,11 +182,15 @@
                                     on: {
                                         click: () => {
                                             let argu = {activity_detail_id: params.row.id};
-                                            const { href } = this.$router.resolve({
-                                                name: 'activity_detail',
-                                                params: argu
+                                            this.$router.push({
+                                              name: 'activity_detail',
+                                              params: argu
                                             });
-                                            window.open(href, '_blank');
+                                            // const { href } = this.$router.resolve({
+                                            //     name: 'activity_detail',
+                                            //     params: argu
+                                            // });
+                                            // window.open(href, '_blank');
                                         }
                                     }
                                 }, '活动现场')

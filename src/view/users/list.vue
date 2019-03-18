@@ -10,8 +10,9 @@
                 <span @click="createLabel" >
                     <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
                 </span>
-                <span style="float: right"  @click="complainList" >
-                    <Button type="error" style=" margin-bottom: 22px;">投诉列表</Button>
+                <span style="float: right">
+                  <Button type="warning" style="margin-bottom: 22px;margin-right: 22px;" @click="feedbacks">用户反馈</Button>
+                  <Button type="error" style=" margin-bottom: 22px;" @click="complainList" >投诉列表</Button>
                 </span>
                 <Card style="margin-bottom: 32px">
                     <div slot="title">
@@ -336,6 +337,12 @@
                 this.$router.push({
                     name: 'complain'
                 })
+            },
+            feedbacks () {
+              // 反馈列表
+              this.$router.push({
+                name: 'feedbacks'
+              })
             },
             filterLabel (page) {
                 console.log(this.social)
