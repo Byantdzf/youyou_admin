@@ -110,7 +110,7 @@
                         align: 'center'
                     },
                     {
-                        title: '投诉人ID',
+                        title: '被投诉人ID',
                         align: 'center',
                         key: 'complaint_id'
                     },
