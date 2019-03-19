@@ -409,7 +409,7 @@ export default {
           this.redMun = result.map((item) => {
             return {
               name: item.name,
-              id: item.id
+              id: item.user_id
             }
           })
           console.log(this.redMun)
