@@ -451,7 +451,7 @@ export default {
               sex: item.sex == 1 ? '男' : '女',
               type: item.type == 'single' ? '单身' : '介绍人',
               from_name: item.from_name,
-              rank: item.rank,
+              rank: item.rank_name,
               is_approved: item.is_approved == '0' ? '未认证' : '已认证'
             }
           })
