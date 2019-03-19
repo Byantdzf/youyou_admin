@@ -142,9 +142,9 @@
                         key: 'sex'
                     },
                     {
-                        title: '居住省市',
+                        title: 'Ta邀请人数',
                         align: 'center',
-                        key: 'address'
+                        key: 'invite_num'
                     },
                     {
                         title: '会员类型',
@@ -404,7 +404,8 @@
                               type: item.type == 'single' ? '单身' : '介绍人',
                               rank: item.rank,
                               is_good_match: item.is_good_match == '0' ? '未认证' : '已认证',
-                              address: `${item.province}${item.city}` == '' ? '暂无' : `${item.province} ${item.city}`
+                              address: `${item.province}${item.city}` == '' ? '暂无' : `${item.province} ${item.city}`,
+                              invite_num: item.invite_num
                           }
                        })
                         console.log(self.information)

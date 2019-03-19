@@ -50,28 +50,28 @@
           <Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px"></Table>
           <Card style="margin-top: 12px;">
             <p slot="title">生活照</p>
-            <span v-for="(item,index) in photos" style="margin: 0 10px;">
-						<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">
+            <span v-for="(item,index) in lifePhotos" style="margin: 0 10px;">
+						<img :src="item.photo" alt="" width="80rpx" style="margin-right: 6px;border: 2px solid #f3f3f3;" @click="showModal(item.photo,'image')">
 					</span>
           </Card>
-          <Card style="margin-top: 12px;">
-            <p slot="title">身份证</p>
-            <span v-for="(item,index) in identification_photos" style="margin: 0 10px;">
-						<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">
-					</span>
-          </Card>
-          <Card style="margin-top: 12px;">
-            <p slot="title">毕业照</p>
-            <span v-for="(item,index) in graduate_photos" style="margin: 0 10px;">
-						<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">
-					</span>
-          </Card>
-          <Card style="margin-top: 12px;">
-            <p slot="title">其他证件</p>
-            <span v-for="(item,index) in other_photos" style="margin: 0 10px;">
-						<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">
-					</span>
-          </Card>
+          <!--<Card style="margin-top: 12px;">-->
+            <!--<p slot="title">身份证</p>-->
+            <!--<span v-for="(item,index) in identification_photos" style="margin: 0 10px;">-->
+						<!--<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">-->
+					<!--</span>-->
+          <!--</Card>-->
+          <!--<Card style="margin-top: 12px;">-->
+            <!--<p slot="title">毕业照</p>-->
+            <!--<span v-for="(item,index) in graduate_photos" style="margin: 0 10px;">-->
+						<!--<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">-->
+					<!--</span>-->
+          <!--</Card>-->
+          <!--<Card style="margin-top: 12px;">-->
+            <!--<p slot="title">其他证件</p>-->
+            <!--<span v-for="(item,index) in other_photos" style="margin: 0 10px;">-->
+						<!--<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">-->
+					<!--</span>-->
+          <!--</Card>-->
           <Card style="margin-top: 12px;">
             <p slot="title">二维码</p>
             <span v-for="(item,index) in wechat_qrcode" style="margin: 0 10px;">
@@ -97,9 +97,14 @@
               <span style="color: #ff1837;font-weight: bold" >我的优势</span>
               <Icon type="chevron-right" style="float: right;margin-top: 4px;"></Icon>
             </div>
-
           </Card>
-
+          <Card style="margin-top: 12px;">
+            <p slot="title">推荐用户<span style="color: #ff0c18;font-weight: bold" >（{{recommendData.length}}人）</span></p>
+            <Table :loading="loading" :columns="recommendColumns" :data="recommendData" style="width: 100%;" border></Table>
+            <Page :total="recommendTotal" @on-change="handlePage" :page-size="15"
+                  style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
+            <div style="clear: both"></div>
+          </Card>
         </Card>
       </Col>
     </Row>
@@ -151,6 +156,7 @@ export default {
       switch1: false,
       redMun: [], // 红娘列表
       disabled: false,
+      loading: false,
       user_is_admin: 0,
       //                enterprises_id: '', // 默认企业id
       columns: [
@@ -173,6 +179,68 @@ export default {
           key: 'key'
         }
       ],
+      recommendColumns: [
+        {
+          title: 'id',
+          align: 'center',
+          key: 'id'
+        },
+        {
+          title: 'Name',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '性别',
+          width: 50,
+          align: 'center',
+          key: 'sex'
+        },
+        {
+          title: '会员等级',
+          align: 'center',
+          key: 'rank'
+        },
+        {
+          title: '实名认证？',
+          align: 'center',
+          key: 'is_approved'
+        },
+        {
+          title: '单身？介绍人？',
+          align: 'center',
+          key: 'type'
+        },
+        {
+          title: '操作',
+          key: 'title',
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  margin: '5px'
+                },
+                on: {
+                  click: () => {
+                    let argu = {user_detail_id: params.row.id};
+                    const { href } = this.$router.resolve({
+                      name: 'user_detail',
+                      params: argu
+                    });
+                    window.open(href, '_blank');
+                  }
+                }
+              }, '用户详情')
+            ]);
+          }
+        }
+      ],
+      recommendData: [],
       information: [],
       VIPinformation: [],
       searchKeyword: '',
@@ -211,6 +279,7 @@ export default {
       ],
       orgData: [],
       total: 0,
+      recommendTotal: 0,
       orgTotal: 0,
       modal: false,
       modal1: false,
@@ -220,6 +289,7 @@ export default {
       maker_name: '',
       is_approved: '',
       photos: [],
+      lifePhotos: [],
       graduate_photos: [],
       other_photos: [],
       identification_photos: [],
@@ -235,6 +305,9 @@ export default {
   methods: {
     showDeleteUser () {
       this.modal1 = true
+    },
+    handlePage (num) {
+      this.getlist(num);
     },
     gotoEdit () {
       // return  this.$Modal.error({
@@ -361,6 +434,32 @@ export default {
       }
       console.log(this.message)
     },
+    recommend (page) {
+      let self = this
+      self.loading = true
+      uAxios.get(`admin/users/${self.id}/invite/users?page=${page}`)
+        .then(res => {
+          let result = res.data.data
+          console.log(result)
+          self.recommendData = result.data.map((item)=>{
+            return {
+              avatar: item.avatar,
+              created_at:  item.created_at,
+              id: item.id,
+              mobile: item.mobile,
+              name: item.name,
+              sex: item.sex == 1 ? '男' : '女',
+              type: item.type == 'single' ? '单身' : '介绍人',
+              from_name: item.from_name,
+              rank: item.rank,
+              is_approved: item.is_approved == '0' ? '未认证' : '已认证'
+            }
+          })
+          self.recommendTotal = result.total
+          self.loading = false
+          // self.searchKeyword = ''
+        })
+    },
     getlist (page) {
       let self = this
       self.loading = true
@@ -380,6 +479,7 @@ export default {
           self.love_languages = result.love_languages
           self.character = result.character
           self.photos = result.profile.photos
+          self.lifePhotos = result.lifePhotos
           self.graduate_photos = result.profile.graduate_photos
           self.other_photos = result.profile.other_photos
           self.identification_photos = result.profile.identification_photos
@@ -504,6 +604,7 @@ export default {
   mounted () {
     this.id = this.$route.params.user_detail_id
     this.getlist(1)
+    this.recommend(1)
   }
 }
 </script>

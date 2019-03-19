@@ -92,20 +92,20 @@
 				<!--<Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
 				<Card style="margin-top: 12px;">
 					<p slot="title">生活照</p>
-					<uploadImages :pic="photos" v-on:uploadPictures="uploadPictures('photos',$event)"></uploadImages>
+					<uploadImages :pic="lifePhotos" v-on:uploadPictures="uploadPictures('lifePhotos',$event)"></uploadImages>
 				</Card>
 				<Card style="margin-top: 12px;">
 					<p slot="title">身份证</p>
 					<uploadImages :pic="identification_photos" v-on:uploadPictures="uploadPictures('identification_photos',$event)"></uploadImages>
 				</Card>
-				<Card style="margin-top: 12px;">
-					<p slot="title">毕业照</p>
-					<uploadImages :pic="graduate_photos" v-on:uploadPictures="uploadPictures('graduate_photos',$event)"></uploadImages>
-				</Card>
-				<Card style="margin-top: 12px;">
-					<p slot="title">其他证件</p>
-					<uploadImages :pic="other_photos" v-on:uploadPictures="uploadPictures('other_photos',$event)"></uploadImages>
-				</Card>
+				<!--<Card style="margin-top: 12px;">-->
+					<!--<p slot="title">毕业照</p>-->
+					<!--<uploadImages :pic="graduate_photos" v-on:uploadPictures="uploadPictures('graduate_photos',$event)"></uploadImages>-->
+				<!--</Card>-->
+				<!--<Card style="margin-top: 12px;">-->
+					<!--<p slot="title">其他证件</p>-->
+					<!--<uploadImages :pic="other_photos" v-on:uploadPictures="uploadPictures('other_photos',$event)"></uploadImages>-->
+				<!--</Card>-->
 				<Card style="margin-top: 12px;">
 					<p slot="title">二维码</p>
 					<uploadImages :pic="wechat_qrcode" v-on:uploadPictures="uploadPictures('wechat_qrcode',$event)"></uploadImages>
@@ -157,7 +157,7 @@
                 belief: '',
                 residentList: ['城市', '农村'],
                 resident_type: '',
-                degreeList: ['大专', '本科', '硕士', '本科', '博士', '其他'],
+                degreeList: ['大专', '本科', '硕士', '博士', '其他'],
                 degree: '',
                 work_sortList: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
                 work_sort: '',
@@ -209,6 +209,7 @@
                 birthday: '', // 生日
                 maker_name: '',
                 photos: [],
+                lifePhotos: [],
                 graduate_photos: [],
                 other_photos: [],
                 identification_photos: [],
@@ -239,6 +240,7 @@
                         self.work_sort = result.profile.work_sort;
                         self.degree = result.profile.degree;
                         self.photos = result.profile.photos
+                        self.lifePhotos = result.lifePhotos.map((item,index)=>{return item.photo})
                         self.graduate_photos = result.profile.graduate_photos
                         self.other_photos = result.profile.other_photos
                         self.identification_photos = result.profile.identification_photos
