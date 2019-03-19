@@ -26,6 +26,7 @@
           <Button type="success"  style="margin-left: 8px" @click="gotoUrl('user_integral','user_integral_id',id)" >福分记录</Button>
           <Button type="info"  style="margin-left: 8px" @click="gotoUrl('user_gift','user_gift_id',id)" >礼物列表</Button>
           <Button type="error"  style="margin-left: 8px" @click="showDeleteUser" >删除用户</Button>
+          <Button type="primary"  style="margin-left: 8px;background-image: linear-gradient(to top, #09203f 0%, #537895 100%);" v-if="is_audited == 0" @click="auditUser">标记为已审核</Button>
         </div>
       </Card>
       <Col span="11" style="margin: 22px">
@@ -288,6 +289,7 @@ export default {
       avatar: '',
       maker_name: '',
       is_approved: '',
+      is_audited: '',
       photos: [],
       lifePhotos: [],
       graduate_photos: [],
@@ -317,6 +319,20 @@ export default {
       this.$router.push({
         name: 'edit_user_detail',
         params: argu
+      })
+    },
+    auditUser () {
+      // 审核用户
+      let self = this
+      uAxios.put('admin/audit/users/' + self.id).then((response) => {
+        if (response.data.code === 0) {
+          this.$Message.info('设置成功')
+          this.getlist(this.currentPage)
+        } else {
+          this.$Modal.error({
+            content: response.data.message
+          })
+        }
       })
     },
     deleteUser () {
@@ -471,6 +487,7 @@ export default {
           self.switch1 = result.is_admin != 0
           self.maker_name = result.maker_name
           self.is_approved = result.is_approved
+          self.is_audited = result.is_audited
           self.disabled = result.maker_name != ''
           self.avatar = result.avatar
           self.user_is_admin = result.user_is_admin

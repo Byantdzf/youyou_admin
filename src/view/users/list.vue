@@ -167,6 +167,12 @@
                         key: 'is_approved'
                     },
                     {
+                      title: '是否审核？',
+                      align: 'center',
+                      width: 140,
+                      key: 'is_audited'
+                    },
+                    {
                         title: '推荐人',
                         align: 'center',
                         width: 140,
@@ -443,7 +449,8 @@
                               from_name: item.from_name,
                               rank: item.rank,
                               is_approved: item.is_approved == '0' ? '未认证' : '已认证',
-                              address: `${item.province}${item.city}` == '' ? '暂无' : `${item.province} ${item.city}`
+                              address: `${item.province}${item.city}` == '' ? '暂无' : `${item.province} ${item.city}`,
+                              is_audited: item.is_audited  == '0' ? '未审核' : '已审核'
                           }
                        })
                         console.log(self.information)
