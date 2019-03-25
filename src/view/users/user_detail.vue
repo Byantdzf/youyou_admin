@@ -33,7 +33,7 @@
         <Card>
           <p slot="title" style="color: #ff6c4c">用户信息</p>
           <div style="display: inline-block">
-            <span class="font_16 _bold">头像：<img :src="avatar" alt="" width="80rpx" style="box-shadow: 1px 1px 12px #c1c1c1"></span>
+            <span class="font_16 _bold">头像：<img :src="avatar" alt="" width="80rpx" style="box-shadow: 1px 1px 12px #c1c1c1" @click="showModal(avatar,'image')"></span>
           </div>
           <div style="display: inline-block;margin-left: 22px;">
             <span class="font_16 _bold">用户名：</span>
