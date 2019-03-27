@@ -241,7 +241,7 @@
                 let query = '&keyword=' + this.searchKeyword;
                 let self = this;
                 let page = 1;
-                uAxios.get(`admin/complaints?page=${page}&${query}&status=${self.activeTab}`)
+                uAxios.get(`admin/feedbacks?page=${page}&${query}&status=${self.activeTab}`)
                     .then(res => {
                         let result = res.data.data;
                         console.log(result)
