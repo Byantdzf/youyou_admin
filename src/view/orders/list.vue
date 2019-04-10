@@ -307,12 +307,12 @@
             }
         },
         mounted () {
-            if (Cookies.get('admin_type') === 'matcher') {
-                return this.$router.push({
-                    name: 'error-403',
-                    params: ''
-                });
-            }
+            // if (Cookies.get('admin_type') === 'matcher') {
+            //     return this.$router.push({
+            //         name: 'error-403',
+            //         params: ''
+            //     });
+            // }
             this.getlist('1');
         }
     };

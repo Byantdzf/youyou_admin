@@ -253,12 +253,12 @@ export default {
     }
   },
   mounted () {
-    if (Cookies.get('admin_type') === 'matcher') {
-      return this.$router.push({
-        name: 'error-403',
-        params: ''
-      })
-    }
+    // if (Cookies.get('admin_type') === 'matcher') {
+    //   return this.$router.push({
+    //     name: 'error-403',
+    //     params: ''
+    //   })
+    // }
     this.getlist(1)
     // this.$Modal.info({
     //     title: '请稍等...',
