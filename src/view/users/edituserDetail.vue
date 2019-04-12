@@ -253,6 +253,7 @@
                             {name: '手机号', value: result.mobile},
                             {name: '身高', value: result.profile.stature},
                             {name: '体重', value: result.profile.weight},
+                            {name: '身份证', value: result.card_num},
                             {name: '毕业学校', value: result.profile.graduate_school},
                             {name: '工作单位', value: result.profile.company}
 						];
