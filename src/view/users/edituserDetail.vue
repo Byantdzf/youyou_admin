@@ -370,7 +370,7 @@
                     weight: this.information[3].value,
                   card_num: this.information[4].value,
                   graduate_school: this.information[5].value,
-                    company: this.information[5].value,
+                    company: this.information[6].value,
                     sex: this.sex,
                     birthday: resDate,
                     state: this.state,
