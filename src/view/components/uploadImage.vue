@@ -38,6 +38,7 @@
 <script>
   import axios from 'axios';
   import uAxios from '../../api';
+  import md5 from 'js-md5';
   import config from '../../api/config';
   export default {
     name: 'uploadImage',
@@ -100,7 +101,7 @@
         var self = this;
         self.loadingStatus = true;
         var formData = new FormData();
-        var fileName = self.file.name + '.' + self.file.type.split('/').pop().toLowerCase();
+        var fileName = md5(self.file.name) + '.' + self.file.type.split('/').pop().toLowerCase();
         var filePath = self.host + '/' + self.ossConfig.dir + fileName;
         formData.append('name', self.ossConfig.dir + fileName);
         formData.append('key', self.ossConfig.dir + fileName);

@@ -9,7 +9,7 @@
                 <div class="form-con">
                     <login-form @on-success-valid="handleSubmit" :load="loading"></login-form>
                     <p class="login-tip">【福恋智能】 -- 后台
-                      <span  style="float: right;" @click="goRegister">去注册</span>
+                      <!--<span  style="float: right;" @click="goRegister">去注册</span>-->
                     </p>
                 </div>
             </Card>

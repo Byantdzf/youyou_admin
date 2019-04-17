@@ -120,143 +120,145 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import uAxios from '../../api';
-    import config from '../../api/config';
-    //  import md5 from 'js-md5';
-    //	import moment from 'moment';
-    import dropdown from '../components/dropdown';
-    import uploadImages from '../components/uploadImages';
+  import axios from 'axios'
+  import uAxios from '../../api'
+  import config from '../../api/config'
+  //  import md5 from 'js-md5';
+  //	import moment from 'moment';
+  import dropdown from '../components/dropdown'
+  import uploadImages from '../components/uploadImages'
 
-    export default {
-        name: 'Org',
-        components: {
-            dropdown: dropdown,
-            uploadImages: uploadImages
-        },
-        data () {
-            return {
-                disabled: false,
-                information: [],
-                activeTab: 'orgInfo',
-                loading: false,
-                sexList: [ // 性别选择
-                    {
-                        value: '1',
-                        label: '男'
+  export default {
+    name: 'Org',
+    components: {
+      dropdown: dropdown,
+      uploadImages: uploadImages
+    },
+    data () {
+      return {
+        disabled: false,
+        information: [],
+        activeTab: 'orgInfo',
+        loading: false,
+        sexList: [ // 性别选择
+          {
+            value: '1',
+            label: '男'
+          },
+          {
+            value: '2',
+            label: '女'
+          }
+        ],
+        sex: '',
+        stateList: ['未婚', '离异', '丧偶'],
+        state: '',
+        beliefList: ['基督教', '佛教', '伊斯兰教', '其他'],
+        belief: '',
+        residentList: ['城市', '农村'],
+        resident_type: '',
+        degreeList: ['大专', '本科', '硕士', '博士', '其他'],
+        degree: '',
+        work_sortList: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
+        work_sort: '',
+        dwell: [], // 居住地
+        resident: [], // 成长地
+        addressData: [], // 地址数据
+        industry: [], // 行业
+        industryData: [], // 行业数据
+        orgColumns: [
+          {
+            key: 'updatedAt',
+            width: '150px',
+            align: 'right'
+          },
+          {
+            key: 'value',
+            align: 'left',
+            render: (h, params) => {
+              if (params.row.key === 'LOGO') {
+                return h('div', [
+                  h('Avatar', {
+                    props: {
+                      src: params.row.value,
+                      shape: 'square'
                     },
-                    {
-                        value: '2',
-                        label: '女'
+                    style: {
+                      width: '50px',
+                      height: '50px',
+                      margin: '10px 0'
                     }
-                ],
-                sex: '',
-                stateList: ['未婚', '离异', '丧偶'],
-                state: '',
-                beliefList: ['基督教', '佛教', '伊斯兰教', '其他'],
-                belief: '',
-                residentList: ['城市', '农村'],
-                resident_type: '',
-                degreeList: ['大专', '本科', '硕士', '博士', '其他'],
-                degree: '',
-                work_sortList: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
-                work_sort: '',
-                dwell: [], // 居住地
-                resident: [], // 成长地
-                addressData: [], // 地址数据
-                industry: [], // 行业
-                industryData: [], // 行业数据
-                orgColumns: [
-                    {
-                        key: 'updatedAt',
-                        width: '150px',
-                        align: 'right'
-                    },
-                    {
-                        key: 'value',
-                        align: 'left',
-                        render: (h, params) => {
-                            if (params.row.key === 'LOGO') {
-                                return h('div', [
-                                    h('Avatar', {
-                                        props: {
-                                            src: params.row.value,
-                                            shape: 'square'
-                                        },
-                                        style: {
-                                            width: '50px',
-                                            height: '50px',
-                                            margin: '10px 0'
-                                        }
-                                    })
-                                ]);
-                            } else {
-                                return h('div', [
-                                    h('span', params.row.value)
-                                ]);
-                            }
-                        }
-                    }
-                ],
-                orgData: [],
-                total: 0,
-                orgTotal: 0,
-                modal: false,
-                modal1: false,
-                name: '',
-                mobile: '',
-                avatar: '',
-                birthday: '', // 生日
-                maker_name: '',
-                photos: [],
-                lifePhotos: [],
-                graduate_photos: [],
-                other_photos: [],
-                identification_photos: [],
-                wechat_qrcode: [],
-                love_characters: [],
-                love_languages: [],
-                character: {},
-                message: {},
-                client_user_id: 0,
-                uploaddata: []
-            };
-        },
-        methods: {
-            uploadPictures(key, value) {
-                this[key] = value;
-			},
-            getlist (page) {
-                let self = this;
-                uAxios.get('admin/users/' + self.id + '?page=' + page )
-                    .then(res => {
-                        let result = res.data.data;
-                        self.orgData = result;
-						self.birthday = result.profile.birthday;
-						self.sex = result.profile.sex;
-						self.state = result.profile.state;
-                        self.belief = result.profile.belief;
-                        self.resident_type = result.profile.resident_type;
-                        self.work_sort = result.profile.work_sort;
-                        self.degree = result.profile.degree;
-                        self.photos = result.profile.photos
-                        self.lifePhotos = result.lifePhotos.map((item,index)=>{return item.photo})
-                        self.graduate_photos = result.profile.graduate_photos
-                        self.other_photos = result.profile.other_photos
-                        self.identification_photos = result.profile.identification_photos
-                        self.wechat_qrcode = result.profile.wechat_qrcode
-                        self.dwell = [result.profile.country, result.profile.province, result.profile.city] // 长居地
+                  })
+                ])
+              } else {
+                return h('div', [
+                  h('span', params.row.value)
+                ])
+              }
+            }
+          }
+        ],
+        orgData: [],
+        total: 0,
+        orgTotal: 0,
+        modal: false,
+        modal1: false,
+        name: '',
+        mobile: '',
+        avatar: '',
+        birthday: '', // 生日
+        maker_name: '',
+        photos: [],
+        lifePhotos: [],
+        graduate_photos: [],
+        other_photos: [],
+        identification_photos: [],
+        wechat_qrcode: [],
+        love_characters: [],
+        love_languages: [],
+        character: {},
+        message: {},
+        client_user_id: 0,
+        uploaddata: []
+      }
+    },
+    methods: {
+      uploadPictures (key, value) {
+        this[key] = value
+      },
+      getlist (page) {
+        let self = this
+        uAxios.get('admin/users/' + self.id + '?page=' + page)
+          .then(res => {
+            let result = res.data.data
+            self.orgData = result
+            self.birthday = result.profile.birthday
+            self.sex = result.profile.sex
+            self.state = result.profile.state
+            self.belief = result.profile.belief
+            self.resident_type = result.profile.resident_type
+            self.work_sort = result.profile.work_sort
+            self.degree = result.profile.degree
+            self.photos = result.profile.photos
+            self.lifePhotos = result.lifePhotos.map((item, index) => {
+              return item.photo
+            })
+            self.graduate_photos = result.profile.graduate_photos
+            self.other_photos = result.profile.other_photos
+            self.identification_photos = result.profile.identification_photos
+            self.wechat_qrcode = result.profile.wechat_qrcode
+            self.dwell = [result.profile.country, result.profile.province, result.profile.city] // 长居地
 //                        self.dwell = ['中国', '广东省', '深圳市']
-                        self.resident = [result.profile.country, result.profile.resident_province, result.profile.resident_city] // 成长地
-						self.information = [
-                            {name: '用户名', value: result.name},
-                            {name: '手机号', value: result.mobile},
-                            {name: '身高', value: result.profile.stature},
-                            {name: '体重', value: result.profile.weight},
-                            {name: '身份证', value: result.card_num},
-                            {name: '毕业学校', value: result.profile.graduate_school},
-                            {name: '工作单位', value: result.profile.company}
-						];
+            self.resident = [result.profile.country, result.profile.resident_province, result.profile.resident_city] // 成长地
+            self.information = [
+              {name: '用户名', value: result.name},
+              {name: '手机号', value: result.mobile},
+              {name: '身高', value: result.profile.stature},
+              {name: '体重', value: result.profile.weight},
+              {name: '身份证', value: result.card_num},
+              {name: '毕业学校', value: result.profile.graduate_school},
+              {name: '工作单位', value: result.profile.company}
+            ]
 //                        {name: '户口类型', value: result.name},
 //                        {name: '居住地', value: result.name},
 //                        {name: '成长地', value: result.name},
@@ -265,7 +267,7 @@
 //                        {name: '行业', value: result.name},
 //                        {name: '个人简介', value: result.name},
 //                        {name: '理想对象', value: result.name}
-                        console.log(self.information)
+            console.log(self.information)
 //                        console.log(result)
 //                        self.name = result.name;
 //                        self.switch1 = result.is_admin == 0 ? false : true;
@@ -314,45 +316,45 @@
 //                            }
 //
 //                        ]
-                        self.orgTotal = result.total;
+            self.orgTotal = result.total
 
-                    });
-            },
-			// 赋值子行业
-            getIndustryChildren (item) {
-                let data = item.map((item_son) => {
-                    return {
-                        value: item_son,
-                        label: item_son,
-                    };
-                })
-                return data;
-            },
-            // 赋值子地址
-            getChildren (item) {
-                let data = item.son.map((item_son) => {
-                    return {
-                        value: item_son.name,
-                        label: item_son.name,
-                        id: item_son.id,
-                        children: this.getChildren_son(item_son)
-                    };
-                })
-                return data;
-            },
-			// 赋值子子地址
-            getChildren_son (item) {
-                let data = item.son.map((item_son) => {
-                    return {
-                        value: item_son.name,
-                        label: item_son.name,
-                        id: item_son.id
-                    };
-                })
-                return data;
-            },
-            save () {
-                this.loading = true;
+          })
+      },
+      // 赋值子行业
+      getIndustryChildren (item) {
+        let data = item.map((item_son) => {
+          return {
+            value: item_son,
+            label: item_son,
+          }
+        })
+        return data
+      },
+      // 赋值子地址
+      getChildren (item) {
+        let data = item.son.map((item_son) => {
+          return {
+            value: item_son.name,
+            label: item_son.name,
+            id: item_son.id,
+            children: this.getChildren_son(item_son)
+          }
+        })
+        return data
+      },
+      // 赋值子子地址
+      getChildren_son (item) {
+        let data = item.son.map((item_son) => {
+          return {
+            value: item_son.name,
+            label: item_son.name,
+            id: item_son.id
+          }
+        })
+        return data
+      },
+      save () {
+        this.loading = true
 //                this.$Notice.success({
 //                    title: '温馨提示',
 //                    desc: `保存成功，信息已更改！`
@@ -361,81 +363,82 @@
 //                     title: '接口未准备好！保存失败！',
 //                     desc: `保存信息失败！`
 //                 });
-                var d = new Date(this.birthday);
-                var  resDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                let data = {
-                    name: this.information[0].value,
-                    mobile: this.information[1].value,
-                    stature: this.information[2].value,
-                    weight: this.information[3].value,
-                  card_num: this.information[4].value,
-                  graduate_school: this.information[5].value,
-                    company: this.information[6].value,
-                    sex: this.sex,
-                    birthday: resDate,
-                    state: this.state,
-                    belief: this.belief,
-                    resident_type: this.resident_type,
-                    degree: this.degree, // 学历
-                    work_sort: this.work_sort, // 单位性质
-                    industry: this.industry, // 行业
-                    dwell: this.dwell, // 常住地
-                    resident: this.resident, // 成长地
-                    photos: this.photos,
-                    graduate_photos: this.graduate_photos,
-                    other_photos: this.other_photos,
-                    identification_photos: this.identification_photos,
-                    wechat_qrcode: this.wechat_qrcode,
-				}
-				console.log(data)
-				uAxios.put(`admin/users/${this.id}`,data).then((response) => {
-					if (response.data.code === 0) {
-						this.$Message.info('保存成功');
-						this.loading = false;
-						this.getlist(this.currentPage);
-					} else {
-						this.$Modal.error({
-							content: response.data.message
-						});
-					}
-				});
-			}
-        },
-        mounted () {
-            this.id = this.$route.params.edit_user_detail_id;
-            this.getlist(1);
-            uAxios.get('addresses/v2')
-                .then(res => {
-                    let result = res.data.data;
-                    result.map((item, index, arr) => {
-                        this.addressData.push(
-                            {
-                                value: item.name,
-                                label: item.name,
-                                id: item.id,
-								children: this.getChildren(item)
-                            }
-                        );
-					})
-					console.log(this.addressData)
-                });
-            uAxios.get('industry/json')
-                .then(res => {
-                    let result = res.data.data;
-                    result.map((item, index, arr) => {
-                        this.industryData.push(
-                            {
-                                value: item.title,
-                                label: item.title,
-                                children: this.getIndustryChildren(item.items)
-                            }
-                        );
-                    })
-                    console.log(this.industryData)
-                });
-
+        var d = new Date(this.birthday)
+        var resDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+        let data = {
+          name: this.information[0].value,
+          mobile: this.information[1].value,
+          stature: this.information[2].value,
+          weight: this.information[3].value,
+          card_num: this.information[4].value,
+          graduate_school: this.information[5].value,
+          company: this.information[6].value,
+          sex: this.sex,
+          birthday: resDate,
+          state: this.state,
+          belief: this.belief,
+          resident_type: this.resident_type,
+          degree: this.degree, // 学历
+          work_sort: this.work_sort, // 单位性质
+          industry: this.industry, // 行业
+          dwell: this.dwell, // 常住地
+          resident: this.resident, // 成长地
+          photos: this.photos,
+          lifePhotos: this.lifePhotos,
+          graduate_photos: this.graduate_photos,
+          other_photos: this.other_photos,
+          identification_photos: this.identification_photos,
+          wechat_qrcode: this.wechat_qrcode,
         }
-    };
+        console.log(data)
+        uAxios.put(`admin/users/${this.id}`, data).then((response) => {
+          if (response.data.code === 0) {
+            this.$Message.info('保存成功')
+            this.loading = false
+            this.getlist(this.currentPage)
+          } else {
+            this.$Modal.error({
+              content: response.data.message
+            })
+          }
+        })
+      }
+    },
+    mounted () {
+      this.id = this.$route.params.edit_user_detail_id
+      this.getlist(1)
+      uAxios.get('addresses/v2')
+        .then(res => {
+          let result = res.data.data
+          result.map((item, index, arr) => {
+            this.addressData.push(
+              {
+                value: item.name,
+                label: item.name,
+                id: item.id,
+                children: this.getChildren(item)
+              }
+            )
+          })
+          console.log(this.addressData)
+        })
+      uAxios.get('industry/json')
+        .then(res => {
+          let result = res.data.data
+          result.map((item, index, arr) => {
+            this.industryData.push(
+              {
+                value: item.title,
+                label: item.title,
+                children: this.getIndustryChildren(item.items)
+              }
+            )
+          })
+          console.log(this.industryData)
+        })
+
+    }
+  }
 </script>
 
 <style>
