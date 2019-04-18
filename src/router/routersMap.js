@@ -201,6 +201,7 @@ export const staticRouters = [
         meta: {
           title: '备注管理',
           hideInMenu: true,
+          notCache: true
           // access: ['super_admin']
         },
         component: () => import('@/view/users/user_note.vue')

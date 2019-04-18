@@ -92,7 +92,7 @@
 				<!--<Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
 				<Card style="margin-top: 12px;">
 					<p slot="title">生活照</p>
-					<uploadImages :pic="lifePhotos" v-on:uploadPictures="uploadPictures('lifePhotos',$event)"></uploadImages>
+					<uploadImages :pic="lifePic" v-on:uploadPictures="uploadPictures('lifePic',$event)"></uploadImages>
 				</Card>
 				<Card style="margin-top: 12px;">
 					<p slot="title">身份证</p>
@@ -151,7 +151,7 @@
           }
         ],
         sex: '',
-        stateList: ['未婚', '离异', '丧偶'],
+        stateList: ['从未结婚', '离异', '丧偶'],
         state: '',
         beliefList: ['基督教', '佛教', '伊斯兰教', '其他'],
         belief: '',
@@ -166,6 +166,7 @@
         addressData: [], // 地址数据
         industry: [], // 行业
         industryData: [], // 行业数据
+        lifePic: [],
         orgColumns: [
           {
             key: 'updatedAt',
@@ -222,13 +223,29 @@
         uploaddata: []
       }
     },
+    watch: {
+      lifePic(){
+        this.FilterData(this.lifePic, this.lifePhotos)
+        console.log(this.FilterData(this.lifePic, this.lifePhotos))
+      }
+    },
     methods: {
+      FilterData (a, b) {   //循环判断数组a里的元素在b里面有没有，有的话就放入新建立的数组中
+        var result = new Array()
+        var c = b.toString()
+        for (var i = 0; i < a.length; i++) {
+          if (c.indexOf(a[i].toString()) == -1) {
+            result.push(a[i])
+          }
+        }
+        return result
+      },
       uploadPictures (key, value) {
         this[key] = value
       },
       getlist (page) {
         let self = this
-        uAxios.get('admin/users/' + self.id + '?page=' + page)
+        uAxios.get('admin/users/' + self.id)
           .then(res => {
             let result = res.data.data
             self.orgData = result
@@ -241,6 +258,9 @@
             self.degree = result.profile.degree
             self.photos = result.profile.photos
             self.lifePhotos = result.lifePhotos.map((item, index) => {
+              return item.photo
+            })
+            self.lifePic = result.lifePhotos.map((item, index) => {
               return item.photo
             })
             self.graduate_photos = result.profile.graduate_photos
@@ -259,63 +279,6 @@
               {name: '毕业学校', value: result.profile.graduate_school},
               {name: '工作单位', value: result.profile.company}
             ]
-//                        {name: '户口类型', value: result.name},
-//                        {name: '居住地', value: result.name},
-//                        {name: '成长地', value: result.name},
-//                        {name: '学历', value: result.name},
-//                        {name: '单位性质', value: result.name},
-//                        {name: '行业', value: result.name},
-//                        {name: '个人简介', value: result.name},
-//                        {name: '理想对象', value: result.name}
-            console.log(self.information)
-//                        console.log(result)
-//                        self.name = result.name;
-//                        self.switch1 = result.is_admin == 0 ? false : true;
-//                        self.maker_name = result.maker_name;
-//                        self.is_approved = result.is_approved;
-//                        self.disabled = result.maker_name == '' ? false : true;
-//                        self.avatar = result.avatar;
-//                        self.user_is_admin = result.user_is_admin;
-//                        self.mobile = result.mobile;
-//                        self.love_characters = result.love_characters;
-//                        self.love_languages = result.love_languages;
-//                        self.character = result.character;
-//
-//
-//                            {
-//                                name: '工作单位',
-//                                key: result.profile.company
-//                            },
-//                            {
-//                                name: '单位性质',
-//                                key: result.profile.work_sort
-//                            },
-//                            {
-//                                name: '行业',
-//                                key: result.industry + '~' + result.industry_sub
-//                            },
-//                            {
-//                                name: '加入时间',
-//                                key: result.profile.created_at
-//                            },
-//                            {
-//                                name: '推荐人',
-//                                key: result.from_user_name
-//                            },
-//                            {
-//                                name: 'VIP等级',
-//                                key: result.rank_name
-//                            },
-//                            {
-//                                name: '个人简介',
-//                                key: result.profile.introduction
-//                            },
-//                            {
-//                                name: '理想对象',
-//                                key: result.profile.ideal_mate
-//                            }
-//
-//                        ]
             self.orgTotal = result.total
 
           })
@@ -355,14 +318,6 @@
       },
       save () {
         this.loading = true
-//                this.$Notice.success({
-//                    title: '温馨提示',
-//                    desc: `保存成功，信息已更改！`
-//                });
-//                 this.$Notice.error({
-//                     title: '接口未准备好！保存失败！',
-//                     desc: `保存信息失败！`
-//                 });
         var d = new Date(this.birthday)
         var resDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
         let data = {
@@ -384,7 +339,7 @@
           dwell: this.dwell, // 常住地
           resident: this.resident, // 成长地
           photos: this.photos,
-          lifePhotos: this.lifePhotos,
+          lifePhotos: this.FilterData(this.lifePic, this.lifePhotos),
           graduate_photos: this.graduate_photos,
           other_photos: this.other_photos,
           identification_photos: this.identification_photos,
@@ -395,7 +350,7 @@
           if (response.data.code === 0) {
             this.$Message.info('保存成功')
             this.loading = false
-            this.getlist(this.currentPage)
+            this.getlist(1)
           } else {
             this.$Modal.error({
               content: response.data.message
