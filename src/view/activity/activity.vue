@@ -21,7 +21,7 @@
                 </FormItem>
                 <FormItem label="费用(￥)" prop="number">
                   <Row>
-                    <Input v-model="activity.fee" placeholder="Enter activity fee"></Input>
+                    <Input v-model="activity.fee" placeholder="例： 99.00" ></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="详情Image" prop="image">
@@ -29,49 +29,38 @@
                     <uploadImages v-on:uploadPictures="uploadPictures" :pic="activity.detail_pic"></uploadImages>
                   </Card>
                 </FormItem>
-                <FormItem label="详情" prop="name">
+                <FormItem label="活动说明(如需换行加'<br/>')" prop="name">
                   <Row>
                     <Input v-model="activity.detail" placeholder="Enter activity detail" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="详情链接" prop="name">
                   <Row>
-                    <Input v-model="activity.detail_path" placeholder="Enter activity detail path"></Input>
+                    <Input v-model="activity.detail_path" placeholder="例：http://love.ufutx.com"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="开始时间" prop="name">
                   <Row>
                     <DatePicker type="datetimerange" format="yyyy-MM-dd HH:mm" placement="top" @on-change="getDate"
                                 placeholder="Select date and time(Excluding seconds)" style="width: 300px" :value="date"></DatePicker>
-                    <!--<Input v-model="activity.start_time" placeholder="Enter activity start_time"></Input>-->
                   </Row>
                 </FormItem>
-                <!--<FormItem label="结束时间" prop="name">-->
-                  <!--<Row>-->
-                    <!--<Input v-model="activity.end_time" placeholder="Enter activity end_time"></Input>-->
-                  <!--</Row>-->
-                <!--</FormItem>-->
-                <FormItem label="省市区" prop="name">
+                <FormItem label="活动地址" prop="name">
                   <Row>
-                    <Input v-model="activity.province" placeholder="输入省份" style="max-width: 200px"></Input>
-                    <Input v-model="activity.city" placeholder="输入活动城市" style="max-width: 200px"></Input>
-                    <Input v-model="activity.dist" placeholder="输入市区/街道" style="max-width: 200px"></Input>
+                    <!--<Input v-model="activity.province" placeholder="输入省份" style="max-width: 200px"></Input>-->
+                    <!--<Input v-model="activity.city" placeholder="输入活动城市" style="max-width: 200px"></Input>-->
+                    <!--<Input v-model="activity.dist" placeholder="输入市区" style="max-width: 200px"></Input>-->
+                    <v-distpicker @selected="onSelected" :province="activity.province" :city="activity.city" :area="activity.dist"></v-distpicker>
                   </Row>
                 </FormItem>
-                <FormItem label="地址详情" prop="name">
+                <FormItem label="详情地址" prop="name">
                   <Row>
                     <Input v-model="activity.address" placeholder="Enter activity address"></Input>
                   </Row>
                 </FormItem>
-                <!-- <FormItem label="商品详情" prop="image">
-                    <Card>
-                        <detailImage v-on:uploadPictures="detailImage" :pic="activity.detail_pic"></detailImage>
-                    </Card>
-                </FormItem> -->
               </Form>
               <div style="text-align: center">
                 <Button type="primary" @click="handleSubmit()">{{BtnText}}</Button>
-
               </div>
             </Card>
           </Col>
@@ -95,13 +84,15 @@
   import uploadImages from '../components/uploadImages'
   import uploadImage from '../components/uploadImage'
   import dropdown from '../components/dropdown'
+  import VDistpicker from 'v-distpicker'
 
   export default {
     name: 'Org',
     components: {
       dropdown: dropdown,
       uploadImage: uploadImage,
-      uploadImages: uploadImages
+      uploadImages: uploadImages,
+      VDistpicker
     },
     data () {
       return {
@@ -245,6 +236,12 @@
       }
     },
     methods: {
+      onSelected(data) {
+        console.log(data)
+        this.activity.province = data.province.value
+        this.activity.city = data.city.value
+        this.activity.dist = data.area.value
+      },
       getDate (e) {
         this.activity.start_time = e[0]
         this.activity.end_time = e[1]
@@ -386,12 +383,18 @@
   }
 </script>
 
-<style>
+<style lang="less">
   ._bold {
     font-weight: bold
   }
 
   .float_l {
     float: left
+  }
+  .distpicker-address-wrapper select {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px;
+    margin-right: 12px;
   }
 </style>
