@@ -392,10 +392,10 @@
     float: left
   }
   .distpicker-address-wrapper select {
-    height: 32px;
-    line-height: 32px;
-    padding: 0 12px;
-    margin-right: 12px;
-    font-size: 14px;
+    height: 32px !important;
+    line-height: 32px !important;
+    padding: 0 12px !important;
+    margin-right: 12px !important;
+    font-size: 14px !important;
   }
 </style>
