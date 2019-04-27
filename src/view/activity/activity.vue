@@ -396,5 +396,6 @@
     line-height: 32px;
     padding: 0 12px;
     margin-right: 12px;
+    font-size: 14px;
   }
 </style>
