@@ -39,7 +39,7 @@
                     <Input v-model="activity.detail_path" placeholder="例：http://love.ufutx.com"></Input>
                   </Row>
                 </FormItem>
-                <FormItem label="开始时间" prop="name">
+                <FormItem label="活动时间" prop="name">
                   <Row>
                     <DatePicker type="datetimerange" format="yyyy-MM-dd HH:mm" placement="top" @on-change="getDate"
                                 placeholder="Select date and time(Excluding seconds)" style="width: 300px" :value="date"></DatePicker>
