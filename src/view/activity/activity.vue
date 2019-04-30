@@ -75,7 +75,7 @@
       </TabPane>
     </Tabs>
     <Modal v-model="showMapModel" width="800" title="请输入关键字搜索地址，然后“确定”" @on-ok="ok">
-      <Geolocation  @getLocation="getLocation" :location="location" @hideModal="hideModal"></Geolocation>
+      <Geolocation  @getLocation="getLocation" :location="setLocation" @hideModal="hideModal"></Geolocation>
     </Modal>
   </div>
 </template>
@@ -107,7 +107,7 @@
         showMapModel: false,
         address: '',
         switch1: false,
-        location: [],
+        setLocation: [],
         redMun: [],    // 红娘列表
         disabled: false,
         user_is_admin: 0,
@@ -259,12 +259,7 @@
         this.activity.location_longitude = childValue.location.lng
       },
       ok () {
-      },
-      onSelected (data) {
-        console.log(data)
-        this.activity.province = data.province.value
-        this.activity.city = data.city.value
-        this.activity.dist = data.area.value
+        console.log('确定')
       },
       getDate (e) {
         this.activity.start_time = e[0]
@@ -393,8 +388,8 @@
             this.activity = result
             this.date.push(result.start_time)
             this.date.push(result.end_time)
-            this.location = [result.location_longitude, result.location_latitude]
-            console.log(this.location)
+            this.setLocation = [result.location_longitude, result.location_latitude]
+            console.log(this.setLocation)
           })
       },
     },
