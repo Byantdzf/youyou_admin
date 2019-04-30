@@ -56,7 +56,8 @@
                 <FormItem label="活动地址" prop="name">
                   <Row>
                     <!--<Input v-model="activity.address" placeholder="Enter activity address"></Input>-->
-                    <Input  placeholder="右侧地图定位选择地址" :value="address" style="width: 52%;margin-right: 22px;"  readonly/>
+                    <Input  placeholder="右侧地图定位选择地址" :value="address" style="width: 52%;margin-right: 22px;"
+                            :readonly="address?false:true" @input="editAddress"/>
                     <Button type="primary" @click="showMapModel = true">地图定位</Button>
                   </Row>
                 </FormItem>
@@ -245,6 +246,9 @@
       }
     },
     methods: {
+      editAddress (value) {
+        this.activity.address = value.split(' ')[3]
+      },
       hideModal (val) {
         console.log(val)
         this.showMapModel = val
