@@ -45,17 +45,19 @@
                                 placeholder="Select date and time(Excluding seconds)" style="width: 300px" :value="date"></DatePicker>
                   </Row>
                 </FormItem>
+                <!--<FormItem label="活动地址" prop="name">-->
+                  <!--<Row>-->
+                    <!--&lt;!&ndash;<Input v-model="activity.province" placeholder="输入省份" style="max-width: 200px"></Input>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<Input v-model="activity.city" placeholder="输入活动城市" style="max-width: 200px"></Input>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<Input v-model="activity.dist" placeholder="输入市区" style="max-width: 200px"></Input>&ndash;&gt;-->
+                    <!--<v-distpicker @selected="onSelected" :province="activity.province" :city="activity.city" :area="activity.dist"></v-distpicker>-->
+                  <!--</Row>-->
+                <!--</FormItem>-->
                 <FormItem label="活动地址" prop="name">
                   <Row>
-                    <!--<Input v-model="activity.province" placeholder="输入省份" style="max-width: 200px"></Input>-->
-                    <!--<Input v-model="activity.city" placeholder="输入活动城市" style="max-width: 200px"></Input>-->
-                    <!--<Input v-model="activity.dist" placeholder="输入市区" style="max-width: 200px"></Input>-->
-                    <v-distpicker @selected="onSelected" :province="activity.province" :city="activity.city" :area="activity.dist"></v-distpicker>
-                  </Row>
-                </FormItem>
-                <FormItem label="详情地址" prop="name">
-                  <Row>
-                    <Input v-model="activity.address" placeholder="Enter activity address"></Input>
+                    <!--<Input v-model="activity.address" placeholder="Enter activity address"></Input>-->
+                    <Input  placeholder="右侧地图定位选择地址" :value="address" style="width: 52%;margin-right: 22px;"  readonly/>
+                    <Button type="primary" @click="showMapModel = true">地图定位</Button>
                   </Row>
                 </FormItem>
               </Form>
@@ -72,6 +74,9 @@
               style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
       </TabPane>
     </Tabs>
+    <Modal v-model="showMapModel" width="800" title="请输入关键字搜索地址，然后“确定”" @on-ok="ok">
+      <Geolocation  @getLocation="getLocation" :location="location" @hideModal="hideModal"></Geolocation>
+    </Modal>
   </div>
 </template>
 
@@ -81,6 +86,7 @@
   import config from '../../api/config'
   //  import md5 from 'js-md5';
   //	import moment from 'moment';
+  import Geolocation from '../components/Geolocation'
   import uploadImages from '../components/uploadImages'
   import uploadImage from '../components/uploadImage'
   import dropdown from '../components/dropdown'
@@ -89,15 +95,19 @@
   export default {
     name: 'Org',
     components: {
-      dropdown: dropdown,
-      uploadImage: uploadImage,
-      uploadImages: uploadImages,
-      VDistpicker
+      dropdown,
+      uploadImage,
+      uploadImages,
+      VDistpicker,
+      Geolocation
     },
     data () {
       return {
         articlesId: '',
+        showMapModel: false,
+        address: '',
         switch1: false,
+        location: [],
         redMun: [],    // 红娘列表
         disabled: false,
         user_is_admin: 0,
@@ -105,7 +115,6 @@
         title: '活动详情',
         BtnText: '保存',
         loading: false,
-//                enterprises_id: '', // 默认企业id
         columns: [
           {
             title: 'Name',
@@ -236,7 +245,22 @@
       }
     },
     methods: {
-      onSelected(data) {
+      hideModal (val) {
+        console.log(val)
+        this.showMapModel = val
+      },
+      getLocation (childValue, doorplate) {
+        this.address = `${childValue.pname} ${childValue.cityname} ${childValue.adname} ${childValue.address}${doorplate}`
+        this.activity.province = childValue.pname
+        this.activity.city = childValue.cityname
+        this.activity.dist = childValue.adname
+        this.activity.address = `${childValue.address}${doorplate}`
+        this.activity.location_latitude = childValue.location.lat
+        this.activity.location_longitude = childValue.location.lng
+      },
+      ok () {
+      },
+      onSelected (data) {
         console.log(data)
         this.activity.province = data.province.value
         this.activity.city = data.city.value
@@ -365,10 +389,12 @@
           .then(res => {
             let result = res.data.data
             this.data = []
+            this.address = `${result.province} ${result.city} ${result.dist} ${result.address}`
             this.activity = result
             this.date.push(result.start_time)
             this.date.push(result.end_time)
-            console.log(this.date)
+            this.location = [result.location_longitude, result.location_latitude]
+            console.log(this.location)
           })
       },
     },
@@ -387,6 +413,7 @@
   ._bold {
     font-weight: bold
   }
+  #container {width:300px; height: 180px;}
 
   .float_l {
     float: left
