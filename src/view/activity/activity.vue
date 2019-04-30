@@ -75,7 +75,7 @@
       </TabPane>
     </Tabs>
     <Modal v-model="showMapModel" width="800" title="请输入关键字搜索地址，然后“确定”" @on-ok="ok">
-      <Geolocation  @getLocation="getLocation" :location="setLocation" @hideModal="hideModal"></Geolocation>
+      <Geolocation  @getLocation="getLocation"  @hideModal="hideModal"></Geolocation>
     </Modal>
   </div>
 </template>

@@ -14,7 +14,6 @@
 
 <script>
   export default {
-    props: ['location'],
     data () {
       return {
         doorplate: '',
@@ -37,7 +36,6 @@
         let vm = this
         var map = new AMap.Map('container', {
           resizeEnable: true,
-          center: vm.location,
           zoom: 13,
           keyboardEnable: false
         })
@@ -64,7 +62,6 @@
     mounted () {
       setTimeout(()=>{
         this.init()
-        console.log(this.location)
       },800)
     }
   }
