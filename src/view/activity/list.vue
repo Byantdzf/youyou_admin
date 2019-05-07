@@ -157,6 +157,9 @@
             width: 100,
             key: 'is_top',
             render: (h, params) => {
+              if (params.row.is_cancel > 0 || params.row.is_deadline > 0) {
+                return  h('span', '已结束')
+              }
               return h('i-switch', {
                 props: {
                   value: params.row.is_top > 0,
