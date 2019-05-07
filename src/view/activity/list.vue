@@ -83,6 +83,7 @@
         id: 2134,
         searchKeyword: '',
         loading: false,
+        switchLoading: false,
         activeTab: 'signIn',
         orgTotal: 0,
         Columns: [
@@ -159,6 +160,7 @@
               return h('i-switch', {
                 props: {
                   value: params.row.is_top > 0,
+                  switchLoading: this.switchLoading
                 },
                 on: {
                   'on-change': (value) => {
@@ -217,21 +219,26 @@
     },
     methods: {
       switchFn (val, id) {
+        this.switchLoading = true
         switch (val) {
           case true: {
             uAxios.put(`admin/activity/${id}/top`, this.activity).then(response => {
               if (response.data.code === 0) {
                 this.$Message.success('设置成功!')
+                this.switchLoading = false
+                this.getlist(1)
               } else {
                 alert('操作失败！')
               }
             })
           }
-            break
+            break;
           default: {
             uAxios.put(`admin/activity/${id}/cancel/top`, this.activity).then(response => {
               if (response.data.code === 0) {
                 this.$Message.success('设置成功!')
+                this.switchLoading = false
+                this.getlist(1)
               } else {
                 alert('操作失败！')
               }
