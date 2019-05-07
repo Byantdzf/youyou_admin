@@ -10,6 +10,7 @@ const router = new Router({
   // mode: 'history'
   mode: 'hash'
 })
+
 const LOGIN_PAGE_NAME = 'login'
 const access = store.state.user.access || getLocalStorage('access').split(',')
 router.beforeEach((to, from, next) => {

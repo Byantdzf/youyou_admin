@@ -91,7 +91,7 @@
                                             <p>报名费用：{{information.fee}}元</p>
                                             <p>开始时间：{{information.start_time}}</p>
                                             <p>结束时间：{{information.end_time}}</p>
-                                            <p>地址：{{information.province + information.city + information.dist + information.address}}</p>
+                                            <p>地址：{{information.address}}</p>
                                         </div>
                                     </Card>
                                 </Col>

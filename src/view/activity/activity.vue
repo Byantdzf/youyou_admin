@@ -6,7 +6,7 @@
           <Col span="22" style="margin: 22px">
             <Card>
               <Form ref="activity" :model="activity" :label-width="100">
-                <FormItem label="活动banna" prop="image">
+                <FormItem label="活动轮播" prop="image">
                   <Card>
                     <uploadImage v-on:uploadPictures="uploadPicture" :pic="activity.poster"></uploadImage>
                   </Card>
@@ -24,12 +24,12 @@
                     <Input v-model="activity.fee" placeholder="例： 99.00" ></Input>
                   </Row>
                 </FormItem>
-                <FormItem label="详情Image" prop="image">
+                <FormItem label="详情图片" prop="image">
                   <Card>
                     <uploadImages v-on:uploadPictures="uploadPictures" :pic="activity.detail_pic"></uploadImages>
                   </Card>
                 </FormItem>
-                <FormItem label="活动说明(如需换行加'<br/>')" prop="name">
+                <FormItem label="活动说明" prop="name">
                   <Row>
                     <Input v-model="activity.detail" placeholder="Enter activity detail" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
                   </Row>
@@ -75,8 +75,8 @@
               style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
       </TabPane>
     </Tabs>
-    <Modal v-model="showMapModel" width="800" title="请输入关键字搜索地址，然后“确定”" @on-ok="ok">
-      <Geolocation  @getLocation="getLocation"  @hideModal="hideModal"></Geolocation>
+    <Modal v-model="showMapModel" width="860" title="活动地址" @on-ok="ok">
+      <Geolocation  @getLocation="getLocation"  @hideModal="hideModal" :setLocation="setLocation" ></Geolocation>
     </Modal>
   </div>
 </template>
@@ -250,17 +250,16 @@
         this.activity.address = value.split(' ')[3]
       },
       hideModal (val) {
-        console.log(val)
         this.showMapModel = val
       },
-      getLocation (childValue, doorplate) {
-        this.address = `${childValue.pname} ${childValue.cityname} ${childValue.adname} ${childValue.address}${doorplate}`
-        this.activity.province = childValue.pname
-        this.activity.city = childValue.cityname
-        this.activity.dist = childValue.adname
-        this.activity.address = `${childValue.address}${doorplate}`
-        this.activity.location_latitude = childValue.location.lat
-        this.activity.location_longitude = childValue.location.lng
+      getLocation (childValue, lnglat) {
+        this.address = `${childValue.address}`
+        this.activity.province = childValue.province
+        this.activity.city = childValue.city
+        this.activity.dist = childValue.dist
+        this.activity.address = `${childValue.address}`
+        this.activity.location_longitude = lnglat[0]
+        this.activity.location_latitude = lnglat[1]
       },
       ok () {
         console.log('确定')
@@ -388,12 +387,12 @@
           .then(res => {
             let result = res.data.data
             this.data = []
-            this.address = `${result.province} ${result.city} ${result.dist} ${result.address}`
+            this.address = `${result.address}`
             this.activity = result
             this.date.push(result.start_time)
             this.date.push(result.end_time)
             this.setLocation = [result.location_longitude, result.location_latitude]
-            console.log(this.setLocation)
+            console.log(this.activity)
           })
       },
     },
