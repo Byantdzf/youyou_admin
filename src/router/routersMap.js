@@ -165,6 +165,26 @@ export const staticRouters = [
         component:  () => import('@/view/beloved/list.vue')
       },
       {
+        path: "feedbacks",
+        name: "feedbacks",
+        meta: {
+          icon: "md-chatbubbles",
+          title: "用户反馈",
+          access: ['super_admin'],
+        },
+        component:  () => import('@/view/users/feedbacks.vue')
+      },
+      {
+        path: "complain",
+        name: "complain",
+        meta: {
+          icon: "md-bonfire",
+          title: "投诉列表",
+          access: ['super_admin'],
+        },
+        component:  () => import('@/view/users/complain.vue')
+      },
+      {
         path: 'user_detail/:user_detail_id',
         name: 'user_detail',
         meta: {
