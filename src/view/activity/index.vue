@@ -204,7 +204,7 @@
             v-model="searchKeyword"
             @on-enter="handleSearch"
             placeholder="关键字搜索..."
-            style="width: 200px; margin-bottom: 22px;"/>
+            style="width: 200px; margin-bottom: 22px;margin-right: 8px;"/>
           <span @click="handleSearch">
                         <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
                     </span>
