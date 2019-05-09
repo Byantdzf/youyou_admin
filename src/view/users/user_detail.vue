@@ -511,6 +511,10 @@ export default {
               key: result.deadline
             },
             {
+              name: 'openid',
+              key: result.openid
+            },
+            {
               name: '手机号',
               key: result.mobile
             },

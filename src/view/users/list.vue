@@ -127,14 +127,13 @@
                     {
                         title: '名称',
                         align: 'center',
-                        width: 150,
                         key: 'name'
                     },
                     {
                         title: '手机号',
                         align: 'center',
                         key: 'mobile',
-                        width: 150
+                        width: 120
                     },
                     {
                         title: '性别',
@@ -157,25 +156,21 @@
                     {
                         title: '单身/介绍人',
                         align: 'center',
-                        width: 140,
                         key: 'type'
                     },
                     {
                         title: '实名认证？',
                         align: 'center',
-                        width: 140,
                         key: 'is_approved'
                     },
                     {
                       title: '是否审核？',
                       align: 'center',
-                      width: 140,
                       key: 'is_audited'
                     },
                     {
                         title: '推荐人',
                         align: 'center',
-                        width: 140,
                         key: 'from_name'
                     },
                     {

@@ -15,6 +15,11 @@
 					<img :src="orgData.avatar" alt="" width="80rpx" style="box-shadow: 1px 1px 12px #c1c1c1;float: right">
 					<div style="clear: both"></div>
 				</div>
+        <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+          <div class="font_16 _bold" style="margin-top: 6px;float: left;">openid：</div>
+          <Input placeholder="Enter something..." style="float: right;max-width: 300px" :value="orgData.openid" readonly="readonly"/>
+          <div style="clear: both"></div>
+        </div>
 				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;" v-for="item,index in information" :key="index">
 					<div class="font_16 _bold" style="margin-top: 6px;float: left;">{{item.name}}:</div>
 					<Input v-model="item.value" placeholder="Enter something..." style="float: right;max-width: 300px" />
@@ -39,6 +44,13 @@
 					</Select>
 					<div style="clear: both"></div>
 				</div>
+        <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+          <div class="font_16 _bold" style="margin-top: 6px;float: left;">账号状态:</div>
+          <Select v-model="type" style="float: right;width: 300px" >
+            <Option v-for="item in typeList" :value="item" :key="item">{{ item }}</Option>
+          </Select>
+          <div style="clear: both"></div>
+        </div>
 				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
 					<div class="font_16 _bold" style="margin-top: 6px;float: left;">宗教信仰:</div>
 					<Select v-model="belief" style="float: right;width: 300px" >
@@ -153,6 +165,8 @@
         sex: '',
         stateList: ['从未结婚', '离异', '丧偶'],
         state: '',
+        typeList: ['单身', '介绍人'],
+        type: '',
         beliefList: ['基督教', '佛教', '伊斯兰教', '其他'],
         belief: '',
         residentList: ['城市', '农村'],
@@ -252,6 +266,7 @@
             self.birthday = result.profile.birthday
             self.sex = result.profile.sex
             self.state = result.profile.state
+            self.type = result.type == 'single'?'单身': '介绍人'
             self.belief = result.profile.belief
             self.resident_type = result.profile.resident_type
             self.work_sort = result.profile.work_sort
@@ -331,6 +346,7 @@
           sex: this.sex,
           birthday: resDate,
           state: this.state,
+          type: this.type == '单身'?'single':'marriage',
           belief: this.belief,
           resident_type: this.resident_type,
           degree: this.degree, // 学历
@@ -357,6 +373,7 @@
             })
           }
         })
+        this.loading = false
       }
     },
     mounted () {
