@@ -76,7 +76,7 @@
               icon: 'http:////a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-red.png',
               position: [getLng, getLat],
               offset: new AMap.Pixel(-13, -30),
-              // draggable: true,
+              draggable: true,
               cursor: 'move',
               raiseOnDrag: true
             })
@@ -84,11 +84,32 @@
           }
           marker.setPosition(vm.lnglat)
           map.setCenter(marker.getPosition())
-          // marker.on('dragging', (e) => {
-          //   console.log(e)
-          //   let {lng, lat} = e.lnglat
-          //   regeoCode(lng, lat)
-          // });
+          AMap.event.addListener(marker, 'dragend', function (e) {
+            vm.lnglat = marker.getPosition()
+            geocoder.getAddress(vm.lnglat, function (status, result) {
+              if (status === 'complete' && result.regeocode) {
+                console.log(result.regeocode.addressComponent)
+                let address = result.regeocode.formattedAddress,
+                  citycode = result.regeocode.addressComponent.citycode,
+                  value = {
+                    address: address,
+                    province: result.regeocode.addressComponent.province,
+                    city: result.regeocode.addressComponent.city,
+                    dist: result.regeocode.addressComponent.district
+                  }
+                vm.keyword = address
+                vm.address = value
+                infoWindow.setContent(createContent(address, vm.lnglat, citycode))
+                infoWindow.open(map, marker.getPosition())
+                vm.$emit('getLocation', value, vm.lnglat)
+              } else {
+                vm.$Notice.error({
+                  title: '温馨提示：',
+                  desc: `位置有误！`
+                })
+              }
+            })
+          })
           geocoder.getAddress(vm.lnglat, function (status, result) {
             if (status === 'complete' && result.regeocode) {
               console.log(result.regeocode.addressComponent)
@@ -130,7 +151,6 @@
             regeoCode(lng, lat)
           })
         }
-
         AMap.event.addListener(auto, 'select', select) // 注册监听，当选中某条记录时会触发
         AMap.event.addListener(placeSearch, 'markerClick', (e) => { // 点击标注
         })
@@ -176,7 +196,7 @@
                 icon: 'http:////a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-red.png',
                 position: vm.lnglat,
                 offset: new AMap.Pixel(-13, -30),
-                // draggable: true,
+                draggable: true,
                 cursor: 'move',
                 raiseOnDrag: true
               })
@@ -184,6 +204,32 @@
             }
             marker.setPosition(vm.lnglat)
             map.setCenter(marker.getPosition())
+            AMap.event.addListener(marker, 'dragend', function (e) {
+              vm.lnglat = marker.getPosition()
+              geocoder.getAddress(vm.lnglat, function (status, result) {
+                if (status === 'complete' && result.regeocode) {
+                  console.log(result.regeocode.addressComponent)
+                  let address = result.regeocode.formattedAddress,
+                    citycode = result.regeocode.addressComponent.citycode,
+                    value = {
+                      address: address,
+                      province: result.regeocode.addressComponent.province,
+                      city: result.regeocode.addressComponent.city,
+                      dist: result.regeocode.addressComponent.district
+                    }
+                  vm.keyword = address
+                  vm.address = value
+                  infoWindow.setContent(createContent(address, vm.lnglat, citycode))
+                  infoWindow.open(map, marker.getPosition())
+                  vm.$emit('getLocation', value, vm.lnglat)
+                } else {
+                  vm.$Notice.error({
+                    title: '温馨提示：',
+                    desc: `位置有误！`
+                  })
+                }
+              })
+            })
             let address = result.geocodes[0].formattedAddress,
               citycode = result.geocodes[0].addressComponent.citycode,
               value = {
