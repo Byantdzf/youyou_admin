@@ -5,22 +5,22 @@
 <template>
   <div class="login ">
     <div class="login-con">
+      <!--<Card icon="md-heart-outline" class="interim" title="福恋智能后台管理系统" :bordered="false" v-if="!changeCode">-->
+      <!--<div class="form-con">-->
+      <!--<login-form @on-success-valid="handleSubmit" :load="loading"></login-form>-->
+      <!--<p class="login-tip">【福恋智能】 &#45;&#45; 后台-->
+      <!--<a style="float: right;" @click="changeCode=true">忘记密码？</a>-->
+      <!--</p>-->
+      <!--</div>-->
+      <!--</Card>-->
       <Card icon="md-heart-outline" class="interim" title="福恋智能后台管理系统" :bordered="false">
         <div class="form-con">
-          <login-form @on-success-valid="handleSubmit" :load="loading"></login-form>
+          <login-code @on-changePassword="changePassword" :load="loading"></login-code>
           <p class="login-tip">【福恋智能】 -- 后台
-            <!--<a style="float: right;" @click="changeCode=true">忘记密码？</a>-->
+            <!--<a style="float: right;" @click="changeCode=false">登录系统 </a>-->
           </p>
         </div>
       </Card>
-      <!--<Card icon="md-heart-outline" class="interim" title="福恋智能后台管理系统" :bordered="false" v-else>-->
-        <!--<div class="form-con">-->
-          <!--<login-code @on-changePassword="changePassword" :load="loading"></login-code>-->
-          <!--<p class="login-tip">【福恋智能】 &#45;&#45; 后台-->
-            <!--<a style="float: right;" @click="changeCode=false">登录系统 </a>-->
-          <!--</p>-->
-        <!--</div>-->
-      <!--</Card>-->
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@
   import LoginCode from '../../components/login-form/login-code'
   import config from '@/libs/api.request'
   import {mapActions} from 'vuex'
+  import uAxios from '../../api/index'
 
   export default {
     components: {
@@ -95,17 +96,35 @@
         })
       },
       changePassword (newPassword) {
-        let vm = this
+        let vm = this,
+          {password, confirm_password} = newPassword
         this.loading = false
-        this.$Message.loading({
-          content: '修改密码中...',
-          duration: 1.5,
-          onClose: function () {
-            vm.loading = false
-            console.log(newPassword)
-            vm.changeCode = false
-          }
-        })
+        uAxios.post(`admin/reset/password?password=${password}&confirm_password=${confirm_password}`)
+          .then((response) => {
+            if (response.data.code === 0) {
+              vm.loading = false
+              vm.$Message.success('已修改密码！')
+              console.log(newPassword)
+              vm.changeCode = false
+              console.log(vm.$router)
+              setTimeout(() => {
+                vm.$router.push({
+                  name: 'home'
+                })
+              }, 800)
+            } else {
+              this.$Modal.error({
+                content: response.data.message
+              })
+            }
+          })
+        // this.$Message.loading({
+        //   content: '修改密码中...',
+        //   duration: 1.5,
+        //   onClose: function () {
+        //
+        //   }
+        // })
       }
     }
   }

@@ -35,6 +35,7 @@ export const routerMap = {
 // }
 export const staticRouters = [
   {path: '/login', name: 'login', meta: {title: 'Login - 登录', hideInMenu: true}, component: routerMap['Login']},
+  {path: '/reset', name: 'reset', meta: {title: 'Login - 修改密码', hideInMenu: true}, component: () => import('@/view/login/reset')},
   {
     path: '/',
     name: '_home',

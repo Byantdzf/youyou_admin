@@ -5,8 +5,12 @@
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
         <DropdownItem name="logout">
-          <Icon type="ios-log-out" />
+          <Icon type="ios-log-out"/>
           安全登录
+        </DropdownItem>
+        <DropdownItem name="resetPassword">
+          <Icon :size="14" type="md-lock" style="margin-bottom: 2px;"></Icon>
+          修改密码
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
@@ -26,54 +30,59 @@
 </template>
 
 <script>
-    import './user.less'
-    import {mapActions} from 'vuex'
+  import './user.less'
+  import {mapActions} from 'vuex'
 
-    export default {
-        name: 'User',
-        props: {
-            userAvator: {
-                type: String,
-                default: ''
-            }
-        },
-        data() {
-            return {
-                logoutm: false,
-                loading: false
-            }
-        },
-        methods: {
-            ...mapActions([
-                'handleLogOut'
-            ]),
-            handleClick(name) {
-                switch (name) {
-                    case 'logout':
-                        this.logoutm = true;
-                        break
-                }
-            },
-            logout() {
-                this.loading = true;
-                this.handleLogOut().then(() => {
-                    setTimeout(() => {
-                        this.logoutm = false;
-                        this.loading = false;
-                        this.$router.push({
-                            name: 'login'
-                        })
-                    }, 1500);
-                }).catch(() => {
-                    setTimeout(() => {
-                        this.logoutm = false;
-                        this.loading = false;
-                        this.$router.push({
-                            name: 'login'
-                        })
-                    }, 1500);
-                })
-            }
+  export default {
+    name: 'User',
+    props: {
+      userAvator: {
+        type: String,
+        default: ''
+      }
+    },
+    data () {
+      return {
+        logoutm: false,
+        loading: false
+      }
+    },
+    methods: {
+      ...mapActions([
+        'handleLogOut'
+      ]),
+      handleClick (name) {
+        switch (name) {
+          case 'logout':
+            this.logoutm = true
+            break
+          default :
+            this.$router.push({
+              name: 'reset'
+            })
+            break
         }
+      },
+      logout () {
+        this.loading = true
+        this.handleLogOut().then(() => {
+          setTimeout(() => {
+            this.logoutm = false
+            this.loading = false
+            this.$router.push({
+              name: 'login'
+            })
+          }, 1500)
+        }).catch(() => {
+          setTimeout(() => {
+            this.logoutm = false
+            this.loading = false
+            this.$router.push({
+              name: 'login'
+            })
+          }, 1500)
+        })
+      }
     }
+  }
 </script>
