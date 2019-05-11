@@ -42,7 +42,6 @@ export default {
           password
         }).then(res => {
           const data = res.data.data
-          console.log(data)
           commit('setToken', data.access_token)
           commit('setAvator', data.avatar)
           commit('setUserName', data.name)

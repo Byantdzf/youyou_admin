@@ -4,13 +4,13 @@
       <Avatar :src="userAvator"/>
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
-        <DropdownItem name="logout">
-          <Icon type="ios-log-out"/>
-          安全登录
-        </DropdownItem>
         <DropdownItem name="resetPassword">
           <Icon :size="14" type="md-lock" style="margin-bottom: 2px;"></Icon>
           修改密码
+        </DropdownItem>
+        <DropdownItem name="logout">
+          <Icon type="ios-log-out"/>
+          安全登录
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

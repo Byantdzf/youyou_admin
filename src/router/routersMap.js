@@ -1,41 +1,218 @@
 const Main = () => import('@/view/main')
-const ParentView = () => import('@/components/parent-view')
 const Login = () => import('@/view/login/login.vue')
+const reset = () => import('@/view/login/reset.vue')
 const Home = () => import('@/view/home/home.vue')
 const Error401 = () => import('@/view/error-page/401.vue')
 const Error500 = () => import('@/view/error-page/500.vue')
 const Error404 = () => import('@/view/error-page/404.vue')
-const Markdown = () => import('@/view/components/markdown/markdown.vue')
-const Editor = () => import('@/view/components/editor/editor.vue')
-const homeSet = () => import('@/view/home/homeSet.vue')
-const recommend = () => import('@/view/recommend/list.vue')
-const userlist = () => import('@/view/users/list.vue')
-
 
 export const routerMap = {
   Main,
-  ParentView,
   Login, Home,
+  reset,
   Error401,
   Error500,
-  Error404,
-  // Markdown,
-  // Editor,
-  homeSet,
-  recommend,
-  userlist
+  Error404
 }
-// meta: {
-//   hideInMenu: (default: false) 设为true后在左侧菜单不会显示该页面选项
-//   showAlways: (default: false) 设为true后如果该路由只有一个子路由，在菜单中也会显示该父级菜单
-//   notCache: (default: false) 设为true后页面不会缓存
-//   access: (default: null) 可访问该页面的权限数组，当前路由设置的权限会影响子路由
-//   icon: (default: -) 该页面在左侧菜单、面包屑和标签导航处显示的图标，如果是自定义图标，需要在图标名称前加下划线'_'
-//   href: 'https://xxx' (default: null) 用于跳转到外部连接
-// }
+const data = [
+  {
+    title: '数据统计',
+    path: 'statistics',
+    icon: 'md-analytics',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/home/home.vue')
+  },
+  {
+    title: '平台推荐',
+    path: 'recommend',
+    icon: 'ios-contacts',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/recommend/list.vue')
+  },
+  {
+    title: '用户推荐',
+    path: 'referres',
+    icon: 'logo-yen',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/referres/list.vue')
+  },
+  {
+    title: '用户列表',
+    path: 'userlist',
+    icon: 'ios-contact',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/users/list.vue')
+  },
+  {
+    title: '用户充值',
+    path: 'userPay',
+    icon: 'logo-usd',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/userPay/list.vue')
+  },
+  {
+    title: '用户订单',
+    path: 'orders',
+    icon: 'ios-paper',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/orders/list.vue')
+  },
+  {
+    title: '红娘服务',
+    path: 'redlove',
+    icon: 'md-contacts',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/redlove/list.vue')
+  },
+  {
+    title: '实名认证',
+    path: 'authentication',
+    icon: 'ios-card',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/authentication/list.vue')
+  },
+  {
+    title: '认证申请',
+    path: 'beloved',
+    icon: 'md-clipboard',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/beloved/list.vue')
+  },
+  {
+    title: '用户反馈',
+    path: 'feedbacks',
+    icon: 'md-chatbubbles',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/users/feedbacks.vue')
+  },
+  {
+    title: '投诉列表',
+    path: 'complain',
+    icon: 'md-bonfire',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/users/complain.vue')
+  },
+  {
+    title: '管理平台',
+    path: 'admin',
+    icon: 'logo-sass',
+    meta: {
+      access: ['super_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/admin/Administrator.vue')
+  },
+  {
+    title: '我的客户',
+    path: 'client',
+    icon: 'ios-people',
+    meta: {
+      access: [],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/client/list.vue')
+  },
+  {
+    title: '服务跟进',
+    path: 'myService',
+    icon: 'logo-sass',
+    meta: {
+      access: [],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/myService/list.vue')
+  },
+  {
+    title: '活动列表',
+    path: 'activityList',
+    icon: 'ios-wine',
+    meta: {
+      access: [],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/activity/list.vue')
+  }
+]
+const setRouter = () => {
+  const routerList = []
+  for (let item of data) {
+    routerList.push(
+      {
+        path: '/',
+        name: '_' + item.path,
+        component: routerMap['Main'],
+        meta: item.meta,
+        children: [
+          {
+            path: '/' + item.path,
+            name: item.path,
+            meta: {
+              icon: item.icon,
+              title: item.title,
+            },
+            component: item.component
+          }
+        ]
+      }
+    )
+  }
+  console.log(routerList)
+  return routerList
+}
 export const staticRouters = [
   {path: '/login', name: 'login', meta: {title: 'Login - 登录', hideInMenu: true}, component: routerMap['Login']},
-  {path: '/reset', name: 'reset', meta: {title: 'Login - 修改密码', hideInMenu: true}, component: () => import('@/view/login/reset')},
+  {path: '/reset', name: 'reset', meta: {title: 'Login - 修改密码', hideInMenu: true}, component: routerMap['reset']},
+  {path: '/401', name: 'error_401', meta: {hideInMenu: true}, component: routerMap['Error401']},
+  {path: '/500', name: 'error_500', meta: {hideInMenu: true}, component: routerMap['Error500']},
+  {path: '*', name: 'error_404', meta: {hideInMenu: true}, component: routerMap['Error404']},
   {
     path: '/',
     name: '_home',
@@ -49,142 +226,19 @@ export const staticRouters = [
       component: routerMap['Home']
     }]
   },
-  {path: '/401', name: 'error_401', meta: {hideInMenu: true}, component: routerMap['Error401']},
-  {path: '/500', name: 'error_500', meta: {hideInMenu: true}, component: routerMap['Error500']},
-  {path: '*', name: 'error_404', meta: {hideInMenu: true}, component: routerMap['Error404']},
+  ...setRouter(),
   {
-    path: "/admin",
-    name: "首页设置",
+    path: '/',
+    name: '二级页面',
     meta: {
-      icon: "logo-windows",
-      title: "admin",
+      icon: 'logo-windows',
+      title: 'admin',
       access: ['super_admin'],
       // notCache: "true",
-      hideInMenu: false
+      hideInMenu: true
     },
     component: routerMap['Main'],
     children: [
-      {
-        path: "statistics",
-        name: "statistics",
-        meta: {
-          icon: "md-analytics",
-          access: ['super_admin'],
-          title: "数据统计",
-
-        },
-        component: routerMap['Home']
-      },
-      {
-        path: "homeSet",
-        name: "homeSet",
-        meta: {
-          icon: "md-cog",
-          title: "首页设置",
-          access: ['super_admin'],
-        },
-        component: routerMap['homeSet']
-      },
-      {
-        path: "recommend",
-        name: "recommend",
-        meta: {
-          icon: "ios-contacts",
-          title: "平台推荐",
-          access: ['super_admin'],
-        },
-        component: routerMap['recommend']
-      },
-      {
-        path: "referres",
-        name: "referres",
-        meta: {
-          icon: "logo-yen",
-          title: "用户推荐",
-          access: ['super_admin'],
-        },
-        component: () => import('@/view/referres/list.vue')
-      },
-      {
-        path: "userlist",
-        name: "userlist",
-        meta: {
-          icon: "ios-contact",
-          title: "用户列表",
-          access: ['super_admin'],
-        },
-        component: () => import('@/view/users/list.vue')
-      },
-      {
-        path: "userPay",
-        name: "userPay",
-        meta: {
-          icon: "logo-usd",
-          title: "用户充值",
-          access: ['super_admin'],
-        },
-        component: () => import('@/view/userPay/list.vue')
-      },
-      {
-        path: "orders",
-        name: "orders",
-        meta: {
-          icon: "ios-paper",
-          title: "用户订单",
-          access: ['super_admin'],
-        },
-        component:  () => import('@/view/orders/list.vue')
-      },
-      {
-        path: "redlove",
-        name: "redlove",
-        meta: {
-          icon: "md-contacts",
-          title: "红娘服务",
-          access: ['super_admin'],
-        },
-        component: () => import('@/view/redlove/list.vue')
-      },
-      {
-        path: "authentication",
-        name: "authentication",
-        meta: {
-          icon: "ios-card",
-          title: "实名认证",
-          access: ['super_admin'],
-        },
-        component: () => import('@/view/authentication/list.vue')
-      },
-      {
-        path: "beloved",
-        name: "beloved",
-        meta: {
-          icon: "md-clipboard",
-          title: "认证申请",
-          access: ['super_admin'],
-        },
-        component:  () => import('@/view/beloved/list.vue')
-      },
-      {
-        path: "feedbacks",
-        name: "feedbacks",
-        meta: {
-          icon: "md-chatbubbles",
-          title: "用户反馈",
-          access: ['super_admin'],
-        },
-        component:  () => import('@/view/users/feedbacks.vue')
-      },
-      {
-        path: "complain",
-        name: "complain",
-        meta: {
-          icon: "md-bonfire",
-          title: "投诉列表",
-          access: ['super_admin'],
-        },
-        component:  () => import('@/view/users/complain.vue')
-      },
       {
         path: 'user_detail/:user_detail_id',
         name: 'user_detail',
@@ -236,26 +290,6 @@ export const staticRouters = [
           hideInMenu: true
         },
         component: () => import('@/view/users/noteDetail.vue')
-      },
-      {
-        path: 'complain',
-        name: 'complain',
-        meta: {
-          title: '投诉列表',
-          access: ['super_admin'],
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/complain.vue')
-      },
-      {
-        path: 'feedbacks',
-        name: 'feedbacks',
-        meta: {
-          title: '反馈列表',
-          access: ['super_admin'],
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/feedbacks.vue')
       },
       {
         path: 'order/:order_id',
@@ -344,69 +378,6 @@ export const staticRouters = [
         },
         component: () => import('@/view/activity/member_detail.vue')
       },
-    ]
-  },
-  {
-    path: "/client",
-    name: "客户",
-    meta: {
-      icon: "ios-ionic",
-      title: "客户",
-      hideInMenu: false
-    },
-    component: routerMap['Main'],
-    children: [
-      {
-        path: "client",
-        name: "client",
-        meta: {
-          icon: "ios-people",
-          title: "我的客户",
-        },
-        component:  () => import('@/view/client/list.vue')
-      }
-    ]
-  },
-  {
-    path: "/service",
-    name: "服务",
-    meta: {
-      icon: "ios-ionic",
-      title: "服务",
-      hideInMenu: false
-    },
-    component: routerMap['Main'],
-    children: [
-      {
-        path: "myService",
-        name: "myService",
-        meta: {
-          icon: "logo-sass",
-          title: "服务跟进",
-        },
-        component: () => import('@/view/myService/list.vue')
-      }
-    ]
-  },
-  {
-    path: "/activity",
-    name: "活动",
-    meta: {
-      icon: "ios-ionic",
-      title: "活动",
-      hideInMenu: false
-    },
-    component: routerMap['Main'],
-    children: [
-      {
-        path: "activityList",
-        name: "activityList",
-        meta: {
-          icon: "ios-wine",
-          title: "活动列表",
-        },
-        component:  () => import('@/view/activity/list.vue')
-      }
     ]
   }
 ]
