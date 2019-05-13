@@ -206,7 +206,7 @@
             placeholder="关键字搜索..."
             style="width: 200px; margin-bottom: 22px;margin-right: 8px;"/>
           <span @click="handleSearch">
-                        <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                        <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
                     </span>
           <Card>
             <p slot="title" style="color: #ff6c4c">报名信息</p>
@@ -283,7 +283,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {user_detail_id: params.row.id}
+                    let argu = {id: params.row.id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -320,7 +320,7 @@
                   },
                   on: {
                     click: () => {
-                      let argu = {member_detail_id: params.row.user_id}
+                      let argu = {id: params.row.user_id}
                       this.$router.push({
                         name: 'member_detail',
                         params: argu
@@ -419,7 +419,7 @@
     mounted () {
 //            var myDate = new Date();
 //            this.date = `${myDate.getFullYear()}-${myDate.getMonth()+1}-${myDate.getDate()}`
-      this.id = this.$route.params.activity_detail_id
+      this.id = this.$route.params.id
       this.getlist(1)
       this.getLuckMember()
     },

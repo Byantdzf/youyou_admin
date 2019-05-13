@@ -1,37 +1,35 @@
 <template>
   <div v-model="activeTab">
-    <Tabs @on-click="getTab">
-      <TabPane label="未处理" name="0">
-        <Col span="24">
+    <Card>
+      <Tabs @on-click="getTab">
+        <TabPane label="未处理" name="0">
           <Input
             v-model="searchKeyword"
             @on-enter="handleSearch"
             placeholder="关键字搜索..."
             style="width: 200px; margin-bottom: 22px;"/>
           <span @click="handleSearch">
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                 </span>
           <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
-        </Col>
-      </TabPane>
-      <TabPane label="已处理" name="1">
-        <Col span="24">
+                style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+        </TabPane>
+        <TabPane label="已处理" name="1">
           <Input
             v-model="searchKeyword"
             @on-enter="handleSearch"
             placeholder="关键字搜索..."
             style="width: 200px; margin-bottom: 22px;"/>
           <span @click="handleSearch">
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
                 </span>
           <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
-        </Col>
-      </TabPane>
-    </Tabs>
+                style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+        </TabPane>
+      </Tabs>
+    </Card>
     <Modal
       v-model="modal"
       title="反馈内容"
@@ -91,7 +89,7 @@
           {
             title: '反馈人ID',
             align: 'center',
-            key: 'user_id'
+            key: 'id'
           },
           {
             title: '反馈人',
@@ -115,7 +113,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {user_detail_id: params.row.user_id}
+                    let argu = {id: params.row.id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -196,7 +194,7 @@
         uAxios.put(`admin/change/feedback/${this.feedbackItem.id}/status?status=${status}`)
           .then(res => {
             if (res.data.code === 0) this.$Message.info('已处理')
-            this.information.splice(this.feedbackIndex,1)
+            this.information.splice(this.feedbackIndex, 1)
           })
       },
       getTab (type) {
@@ -219,7 +217,7 @@
                 photos: item.photos,
                 status: item.status,
                 updated_at: item.updated_at,
-                user_id: item.user.id,
+                id: item.user.id,
                 user_name: item.user.name,
                 user_avatar: item.user.circle_avatar,
                 user_mobile: item.user.mobile

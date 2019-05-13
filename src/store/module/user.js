@@ -46,7 +46,7 @@ export default {
           commit('setAvator', data.avatar)
           commit('setUserName', data.name)
           commit('setUserId', data.id)
-          commit('setAccess', [data.admin_type === 'admin' ? 'super_admin' : 'admin'])
+          commit('setAccess', [data.admin_type])
           resolve(res.data)
         }).catch(err => {
           reject(err)

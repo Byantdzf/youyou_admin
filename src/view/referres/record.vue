@@ -18,7 +18,7 @@
             placeholder="关键字搜索..."
             style="width: 200px; margin-bottom: 22px;"/>
           <span @click="handleSearch" >
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
                 </span>
           <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
@@ -55,12 +55,12 @@ export default {
           title: 'ID',
           key: 'id',
           width: 80,
-          align: 'other_user_id',
+          align: 'other_id',
           editable: true
         },
         {
           title: 'userID',
-          key: 'other_user_id',
+          key: 'other_id',
           align: 'center',
           editable: true
         },
@@ -87,7 +87,7 @@ export default {
               },
               on: {
                 click: () => {
-                  let argu = { user_detail_id: params.row.user_id }
+                  let argu = { id: params.row.id }
                 }
               }
             })
@@ -167,7 +167,7 @@ export default {
     }
   },
   mounted () {
-    this.id = this.$route.params.record_id;
+    this.id = this.$route.params.id;
     this.getlist(1)
   }
 }

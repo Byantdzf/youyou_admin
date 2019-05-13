@@ -8,8 +8,8 @@
           placeholder="搜索用户..."
           style="width: 200px; margin-bottom: 22px;"/>
         <span @click="createLabel">
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
-                </span>
+          <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+        </span>
         <Card style="margin-bottom: 32px">
           <div slot="title">
             <Icon type="ionic"></Icon>
@@ -34,7 +34,7 @@
           placeholder="搜索用户..."
           style="width: 200px; margin-bottom: 22px;"/>
         <span @click="createLabel">
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                 </span>
         <Card style="margin-bottom: 32px">
           <div slot="title">
@@ -73,7 +73,7 @@
 
   export default {
     search: '',
-    name: 'orders',
+    name: 'recommend',
     data () {
       return {
         activeTab: 'user',
@@ -117,7 +117,7 @@
           {
             title: 'userid',
             align: 'center',
-            key: 'user_id'
+            key: 'id'
           },
           {
             title: '头像',
@@ -137,7 +137,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {user_detail_id: params.row.user_id}
+                    let argu = {id: params.row.id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -184,7 +184,7 @@
                   },
                   on: {
                     click: () => {
-                      let argu = {user_detail_id: params.row.user_id}
+                      let argu = {id: params.row.id}
                       const {href} = this.$router.resolve({
                         name: 'user_detail',
                         params: argu
@@ -205,7 +205,7 @@
 ////                                            this.modal = true;
 //                                            this.id = params.row.id;
 //
-//                                            let argu = {user_recommend_id: params.row.id};
+//                                            let argu = {id: params.row.id};
 //                                            const { href } = this.$router.resolve({
 //                                                name: 'user_recommend',
 //                                                params: argu
@@ -311,7 +311,7 @@
                   created_at: item.created_at,
                   id: item.id,
                   openid: item.openid,
-                  user_id: item.user_id,
+                  id: item.id,
                   mobile: item.mobile,
                   name: item.name,
                   invite_count: item.invite_count,

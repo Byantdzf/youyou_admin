@@ -9,7 +9,7 @@
                         placeholder="关键字搜索..."
                         style="width: 200px; margin-bottom: 22px;"/>
                 <span @click="handleSearch" >
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
                 </span>
                 <Row>
                     <Col span="11">
@@ -111,7 +111,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        let argu = {user_detail_id: params.row.id};
+                                        let argu = {id: params.row.id};
                                         this.$router.push({
                                             name: 'user_detail',
                                             params: argu
@@ -231,7 +231,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            let argu = {user_detail_id: params.row.id};
+                                            let argu = {id: params.row.id};
                                             this.$router.push({
                                                 name: 'user_detail',
                                                 params: argu
@@ -347,7 +347,7 @@
             }
         },
         mounted () {
-            this.id = this.$route.params.user_recommend_id;
+            this.id = this.$route.params.id;
             this.getlist(1);
         }
     };

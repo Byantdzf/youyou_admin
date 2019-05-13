@@ -143,7 +143,7 @@
             }
         },
         mounted () {
-            this.id = this.$route.params.note_detail_id;
+            this.id = this.$route.params.id;
             if (this.$route.params.note_id) {
                 this.note_id = this.$route.params.note_id;
                 this.getlist(1);

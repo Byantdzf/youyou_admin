@@ -20,18 +20,29 @@ const data = [
     path: 'statistics',
     icon: 'md-analytics',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
     component: () => import('@/view/home/home.vue')
   },
   {
+    title: '平台管理',
+    path: 'admin',
+    icon: 'ios-ionic-outline',
+    meta: {
+      access: ['admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/admin/Administrator.vue')
+  },
+  {
     title: '平台推荐',
     path: 'recommend',
     icon: 'ios-contacts',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -42,7 +53,7 @@ const data = [
     path: 'referres',
     icon: 'logo-yen',
     meta: {
-      access: ['super_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -53,9 +64,9 @@ const data = [
     path: 'userlist',
     icon: 'ios-contact',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
-      notCache: true
+      notCache: false
     },
     component: () => import('@/view/users/list.vue')
   },
@@ -64,7 +75,7 @@ const data = [
     path: 'userPay',
     icon: 'logo-usd',
     meta: {
-      access: ['super_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -75,7 +86,7 @@ const data = [
     path: 'orders',
     icon: 'ios-paper',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -86,7 +97,7 @@ const data = [
     path: 'redlove',
     icon: 'md-contacts',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -97,7 +108,7 @@ const data = [
     path: 'authentication',
     icon: 'ios-card',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -108,7 +119,7 @@ const data = [
     path: 'beloved',
     icon: 'md-clipboard',
     meta: {
-      access: ['super_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -119,7 +130,7 @@ const data = [
     path: 'feedbacks',
     icon: 'md-chatbubbles',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -130,29 +141,18 @@ const data = [
     path: 'complain',
     icon: 'md-bonfire',
     meta: {
-      access: ['super_admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
     component: () => import('@/view/users/complain.vue')
   },
   {
-    title: '管理平台',
-    path: 'admin',
-    icon: 'logo-sass',
-    meta: {
-      access: ['super_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/admin/Administrator.vue')
-  },
-  {
     title: '我的客户',
     path: 'client',
     icon: 'ios-people',
     meta: {
-      access: [],
+      access: ['admin', 'paas_admin', 'matcher', 'worker'],
       hideInMenu: false,
       notCache: true
     },
@@ -163,9 +163,8 @@ const data = [
     path: 'myService',
     icon: 'logo-sass',
     meta: {
-      access: [],
-      hideInMenu: false,
-      notCache: true
+      access: ['admin', 'paas_admin', 'matcher', 'worker'],
+      hideInMenu: false
     },
     component: () => import('@/view/myService/list.vue')
   },
@@ -174,9 +173,8 @@ const data = [
     path: 'activityList',
     icon: 'ios-wine',
     meta: {
-      access: [],
-      hideInMenu: false,
-      notCache: true
+      access: ['admin', 'paas_admin'],
+      hideInMenu: false
     },
     component: () => import('@/view/activity/list.vue')
   }
@@ -195,8 +193,10 @@ const setRouter = () => {
             path: '/' + item.path,
             name: item.path,
             meta: {
+              access: item.meta.access,
               icon: item.icon,
               title: item.title,
+              notCache: false,
             },
             component: item.component
           }
@@ -204,7 +204,6 @@ const setRouter = () => {
       }
     )
   }
-  console.log(routerList)
   return routerList
 }
 export const staticRouters = [
@@ -233,24 +232,25 @@ export const staticRouters = [
     meta: {
       icon: 'logo-windows',
       title: 'admin',
-      access: ['super_admin'],
+      // access: ['admin', 'paas_admin'],
       // notCache: "true",
       hideInMenu: true
     },
     component: routerMap['Main'],
     children: [
       {
-        path: 'user_detail/:user_detail_id',
+        path: 'user_detail/:id',
         name: 'user_detail',
         meta: {
           title: '用户详情',
           hideInMenu: true,
+          notCache: false,
           // access: ['super_admin']
         },
         component: () => import('@/view/users/user_detail.vue')
       },
       {
-        path: 'user_recommend/:user_recommend_id',
+        path: 'user_recommend/:id',
         name: 'user_recommend',
         meta: {
           title: '推荐',
@@ -260,7 +260,7 @@ export const staticRouters = [
         component: () => import('@/view/users/user_recommend.vue')
       },
       {
-        path: 'record/:record_id',
+        path: 'record/:id',
         name: 'record',
         meta: {
           title: '收益记录',
@@ -271,7 +271,7 @@ export const staticRouters = [
       },
 
       {
-        path: 'user_note/:user_note_id',
+        path: 'user_note/:id',
         name: 'user_note',
         meta: {
           title: '备注管理',
@@ -282,7 +282,7 @@ export const staticRouters = [
         component: () => import('@/view/users/user_note.vue')
       },
       {
-        path: 'note_detail/:note_detail_id',
+        path: 'note_detail/:id',
         name: 'note_detail',
         meta: {
           title: '备注详情',
@@ -292,7 +292,7 @@ export const staticRouters = [
         component: () => import('@/view/users/noteDetail.vue')
       },
       {
-        path: 'order/:order_id',
+        path: 'order/:id',
         name: 'order-detail',
         meta: {
           title: '订单详情',
@@ -302,7 +302,7 @@ export const staticRouters = [
         component: () => import('@/view/orders/detail.vue')
       },
       {
-        path: 'clients/:clients_id',
+        path: 'clients/:id',
         name: 'clients',
         meta: {
           title: '客户列表',
@@ -312,7 +312,7 @@ export const staticRouters = [
         component: () => import('@/view/users/clientlist.vue')
       },
       {
-        path: 'edit_user_detail/:edit_user_detail_id',
+        path: 'edit_user_detail/:id',
         name: 'edit_user_detail',
         meta: {
           title: '编辑用户',
@@ -322,7 +322,7 @@ export const staticRouters = [
         component: () => import('@/view/users/edituserDetail.vue')
       },
       {
-        path: 'user_order/:user_order_id',
+        path: 'user_order/:id',
         name: 'user_order',
         meta: {
           title: '订单列表',
@@ -332,7 +332,7 @@ export const staticRouters = [
         component: () => import('@/view/users/user_order.vue')
       },
       {
-        path: 'user_gift/:user_gift_id',
+        path: 'user_gift/:id',
         name: 'user_gift',
         meta: {
           title: '礼物列表',
@@ -342,7 +342,7 @@ export const staticRouters = [
         component: () => import('@/view/users/user_gift.vue')
       },
       {
-        path: 'user_integral/:user_integral_id',
+        path: 'user_integral/:id',
         name: 'user_integral',
         meta: {
           title: '福分记录',
@@ -352,7 +352,7 @@ export const staticRouters = [
         component: () => import('@/view/users/user_integral.vue')
       },
       {
-        path: 'activity/:activity_id',
+        path: 'activity/:id',
         name: 'activity',
         meta: {
           title: '活动详情',
@@ -361,7 +361,7 @@ export const staticRouters = [
         component: () => import('@/view/activity/activity.vue')
       },
       {
-        path: 'activity_detail/:activity_detail_id',
+        path: 'activity_detail/:id',
         name: 'activity_detail',
         meta: {
           title: '活动现场',
@@ -370,7 +370,7 @@ export const staticRouters = [
         component: () => import('@/view/activity/index.vue')
       },
       {
-        path: 'member_detail/:member_detail_id',
+        path: 'member_detail/:id',
         name: 'member_detail',
         meta: {
           title: '会员详情',

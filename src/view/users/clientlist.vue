@@ -8,7 +8,7 @@
                         placeholder="搜索用户..."
                         style="width: 200px; margin-bottom: 22px;"/>
                 <span @click="createLabel" >
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
                 </span>
                 <!--<span style="float: right"  @click="complainList" >-->
                     <!--<Button type="error" style=" margin-bottom: 22px;">投诉列表</Button>-->
@@ -55,7 +55,6 @@
 
     export default {
         search: '',
-        name: 'orders',
         data () {
             return {
                 activeTab: 'org',
@@ -124,7 +123,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        let argu = {user_detail_id: params.row.id};
+                                        let argu = {id: params.row.id};
                                         this.$router.push({
                                             name: 'user_detail',
                                             params: argu
@@ -179,7 +178,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            let argu = {user_note_id: params.row.id};
+                                            let argu = {id: params.row.id};
                                             this.$router.push({
                                                 name: 'user_note',
                                                 params: argu
@@ -197,7 +196,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            let argu = {user_detail_id: params.row.id};
+                                            let argu = {id: params.row.id};
                                             this.$router.push({
                                                 name: 'user_detail',
                                                 params: argu
@@ -422,7 +421,7 @@
             }
         },
         mounted () {
-            this.id = this.$route.params.clients_id;
+            this.id = this.$route.params.id;
             this.getlist(1)
             this.$store.commit('updateMenulist');
         }

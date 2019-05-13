@@ -1,134 +1,164 @@
 <template>
-	<div class="hello">
-		<Menu mode="horizontal" theme="light" active-name="1">
-			<MenuItem name="1">
-				<Icon type="ios-paper"></Icon>
-				用户详情
-			</MenuItem>
-		</Menu>
-		<Row>
-			<Col span="11" style="margin: 22px">
-			<Card>
-				<p slot="title" style="color: #ff6c4c">用户信息</p>
-				<div style="width:100%;border-bottom: 2px solid #ececec;padding: 12px;">
-					<span class="font_16 _bold">头像：</span>
-					<img :src="orgData.avatar" alt="" width="80rpx" style="box-shadow: 1px 1px 12px #c1c1c1;float: right">
-					<div style="clear: both"></div>
-				</div>
-        <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-          <div class="font_16 _bold" style="margin-top: 6px;float: left;">openid：</div>
-          <Input placeholder="Enter something..." style="float: right;max-width: 300px" :value="orgData.openid" readonly="readonly"/>
-          <div style="clear: both"></div>
-        </div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;" v-for="item,index in information" :key="index">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">{{item.name}}:</div>
-					<Input v-model="item.value" placeholder="Enter something..." style="float: right;max-width: 300px" />
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">性别:</div>
-					<Select v-model="sex" style="float: right;width: 300px" >
-						<Option v-for="item in sexList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-					</Select>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">出生日期:</div>
-					<DatePicker type="date" v-model="birthday"  placeholder="Select date" style="float: right;width: 300px" ></DatePicker>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">单身状态:</div>
-					<Select v-model="state" style="float: right;width: 300px" >
-						<Option v-for="item in stateList" :value="item" :key="item">{{ item }}</Option>
-					</Select>
-					<div style="clear: both"></div>
-				</div>
-        <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-          <div class="font_16 _bold" style="margin-top: 6px;float: left;">账号状态:</div>
-          <Select v-model="type" style="float: right;width: 300px" >
-            <Option v-for="item in typeList" :value="item" :key="item">{{ item }}</Option>
-          </Select>
-          <div style="clear: both"></div>
-        </div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">宗教信仰:</div>
-					<Select v-model="belief" style="float: right;width: 300px" >
-						<Option v-for="item in beliefList" :value="item" :key="item">{{ item }}</Option>
-					</Select>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">成长环境:</div>
-					<Select v-model="resident_type" style="float: right;width: 300px" >
-						<Option v-for="item in residentList" :value="item" :key="item">{{ item }}</Option>
-					</Select>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">学历:</div>
-					<Select v-model="degree" style="float: right;width: 300px" >
-						<Option v-for="item in degreeList" :value="item" :key="item">{{ item }}</Option>
-					</Select>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">单位性质:</div>
-					<Select v-model="work_sort" style="float: right;width: 300px" >
-						<Option v-for="item in work_sortList" :value="item" :key="item">{{ item }}</Option>
-					</Select>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">行业:</div>
-					<Cascader :data="industryData" v-model="industry" style="float: right;width: 300px"></Cascader>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">常居地:</div>
-					<Cascader :data="addressData" v-model="dwell" style="float: right;width: 300px"></Cascader>
-					<div style="clear: both"></div>
-				</div>
-				<div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-					<div class="font_16 _bold" style="margin-top: 6px;float: left;">成长地:</div>
-					<Cascader :data="addressData" v-model="resident" style="float: right;width: 300px"></Cascader>
-					<div style="clear: both"></div>
-				</div>
+  <div class="hello">
+    <Menu mode="horizontal" theme="light" active-name="1">
+      <MenuItem name="1">
+        <Icon type="ios-paper"></Icon>
+        用户详情
+      </MenuItem>
+    </Menu>
+    <Row>
+      <Col span="8" style="margin: 22px 0;">
+        <Card>
+          <p slot="title" style="color: #ff6c4c">用户信息</p>
+          <div style="width:100%;border-bottom: 2px solid #ececec;padding: 12px;">
+            <span class="font_16 _bold">头像：</span>
+            <img
+              :src="orgData.avatar?orgData.avatar:'http://images.ufutx.com/201905/13/599151d27fc07ba1bc4cc57a291525e5.jpeg'"
+              @click="showModal(orgData.avatar,'image')" alt="" width="80rpx"
+              style="box-shadow: 1px 1px 12px #c1c1c1;float: right">
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">openid：</div>
+            <Input placeholder="Enter something..." style="float: right;max-width: 300px" :value="orgData.openid"/>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;" v-for="item,index in information"
+               :key="index">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">{{item.name}}:</div>
+            <Input v-model="item.value" placeholder="Enter something..." style="float: right;max-width: 300px"/>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">性别:</div>
+            <Select v-model="sex" style="float: right;width: 300px">
+              <Option v-for="item in sexList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">出生日期:</div>
+            <DatePicker type="date" v-model="birthday" placeholder="Select date"
+                        style="float: right;width: 300px"></DatePicker>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">单身状态:</div>
+            <Select v-model="state" style="float: right;width: 300px">
+              <Option v-for="item in stateList" :value="item" :key="item">{{ item }}</Option>
+            </Select>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">账号状态:</div>
+            <Select v-model="type" style="float: right;width: 300px">
+              <Option v-for="item in typeList" :value="item" :key="item">{{ item }}</Option>
+            </Select>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">宗教信仰:</div>
+            <Select v-model="belief" style="float: right;width: 300px">
+              <Option v-for="item in beliefList" :value="item" :key="item">{{ item }}</Option>
+            </Select>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">成长环境:</div>
+            <Select v-model="resident_type" style="float: right;width: 300px">
+              <Option v-for="item in residentList" :value="item" :key="item">{{ item }}</Option>
+            </Select>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">学历:</div>
+            <Select v-model="degree" style="float: right;width: 300px">
+              <Option v-for="item in degreeList" :value="item" :key="item">{{ item }}</Option>
+            </Select>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">单位性质:</div>
+            <Select v-model="work_sort" style="float: right;width: 300px">
+              <Option v-for="item in work_sortList" :value="item" :key="item">{{ item }}</Option>
+            </Select>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">行业:</div>
+            <Cascader :data="industryData" v-model="industry" style="float: right;width: 300px"></Cascader>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">常居地:</div>
+            <Cascader :data="addressData" v-model="dwell" style="float: right;width: 300px"></Cascader>
+            <div style="clear: both"></div>
+          </div>
+          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
+            <div class="font_16 _bold" style="margin-top: 6px;float: left;">成长地:</div>
+            <Cascader :data="addressData" v-model="resident" style="float: right;width: 300px"></Cascader>
+            <div style="clear: both"></div>
+          </div>
 
-				<!--<Table :columns="columns" :data="information" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
-			</Card>
-			</Col>
-			<Col span="11" style="margin: 22px">
-			<Card>
-				<p slot="title" style="color: #ff6c4c">VIP信息</p>
-				<!--<Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
-				<Card style="margin-top: 12px;">
-					<p slot="title">生活照</p>
-					<uploadImages :pic="lifePic" v-on:uploadPictures="uploadPictures('lifePic',$event)"></uploadImages>
-				</Card>
-				<Card style="margin-top: 12px;">
-					<p slot="title">身份证</p>
-					<uploadImages :pic="identification_photos" v-on:uploadPictures="uploadPictures('identification_photos',$event)"></uploadImages>
-				</Card>
-				<!--<Card style="margin-top: 12px;">-->
-					<!--<p slot="title">毕业照</p>-->
-					<!--<uploadImages :pic="graduate_photos" v-on:uploadPictures="uploadPictures('graduate_photos',$event)"></uploadImages>-->
-				<!--</Card>-->
-				<!--<Card style="margin-top: 12px;">-->
-					<!--<p slot="title">其他证件</p>-->
-					<!--<uploadImages :pic="other_photos" v-on:uploadPictures="uploadPictures('other_photos',$event)"></uploadImages>-->
-				<!--</Card>-->
-				<Card style="margin-top: 12px;">
-					<p slot="title">二维码</p>
-					<uploadImages :pic="wechat_qrcode" v-on:uploadPictures="uploadPictures('wechat_qrcode',$event)"></uploadImages>
-				</Card>
-			</Card>
-			<div style="text-align: center;">
-				<Button type="success" size="large" :loading="loading" style="margin: 25px auto; width: 120px;"  @click="save">保存</Button>
-			</div>
-			</Col>
-		</Row>
-	</div>
+          <!--<Table :columns="columns" :data="information" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
+        </Card>
+      </Col>
+      <Col span="15" offset="1" style="margin-top: 22px;">
+        <Card>
+          <p slot="title" style="color: #ff6c4c">VIP信息</p>
+          <!--<Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
+          <Card style="margin-top: 12px;">
+            <p slot="title">生活照</p>
+            <uploadImages :pic="lifePic" v-on:uploadPictures="uploadPictures('lifePic',$event)"></uploadImages>
+          </Card>
+          <Card style="margin-top: 12px;">
+            <p slot="title">身份证</p>
+            <uploadImages :pic="identification_photos"
+                          v-on:uploadPictures="uploadPictures('identification_photos',$event)"></uploadImages>
+          </Card>
+          <!--<Card style="margin-top: 12px;">-->
+          <!--<p slot="title">毕业照</p>-->
+          <!--<uploadImages :pic="graduate_photos" v-on:uploadPictures="uploadPictures('graduate_photos',$event)"></uploadImages>-->
+          <!--</Card>-->
+          <!--<Card style="margin-top: 12px;">-->
+          <!--<p slot="title">其他证件</p>-->
+          <!--<uploadImages :pic="other_photos" v-on:uploadPictures="uploadPictures('other_photos',$event)"></uploadImages>-->
+          <!--</Card>-->
+          <Card style="margin-top: 12px;">
+            <p slot="title">二维码</p>
+            <uploadImages :pic="wechat_qrcode"
+                          v-on:uploadPictures="uploadPictures('wechat_qrcode',$event)"></uploadImages>
+          </Card>
+          <div style="text-align: center;">
+            <Button type="success" size="large"  :loading="loading" style="margin: 25px auto; width: 120px;" @click="save">
+              保存
+            </Button>
+          </div>
+        </Card>
+      </Col>
+    </Row>
+    <Modal
+      v-model="modal"
+      :title="message.title_v"
+      ok-text="OK"
+      no-cancel>
+      <!--<p>{{message.type}}</p>-->
+      <div style="font-size: 16px">
+        <div v-if="message.type_v == 'test'">{{message.content}}</div>
+        <div style="text-align: center" v-if="message.type_v == 'image'">
+          <img :src="message.image" style="width: 400px;"/>
+        </div>
+        <div v-if="message.type_v == 'character'">
+          <p style="font-weight: bold;margin: 4px;"><span>类型:</span>
+          <p>{{character.type}}</p></p>
+          <p style="font-weight: bold;margin: 4px;"><span>性格:</span>
+          <p>{{character.character}}</p></p>
+          <p style="font-weight: bold;margin: 4px;"><span>推荐职位:</span>
+          <p v-for="item in character.profession">{{item}}</p></p>
+        </div>
+      </div>
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -150,6 +180,8 @@
       return {
         disabled: false,
         information: [],
+        modal: false,
+        message: {},
         activeTab: 'orgInfo',
         loading: false,
         sexList: [ // 性别选择
@@ -233,17 +265,35 @@
         love_languages: [],
         character: {},
         message: {},
-        client_user_id: 0,
+        client_id: 0,
         uploaddata: []
       }
     },
     watch: {
-      lifePic(){
+      lifePic () {
         this.FilterData(this.lifePic, this.lifePhotos)
         console.log(this.FilterData(this.lifePic, this.lifePhotos))
       }
     },
     methods: {
+      showModal (item, type) {
+        if (type == 'test') {
+          this.modal = true
+          this.message = item
+          this.message.type_v = 'test'
+          this.message.title_v = item.title
+        } else if (type == 'image') {
+          this.modal = true
+          this.message.title_v = '预览'
+          this.message.type_v = 'image'
+          this.message.image = item ? item : 'http://images.ufutx.com/201905/13/599151d27fc07ba1bc4cc57a291525e5.jpeg'
+        } else {
+          this.modal = true
+          this.message.title_v = '了解自己的优势'
+          this.message.type_v = 'character'
+        }
+        console.log(this.message)
+      },
       FilterData (a, b) {   //循环判断数组a里的元素在b里面有没有，有的话就放入新建立的数组中
         var result = new Array()
         var c = b.toString()
@@ -266,7 +316,7 @@
             self.birthday = result.profile.birthday
             self.sex = result.profile.sex
             self.state = result.profile.state
-            self.type = result.type == 'single'?'单身': '介绍人'
+            self.type = result.type == 'single' ? '单身' : '介绍人'
             self.belief = result.profile.belief
             self.resident_type = result.profile.resident_type
             self.work_sort = result.profile.work_sort
@@ -346,7 +396,7 @@
           sex: this.sex,
           birthday: resDate,
           state: this.state,
-          type: this.type == '单身'?'single':'marriage',
+          type: this.type == '单身' ? 'single' : 'marriage',
           belief: this.belief,
           resident_type: this.resident_type,
           degree: this.degree, // 学历
@@ -377,7 +427,7 @@
       }
     },
     mounted () {
-      this.id = this.$route.params.edit_user_detail_id
+      this.id = this.$route.params.edit_id
       this.getlist(1)
       uAxios.get('addresses/v2')
         .then(res => {
@@ -414,5 +464,7 @@
 </script>
 
 <style>
-	._bold{font-weight: bold}
+  ._bold {
+    font-weight: bold
+  }
 </style>

@@ -29,7 +29,7 @@
             placeholder="关键字搜索..."
             style="width: 200px; margin-bottom: 22px;"/>
           <span @click="handleSearch" >
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
                 </span>
           <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
@@ -62,7 +62,7 @@ import Cookies from 'js-cookie'
 
 export default {
   search: '',
-  name: 'index',
+  name: 'referres',
   components: {
     dropdown: dropdown
   },
@@ -86,7 +86,7 @@ export default {
         },
         {
           title: 'UserID',
-          key: 'user_id',
+          key: 'id',
           align: 'center',
           width: 100,
           editable: true
@@ -115,7 +115,7 @@ export default {
               },
               on: {
                 click: () => {
-                  let argu = { user_detail_id: params.row.user_id }
+                  let argu = { id: params.row.id }
                   this.$router.push({
                     name: 'user_detail',
                     params: argu
@@ -147,7 +147,7 @@ export default {
         },
         {
            title: '操作',
-           key: 'user_id',
+           key: 'id',
            align: 'center',
            render: (h, params) => {
             console.log(params.row.num)
@@ -160,7 +160,7 @@ export default {
                    on: {
                      click: () => {
                        console.log(params.row.id)
-                       let argu = {record_id: params.row.user_id};
+                       let argu = {id: params.row.id};
                        this.$router.push({
                          name: 'record',
                          params: argu
@@ -179,7 +179,7 @@ export default {
                    on: {
                      click: () => {
                        console.log(params.row.id)
-                       let argu = {record_id: params.row.user_id};
+                       let argu = {id: params.row.id};
                      }
                    }
                  }, '该用户暂无收益记录')

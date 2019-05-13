@@ -43,30 +43,30 @@
 <template>
   <div id="name">
     <div v-model="activeTab">
-      <Tabs @on-click="getTab">
-        <TabPane label="婚恋活动" name="search">
-          <Input
-            v-model="searchKeyword"
-            @on-enter="handleSearch"
-            placeholder="关键字搜索..."
-            style="width: 200px; margin-bottom: 22px;"/>
-          <span @click="handleSearch">
-                        <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+      <Card>
+        <Tabs @on-click="getTab">
+          <TabPane label="婚恋活动" name="search">
+            <Input
+              v-model="searchKeyword"
+              @on-enter="handleSearch"
+              placeholder="关键字搜索..."
+              style="width: 200px; margin-bottom: 22px;"/>
+            <span @click="handleSearch">
+                        <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                     </span>
-          <span @click="creatParty">
+            <span @click="creatParty">
                         <Button type="success" style=" margin-bottom: 22px; float: right;">创建活动</Button>
                     </span>
-          <Card>
-            <p slot="title" style="color: #ff6c4c ">
-              活动列表
-            </p>
-            <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
-            <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                  style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
-            <div style="clear: both"></div>
-          </Card>
-        </TabPane>
-      </Tabs>
+            <Card>
+              <p slot="title" style="color: #ff6c4c ">活动列表</p>
+              <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+              <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                    style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+              <div style="clear: both"></div>
+            </Card>
+          </TabPane>
+        </Tabs>
+      </Card>
     </div>
   </div>
 </template>
@@ -118,7 +118,7 @@
                 },
                 on: {
                   click: () => {
-                    // let argu = {user_detail_id: params.row.id};
+                    // let argu = {id: params.row.id};
                     // this.$router.push({
                     //     name: 'activity',
                     //     params: argu
@@ -188,7 +188,7 @@
                   },
                   on: {
                     click: () => {
-                      let argu = {activity_id: params.row.id}
+                      let argu = {id: params.row.id}
                       this.$router.push({
                         name: 'activity',
                         params: argu
@@ -205,7 +205,7 @@
                   },
                   on: {
                     click: () => {
-                      let argu = {activity_detail_id: params.row.id}
+                      let argu = {id: params.row.id}
                       this.$router.push({
                         name: 'activity_detail',
                         params: argu
@@ -263,7 +263,7 @@
         this.getlist(1)
       },
       creatParty () {
-        let argu = {activity_id: 0}
+        let argu = {id: 0}
         this.$router.push({
           name: 'activity',
           params: argu
@@ -282,9 +282,6 @@
             let result = res.data.data
             self.total = res.data.data.total
             self.information = result.data
-            // for (let item of self.information){
-            //     item.address = item.province + item.city + item.dist + item.address;
-            // }
             console.log(self.information)
             self.orgTotal = result.total
             self.loading = false

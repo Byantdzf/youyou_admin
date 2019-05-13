@@ -12,7 +12,7 @@
         <Col span="9">
           <Card>
             <!--<dropdown :dropData="redMun" v-on:getGropData="getGropData"  title="请选择用户"  style="display: inline-block;margin-bottom: 12px;"></dropdown>-->
-            <Select v-model="client_user_id" style="width: 300px;"  filterable @on-query-change="getGropData">
+            <Select v-model="client_id" style="width: 300px;"  filterable @on-query-change="getGropData">
               <Option v-for="item in redMun" :value="item.id" :key="item.id" >{{ item.name }}</Option>
             </Select>
             <!--<Input placeholder="请搜索用户" style="width: 300px;" />-->
@@ -81,7 +81,7 @@ export default {
       loading: false,
       VIPinformation: [],
       poster: '',
-      client_user_id: 0,
+      client_id: 0,
       searchKeyword: '',
       photo: '',
       activeTab: 'orgInfo',
@@ -195,13 +195,13 @@ export default {
     },
     // 征婚推荐
     allocation () {
-      if (this.client_user_id == 0) {
+      if (this.client_id == 0) {
         return this.$Modal.error({
           content: '请选择会员'
         })
       }
       let self = this
-      uAxios.post(`admin/home/recommends?user_id=${self.client_user_id}&photo=${self.photo}`).then((response) => {
+      uAxios.post(`admin/home/recommends?id=${self.client_id}&photo=${self.photo}`).then((response) => {
         if (response.data.code === 0) {
           this.$Message.info('设置成功')
           location.reload()
@@ -221,7 +221,7 @@ export default {
           self.information = result.map((item, index) => {
             return {
               photo: item.photo,
-              user_id: item.user_id,
+              id: item.id,
               id: item.id,
               name: item.user.name
             }
@@ -244,7 +244,7 @@ export default {
     }
   },
   mounted () {
-    //            this.$route.params.user_detail_id
+    //            this.$route.params.id
     this.id = 1
     this.getlist(1)
   }

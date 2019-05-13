@@ -1,22 +1,25 @@
 <template>
     <div v-model="activeTab">
+      <Card>
         <Tabs @on-click="getTab">
-            <TabPane :label="item.title"  :name="item.jump" v-for="item,index in tab" :key="index">
-                <Col span="24">
-                <Input
-                        v-model="searchKeyword"
-                        @on-enter="handleSearch"
-                        placeholder="关键字搜索..."
-                        style="width: 200px; margin-bottom: 22px;"/>
-                <span @click="handleSearch" >
-                    <Button type="primary" icon="search" style=" margin-bottom: 22px;">搜索</Button>
+          <TabPane :label="item.title"  :name="item.jump" v-for="item,index in tab" :key="index">
+            <Col span="24">
+              <Input
+                v-model="searchKeyword"
+                @on-enter="handleSearch"
+                placeholder="关键字搜索..."
+                style="width: 200px; margin-bottom: 22px;"/>
+              <span @click="handleSearch" >
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                 </span>
-                <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
-                <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                      style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
-                </Col>
-            </TabPane>
+              <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
+              <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                    style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+            </Col>
+          </TabPane>
         </Tabs>
+
+      </Card>
         <Modal
                 v-model="modal1"
                 title="温馨提示"
@@ -81,7 +84,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        let argu = {user_detail_id: params.row.user_id};
+                                        let argu = {id: params.row.id};
                                         this.$router.push({
                                             name: 'user_detail',
                                             params: argu
@@ -90,35 +93,30 @@
                                 }
                             });
                         },
-                        width: 80,
                         align: 'center'
                     },
                     {
                         title: '客户数',
                         key: 'client_count',
                         align: 'center',
-//                        width: 100,
                         editable: true
                     },
                     {
                         title: '备注数',
                         key: 'comment_count',
                         align: 'center',
-//                        width: 100,
                         editable: true
                     },
                     {
                         title: '认证数',
                         key: 'good_match_count',
                         align: 'center',
-//                        width: 100,
                         editable: true
                     },
                     {
                         title: '服务数',
                         key: 'service_count',
                         align: 'center',
-//                        width: 100,
                         editable: true
                     },
                     {
@@ -175,7 +173,7 @@
                                         on: {
                                             click: () => {
                                                 console.log(params.row.id)
-                                                let argu = {user_detail_id: params.row.user_id};
+                                                let argu = {id: params.row.id};
                                                 this.$router.push({
                                                     name: 'user_detail',
                                                     params: argu
@@ -192,7 +190,7 @@
                                         },
                                         on: {
                                             click: () => {
-                                                let argu = {clients_id: params.row.user_id};
+                                                let argu = {id: params.row.id};
                                                 this.$router.push({
                                                     name: 'clients',
                                                     params: argu
@@ -213,7 +211,7 @@
                                         on: {
                                             click: () => {
                                                 console.log(params.row.id)
-                                                let argu = {user_detail_id: params.row.user_id};
+                                                let argu = {id: params.row.id};
                                                 this.$router.push({
                                                     name: 'user_detail',
                                                     params: argu
@@ -230,7 +228,7 @@
                                         },
                                         on: {
                                             click: () => {
-                                                let argu = {clients_id: params.row.user_id};
+                                                let argu = {id: params.row.id};
                                                 this.$router.push({
                                                     name: 'clients',
                                                     params: argu

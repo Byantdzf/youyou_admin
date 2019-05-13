@@ -48,7 +48,7 @@
         name: 'Org',
         data () {
             return {
-                
+
                 columns1: [
                     {
                         title: 'Name',
@@ -382,7 +382,7 @@
             }
         },
         mounted () {
-            this.orderId = this.$route.params.order_id;
+            this.orderId = this.$route.params.id;
             console.log(this.orderId);
             this.getData(this.orderId);
 //            this.getSignature()

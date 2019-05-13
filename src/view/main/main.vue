@@ -109,13 +109,16 @@
           window.open(name.split('_')[1])
           return
         }
-        console.log(route)
-        if (name === 'user_detail') {
-          params = {
-            user_detail_id: path.split('/user_detail/')[1]
+        if (path) {
+          // console.log(path.replace(/[^0-9]/ig, ''))
+          if (path.replace(/[^0-9]/ig, '')) {
+            params = {
+              id: path.replace(/[^0-9]/ig, '')
+            }
           }
+          // console.log(name, params, query, path)
         }
-        console.log(name, params, query, path)
+        // console.log(route,'++++++++++++' )
         this.$router.push({
           name,
           params,
@@ -126,7 +129,6 @@
         this.collapsed = state
       },
       handleCloseTag (res, type, route) {
-        debugger
         let openName = ''
         if (type === 'all') {
           this.turnToPage('home')

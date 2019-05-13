@@ -166,20 +166,20 @@
         love_languages: [],
         character: {},
         message: {},
-        client_user_id: 0,
+        client_id: 0,
         uploaddata: []
       }
     },
     methods: {
       settNote () {
-        let argu = {user_note_id: this.id}
+        let argu = {id: this.id}
         this.$router.push({
           name: 'user_note',
           params: argu
         })
       },
       getGropData (_id) {
-        this.client_user_id = _id
+        this.client_id = _id
       },
       // 分配用户
       setapproved () {
@@ -197,13 +197,13 @@
       },
       // 分配用户
       allocation () {
-        if (this.client_user_id == 0) {
+        if (this.client_id == 0) {
           return this.$Modal.error({
             content: '请选择红娘'
           })
         }
         let self = this
-        uAxios.post(`admin/set/matchmaker/${self.client_user_id}/client/${self.id}`).then((response) => {
+        uAxios.post(`admin/set/matchmaker/${self.client_id}/client/${self.id}`).then((response) => {
           if (response.data.code === 0) {
             this.$Message.info('设置成功')
             this.getlist(this.currentPage)
@@ -239,7 +239,7 @@
             this.redMun = result.map((item) => {
               return {
                 name: item.name,
-                id: item.user_id
+                id: item.id
               }
             })
             console.log(this.redMun)
@@ -380,7 +380,7 @@
       },
     },
     mounted () {
-      this.id = this.$route.params.member_detail_id
+      this.id = this.$route.params.id
       this.getlist(1)
       this.getmatchmakers()
     }

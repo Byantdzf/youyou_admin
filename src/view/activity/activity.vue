@@ -179,7 +179,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {user_detail_id: params.row.user_id}
+                    let argu = {id: params.row.id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -238,7 +238,7 @@
         love_languages: [],
         character: {},
         message: {},
-        client_user_id: 0,
+        client_id: 0,
         uploaddata: [],
         id: 0,
         //活动详情
@@ -274,14 +274,14 @@
         this.getOrder(1)
       },
       settNote () {
-        let argu = {user_note_id: this.id}
+        let argu = {id: this.id}
         this.$router.push({
           name: 'user_note',
           params: argu
         })
       },
       getGropData (_id) {
-        this.client_user_id = _id
+        this.client_id = _id
       },
       uploadPicture (image) {  // 单
         this.activity.poster = image // 轮播banna
@@ -329,7 +329,7 @@
                 goods: item.goods,
                 created_at: item.created_at,
                 id: item.id,
-                user_id: item.user_id,
+                id: item.id,
                 status: item.pay_status,
                 price: item.price
               }
@@ -350,7 +350,7 @@
             this.redMun = result.map((item) => {
               return {
                 name: item.name,
-                id: item.user_id
+                id: item.id
               }
             })
             console.log(this.redMun)
@@ -397,8 +397,8 @@
       },
     },
     mounted () {
-      if (this.$route.params.activity_id != 0) {
-        this.id = this.$route.params.activity_id
+      if (this.$route.params.id != 0) {
+        this.id = this.$route.params.id
         this.getlist()
         return
       }
