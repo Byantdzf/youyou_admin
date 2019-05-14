@@ -85,7 +85,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {id: params.row.id}
+                    let argu = {id: params.row.user_id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -132,7 +132,7 @@
                   },
                   on: {
                     click: () => {
-                      let argu = {id: params.row.id}
+                      let argu = {id: params.row.user_id}
                       this.$router.push({
                         name: 'user_detail',
                         params: argu
@@ -217,8 +217,7 @@
                 avatar: item.user.circle_avatar,
                 type: item.type === 'active' ? '见面' : '托管',
                 num: item.num,
-                id: item.id,
-                id: item.id,
+                user_id: item.user_id,
                 price: item.price
               }
             })
