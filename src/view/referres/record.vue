@@ -154,7 +154,7 @@ export default {
             self.user = {
               circle_avatar: self.information[0].circle_avatar,
               name: self.information[0].name,
-              id: self.information[0].id
+              id: self.information[0].user_id
             }
             self.orgTotal = result.total
             // self.searchKeyword = ''
