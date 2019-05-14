@@ -117,7 +117,7 @@
           {
             title: 'userid',
             align: 'center',
-            key: 'id'
+            key: 'user_id'
           },
           {
             title: '头像',
@@ -137,7 +137,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {id: params.row.id}
+                    let argu = {id: params.row.user_id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -309,7 +309,7 @@
                 return {
                   avatar: item.circle_avatar,
                   created_at: item.created_at,
-                  id: item.id,
+                  user_id: item.user_id,
                   openid: item.openid,
                   id: item.id,
                   mobile: item.mobile,

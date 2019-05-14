@@ -349,7 +349,7 @@
         this.modal1 = true
       },
       handlePage (num) {
-        this.getlist(num)
+        this.recommend(num)
       },
       gotoEdit () {
         // return  this.$Modal.error({
