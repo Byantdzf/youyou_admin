@@ -232,7 +232,7 @@ export const staticRouters = [
     meta: {
       icon: 'logo-windows',
       title: 'admin',
-      // access: ['admin', 'paas_admin'],
+      access: ['admin', 'paas_admin', 'matcher', 'worker'],
       // notCache: "true",
       hideInMenu: true
     },
