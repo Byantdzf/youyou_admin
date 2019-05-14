@@ -60,7 +60,7 @@ export default {
         },
         {
           title: 'userID',
-          key: 'other_id',
+          key: 'other_user_id',
           align: 'center',
           editable: true
         },
