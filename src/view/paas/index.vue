@@ -2,7 +2,7 @@
   <div class="hello">
     <Card>
       <Tabs @on-click="getTab">
-        <TabPane :label='title' name="detail">
+        <TabPane :label='title' name="paasDetail">
           <Form ref="paasDetail" :model="paasDetail" :label-width="100">
             <FormItem label="平台logo" prop="image">
               <Card>
@@ -19,7 +19,8 @@
             </FormItem>
             <FormItem label="平台简介" prop="name">
               <Row>
-                <Input v-model="paasDetail.intro" placeholder="Enter paasDetail intro" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                <Input v-model="paasDetail.intro" placeholder="Enter paasDetail intro" type="textarea"
+                       :autosize="{minRows: 2,maxRows: 5}"></Input>
               </Row>
             </FormItem>
           </Form>
@@ -225,7 +226,17 @@
       getTab (type) {
         // 获得激活的Tab页
         this.activeTab = type
-        this.getOrder(1)
+
+        switch (type) {
+          case 'paasDetail':
+       this.getlist(1)
+            break
+          case 'paasPlatform':
+            this.getWorkers(1)
+            break
+          default:
+            this.getPlatforms(1)
+        }
       },
       settNote () {
         let argu = {id: this.id}
@@ -269,36 +280,23 @@
           }
         })
       },
-      getOrder (page) {
+      getWorkers (page) {
         let self = this
         self.loading = true
-        uAxios.get(`admin/activities/${self.id}/orders?page=` + page + '&type=' + self.activeTab + '&keyword=' + self.searchKeyword)
+        uAxios.get(`admin/paas/${self.id}/workers?page=` + page + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
             console.log(result)
-            self.information = result.data.map((item) => {
-              return {
-                user_name: item.user ? item.user.name : '',
-                avatar: item.user ? item.user.circle_avatar : '',
-                goods: item.goods,
-                created_at: item.created_at,
-                id: item.id,
-                id: item.id,
-                status: item.pay_status,
-                price: item.price
-              }
-            })
+            self.information = result.data
             console.log(self.information)
             self.orgTotal = result.total
             self.loading = false
-            // self.searchKeyword = ''
-
           })
       },
-      getmatchmakers () {
+      getPlatforms (page) {
         let self = this
         self.loading = true
-        uAxios.get('admin/matchmakers?nopage=1&keyword=' + self.searchKeyword)
+        uAxios.get(`admin/paas/${self.id}/platforms?page=` + page + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
             this.redMun = result.map((item) => {
@@ -365,11 +363,16 @@
   ._bold {
     font-weight: bold
   }
-  #container {width:300px; height: 180px;}
+
+  #container {
+    width: 300px;
+    height: 180px;
+  }
 
   .float_l {
     float: left
   }
+
   .distpicker-address-wrapper select {
     height: 32px !important;
     line-height: 32px !important;

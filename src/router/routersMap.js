@@ -31,7 +31,7 @@ const data = [
     path: 'homeSet',
     icon: 'md-cog',
     meta: {
-      access: ['admin'],
+      access: ['admin', 'paas_admin'],
       hideInMenu: false,
       notCache: true
     },
