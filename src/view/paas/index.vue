@@ -29,8 +29,8 @@
           </div>
         </TabPane>
         <TabPane label='平台渠道' name="paasPlatform" v-if="id != 0">
-          <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
-          <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+          <Table :loading="loading" :columns="columns" :data="paasInformation" style="width: 100%;" border></Table>
+          <Page :total="total" @on-change="handlePage" :page-size="15"
                 style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
         </TabPane>
         <TabPane label='平台同工' name="paasUser" v-if="id != 0">
@@ -67,57 +67,115 @@
         loading: false,
         columns: [
           {
-            title: 'Name',
-            key: 'name'
+            title: 'ID',
+            key: 'id',
+            align: 'center',
+            width: 80,
+            editable: true
           },
           {
-            title: 'Age',
-            key: 'key'
-          }
-        ],
-        columns1: [
-          {
-            title: 'Name',
-            key: 'title'
+            title: '名字',
+            key: 'name',
+            align: 'center',
+            editable: true
           },
           {
-            title: 'Age',
-            key: 'key'
+            title: 'logo',
+            key: 'logo',
+            render: (h, params) => {
+              return h('img', {
+                attrs: {
+                  src: params.row.logo
+                },
+                style: {
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  marginTop: '6px',
+                  border: '4px solid #f4f4f4'
+                },
+                on: {
+                  click: () => {
+                  }
+                }
+              })
+            },
+            width: 80,
+            align: 'center'
+          },
+          {
+            title: 'app_id',
+            key: 'app_id',
+            align: 'center',
+          },
+          {
+            title: 'paas_id',
+            key: 'paas_id',
+            align: 'center',
+          },
+          {
+            title: '创建时间',
+            key: 'created_at',
+            align: 'center',
+            editable: true
+          },
+          {
+            title: '操作',
+            key: 'title',
+            align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.$Modal.confirm({
+                        title: '确认对话框标题',
+                        content: ` <Input  placeholder="请输入..." style="width: 300px"></Input>`,
+                        onOk: () => {
+                          this.$Message.info('点击了确定');
+                        },
+                        onCancel: () => {
+                          this.$Message.info('点击了取消');
+                        }
+                      });
+                    }
+                  }
+                }, '修改名字')
+              ])
+            }
           }
         ],
         information: [],
-        VIPinformation: [],
+        paasInformation: [],
         searchKeyword: '',
         activeTab: 'paasDetail',
         orgColumns: [
           {
-            title: '序号',
-            type: 'index',
-//                        width: 80,
-            align: 'center',
-            sortable: true
-          },
-          {
             title: 'ID',
             key: 'id',
             align: 'center',
-//                        width: 100,
+            width: 80,
             editable: true
           },
           {
             title: '用户名',
-            key: 'user_name',
+            key: 'name',
             align: 'center',
-//                        width: 100,
             editable: true
           },
           {
             title: '头像',
-            key: 'avatar',
+            key: 'photo',
             render: (h, params) => {
               return h('img', {
                 attrs: {
-                  src: params.row.avatar
+                  src: params.row.photo
                 },
                 style: {
                   width: '48px',
@@ -141,32 +199,48 @@
             align: 'center'
           },
           {
-            title: '商品名称',
-            key: 'goods',
+            title: '性别',
+            key: 'sex',
             align: 'center',
-//                        width: 100,
             editable: true
           },
           {
-            title: '支付状态',
-            key: 'status',
+            title: '单身状态',
+            key: 'type',
             align: 'center',
-//                        width: 100,
             editable: true
           },
           {
-            title: '金额',
-            key: 'price',
-            align: 'center',
-//                        width: 100,
-            editable: true
-          },
-          {
-            title: '消费时间',
+            title: '加入时间',
             key: 'created_at',
             align: 'center',
-//                        width: 100,
             editable: true
+          },
+          {
+            title: '操作',
+            key: 'title',
+            align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      let argu = {id: params.row.id}
+                      this.$router.push({
+                        name: 'user_detail',
+                        params: argu
+                      })
+                    }
+                  }
+                }, '用户详情')
+              ])
+            }
           }
         ],
         orgData: [],
@@ -187,10 +261,10 @@
             this.getlist(1)
             break
           case 'paasPlatform':
-            this.getWorkers(1)
+            this.getPlatforms(1)
             break
           default:
-            this.getPlatforms(1)
+            this.getWorkers(1)
         }
       },
       settNote () {
@@ -235,8 +309,13 @@
         uAxios.get(`admin/paas/${self.id}/workers?page=` + page + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
-            console.log(result)
-            self.information = result.data
+            self.information = result.data.map((item) => {
+              let {user} = item
+              user.created_at = item.created_at
+              user.sex = user.sex == 1 ? '男' : '女'
+              user.type = user.type == 'single'? '单身': '介绍人'
+              return user
+            })
             console.log(self.information)
             self.orgTotal = result.total
             self.loading = false
@@ -248,10 +327,8 @@
         uAxios.get(`admin/paas/${self.id}/platforms?page=` + page + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
-            console.log(result)
-            self.information = result.data
-            console.log(self.information)
-            self.orgTotal = result.total
+            self.paasInformation = result.data
+            self.total = result.total
             self.loading = false
           })
       },
@@ -267,12 +344,12 @@
       },
       handlePage (num) {
         // 分页
-        switch ( this.activeTab) {
+        switch (this.activeTab) {
           case 'paasPlatform':
-            this.getWorkers(num)
+            this.getPlatforms(num)
             break
           default:
-            this.getPlatforms(num)
+            this.getWorkers(1)
         }
       }
     },

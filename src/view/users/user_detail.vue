@@ -44,7 +44,7 @@
           <div style="display: inline-block">
             <span class="font_16 _bold">头像：<img
               :src="avatar?avatar:'http://images.ufutx.com/201905/13/599151d27fc07ba1bc4cc57a291525e5.jpeg'" alt=""
-              width="80rpx" style="box-shadow: 1px 1px 12px #c1c1c1" @click="showModal(avatar,'image')"></span>
+              width="80px" height="80px" style="box-shadow: 1px 1px 12px #c1c1c1" @click="showModal(avatar,'image')"></span>
           </div>
           <div style="display: inline-block;margin-left: 42px;">
             <span class="font_16 _bold">用户名：</span>

@@ -274,8 +274,7 @@ export const staticRouters = [
         name: 'user_recommend',
         meta: {
           title: '推荐',
-          hideInMenu: true,
-          access: ['admin']
+          hideInMenu: true
         },
         component: () => import('@/view/users/user_recommend.vue')
       },
@@ -297,7 +296,6 @@ export const staticRouters = [
           title: '备注管理',
           hideInMenu: true,
           notCache: true
-          // access: ['super_admin']
         },
         component: () => import('@/view/users/user_note.vue')
       },
@@ -306,7 +304,6 @@ export const staticRouters = [
         name: 'note_detail',
         meta: {
           title: '备注详情',
-          // access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/noteDetail.vue')
