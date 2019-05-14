@@ -84,7 +84,7 @@ export default {
         },
         {
           title: 'UserID',
-          key: 'id',
+          key: 'user_id',
           align: 'center',
           width: 100,
           editable: true
@@ -113,7 +113,7 @@ export default {
               },
               on: {
                 click: () => {
-                  let argu = { id: params.row.id }
+                  let argu = { id: params.row.user_id }
                   this.$router.push({
                     name: 'user_detail',
                     params: argu
