@@ -22,19 +22,17 @@
     </Card>
     <Tabs @on-click="getTab" style="margin-top: 12px;">
       <TabPane label="推荐人列表"  name="score">
-        <Col span="24">
           <Input
             v-model="searchKeyword"
             @on-enter="handleSearch"
             placeholder="关键字搜索..."
-            style="width: 200px; margin-bottom: 22px;"/>
+            style="width: 160px; margin-bottom: 22px;"/>
           <span @click="handleSearch" >
                     <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
                 </span>
           <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
                 style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
-        </Col>
       </TabPane>
     </Tabs>
     <!--<Modal-->
@@ -86,7 +84,7 @@ export default {
         },
         {
           title: 'UserID',
-          key: 'id',
+          key: 'user_id',
           align: 'center',
           width: 100,
           editable: true
@@ -115,7 +113,7 @@ export default {
               },
               on: {
                 click: () => {
-                  let argu = { id: params.row.id }
+                  let argu = { id: params.row.user_id }
                   this.$router.push({
                     name: 'user_detail',
                     params: argu

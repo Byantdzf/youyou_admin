@@ -28,14 +28,14 @@ const data = [
   },
   {
     title: '平台管理',
-    path: 'admin',
+    path: 'paasList',
     icon: 'ios-ionic-outline',
     meta: {
       access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
-    component: () => import('@/view/admin/Administrator.vue')
+    component: () => import('@/view/paas/paasList.vue')
   },
   {
     title: '平台推荐',
@@ -97,7 +97,7 @@ const data = [
     path: 'redlove',
     icon: 'md-contacts',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -124,6 +124,16 @@ const data = [
       notCache: true
     },
     component: () => import('@/view/beloved/list.vue')
+  },
+  {
+    title: '活动列表',
+    path: 'activityList',
+    icon: 'ios-wine',
+    meta: {
+      access: ['admin', 'paas_admin'],
+      hideInMenu: false
+    },
+    component: () => import('@/view/activity/list.vue')
   },
   {
     title: '用户反馈',
@@ -163,20 +173,10 @@ const data = [
     path: 'myService',
     icon: 'logo-sass',
     meta: {
-      access: ['admin', 'paas_admin', 'matcher', 'worker'],
+      access: ['admin', 'matcher', 'worker'],
       hideInMenu: false
     },
     component: () => import('@/view/myService/list.vue')
-  },
-  {
-    title: '活动列表',
-    path: 'activityList',
-    icon: 'ios-wine',
-    meta: {
-      access: ['admin', 'paas_admin'],
-      hideInMenu: false
-    },
-    component: () => import('@/view/activity/list.vue')
   }
 ]
 const setRouter = () => {
@@ -238,6 +238,15 @@ export const staticRouters = [
     },
     component: routerMap['Main'],
     children: [
+      {
+        path: 'paasDetail/:id',
+        name: 'paasDetail',
+        meta: {
+          title: '活动详情',
+          hideInMenu: true
+        },
+        component: () => import('@/view/paas/index.vue')
+      },
       {
         path: 'user_detail/:id',
         name: 'user_detail',

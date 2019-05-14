@@ -136,7 +136,7 @@
             </div>
           </Card>
           <Card style="margin-top: 12px;">
-            <p slot="title">推荐用户<span style="color: #ff0c18;font-weight: bold">（{{recommendData.length}}人）</span></p>
+            <p slot="title">推荐用户<span style="color: #ff0c18;font-weight: bold">（{{recommendTotal}}人）</span></p>
             <Table :loading="loading" :columns="recommendColumns" :data="recommendData" style="width: 100%;"
                    border></Table>
             <Page :total="recommendTotal" @on-change="handlePage" :page-size="15"
