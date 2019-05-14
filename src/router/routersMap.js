@@ -264,7 +264,7 @@ export const staticRouters = [
         meta: {
           title: '推荐',
           hideInMenu: true,
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/users/user_recommend.vue')
       },
@@ -274,7 +274,7 @@ export const staticRouters = [
         meta: {
           title: '收益记录',
           hideInMenu: true,
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/referres/record.vue')
       },
@@ -305,7 +305,6 @@ export const staticRouters = [
         name: 'order-detail',
         meta: {
           title: '订单详情',
-          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/orders/detail.vue')
@@ -315,7 +314,6 @@ export const staticRouters = [
         name: 'clients',
         meta: {
           title: '客户列表',
-          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/clientlist.vue')
@@ -325,7 +323,7 @@ export const staticRouters = [
         name: 'edit_user_detail',
         meta: {
           title: '编辑用户',
-          access: ['super_admin'],
+          access: ['admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/edituserDetail.vue')
@@ -335,7 +333,7 @@ export const staticRouters = [
         name: 'user_order',
         meta: {
           title: '订单列表',
-          access: ['super_admin'],
+          access: ['admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_order.vue')
@@ -345,7 +343,7 @@ export const staticRouters = [
         name: 'user_gift',
         meta: {
           title: '礼物列表',
-          access: ['super_admin'],
+          access: ['admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_gift.vue')
@@ -355,7 +353,6 @@ export const staticRouters = [
         name: 'user_integral',
         meta: {
           title: '福分记录',
-          access: ['super_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_integral.vue')
@@ -386,7 +383,7 @@ export const staticRouters = [
           hideInMenu: true
         },
         component: () => import('@/view/activity/member_detail.vue')
-      },
+      }
     ]
   }
 ]
