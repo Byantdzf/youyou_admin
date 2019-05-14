@@ -237,7 +237,7 @@
             },
             getlist (page) {
                 let self = this;
-                uAxios.get('admin/users/' + self.id + '?page=' + page )
+                uAxios.get('admin/matchmaker/clients/' + self.id + '?page=' + page )
                     .then(res => {
                         let result = res.data.data;
                         self.name = result.name;
