@@ -157,8 +157,7 @@ export default {
                    },
                    on: {
                      click: () => {
-                       console.log(params.row.id)
-                       let argu = {id: params.row.id};
+                       let argu = {id: params.row.user_id};
                        this.$router.push({
                          name: 'record',
                          params: argu

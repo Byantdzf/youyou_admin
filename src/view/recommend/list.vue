@@ -184,7 +184,7 @@
                   },
                   on: {
                     click: () => {
-                      let argu = {id: params.row.id}
+                      let argu = {id: params.row.user_id}
                       const {href} = this.$router.resolve({
                         name: 'user_detail',
                         params: argu
