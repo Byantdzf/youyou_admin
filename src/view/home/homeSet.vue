@@ -201,7 +201,7 @@ export default {
         })
       }
       let self = this
-      uAxios.post(`admin/home/recommends?id=${self.client_id}&photo=${self.photo}`).then((response) => {
+      uAxios.post(`admin/home/recommends?user_id=${self.client_id}&photo=${self.photo}`).then((response) => {
         if (response.data.code === 0) {
           this.$Message.info('设置成功')
           location.reload()

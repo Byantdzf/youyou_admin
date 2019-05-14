@@ -59,12 +59,6 @@
     },
     data () {
       return {
-        articlesId: '',
-        showMapModel: false,
-        address: '',
-        switch1: false,
-        setLocation: [],
-        redMun: [],    // 红娘列表
         disabled: false,
         user_is_admin: 0,
         date: [],
@@ -94,7 +88,7 @@
         information: [],
         VIPinformation: [],
         searchKeyword: '',
-        activeTab: 'detail',
+        activeTab: 'paasDetail',
         orgColumns: [
           {
             title: '序号',
@@ -178,22 +172,6 @@
         orgData: [],
         total: 0,
         orgTotal: 0,
-        modal: false,
-        name: '',
-        mobile: '',
-        avatar: '',
-        maker_name: '',
-        is_approved: '',
-        photos: [],
-        graduate_photos: [],
-        other_photos: [],
-        identification_photos: [],
-        wechat_qrcode: [],
-        love_characters: [],
-        love_languages: [],
-        character: {},
-        message: {},
-        client_id: 0,
         uploaddata: [],
         id: 0,
         //平台详情
@@ -201,35 +179,12 @@
       }
     },
     methods: {
-      editAddress (value) {
-        this.paasDetail.address = value.split(' ')[3]
-      },
-      hideModal (val) {
-        this.showMapModel = val
-      },
-      getLocation (childValue, lnglat) {
-        this.address = `${childValue.address}`
-        this.paasDetail.province = childValue.province
-        this.paasDetail.city = childValue.city
-        this.paasDetail.dist = childValue.dist
-        this.paasDetail.address = `${childValue.address}`
-        this.paasDetail.location_longitude = lnglat[0]
-        this.paasDetail.location_latitude = lnglat[1]
-      },
-      ok () {
-        console.log('确定')
-      },
-      getDate (e) {
-        this.paasDetail.start_time = e[0]
-        this.paasDetail.end_time = e[1]
-      },
       getTab (type) {
         // 获得激活的Tab页
         this.activeTab = type
-
         switch (type) {
           case 'paasDetail':
-       this.getlist(1)
+            this.getlist(1)
             break
           case 'paasPlatform':
             this.getWorkers(1)
@@ -245,14 +200,8 @@
           params: argu
         })
       },
-      getGropData (_id) {
-        this.client_id = _id
-      },
       uploadPicture (image) {  // 单
         this.paasDetail.poster = image // 轮播banna
-      },
-      uploadPictures (image) {  // 多
-        this.paasDetail.detail_pic = image // 详情image
       },
       // 提交表单
       handleSubmit () {
@@ -299,38 +248,12 @@
         uAxios.get(`admin/paas/${self.id}/platforms?page=` + page + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
-            this.redMun = result.map((item) => {
-              return {
-                name: item.name,
-                id: item.id
-              }
-            })
-            console.log(this.redMun)
+            console.log(result)
+            self.information = result.data
+            console.log(self.information)
+            self.orgTotal = result.total
+            self.loading = false
           })
-      },
-      handlePage (num) {
-        // 分页
-        this.getOrder(num)
-
-      },
-      showModal (item, type) {
-        console.log(this.character)
-        if (type == 'test') {
-          this.modal = true
-          this.message = item
-          this.message.type_v = 'test'
-          this.message.title_v = item.title
-        } else if (type == 'image') {
-          this.modal = true
-          this.message.title_v = '预览'
-          this.message.type_v = 'image'
-          this.message.image = item
-        } else {
-          this.modal = true
-          this.message.title_v = '了解自己的优势'
-          this.message.type_v = 'character'
-        }
-        console.log(this.message)
       },
       getlist (page) {
         let self = this
@@ -338,15 +261,20 @@
         uAxios.get('admin/paas/' + self.id)
           .then(res => {
             let result = res.data.data
-            this.data = []
-            this.address = `${result.address}`
             this.paasDetail = result
-            this.date.push(result.start_time)
-            this.date.push(result.end_time)
-            this.setLocation = [result.location_longitude, result.location_latitude]
             console.log(this.paasDetail)
           })
       },
+      handlePage (num) {
+        // 分页
+        switch ( this.activeTab) {
+          case 'paasPlatform':
+            this.getWorkers(num)
+            break
+          default:
+            this.getPlatforms(num)
+        }
+      }
     },
     mounted () {
       if (this.$route.params.id != 0) {
