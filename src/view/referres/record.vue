@@ -157,7 +157,6 @@ export default {
               id: self.information[0].user_id
             }
             self.orgTotal = result.total
-            // self.searchKeyword = ''
           }
           self.loading = false
         })

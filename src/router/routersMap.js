@@ -27,6 +27,17 @@ const data = [
     component: () => import('@/view/home/home.vue')
   },
   {
+    title: '首页设置',
+    path: 'homeSet',
+    icon: 'md-cog',
+    meta: {
+      access: ['admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/home/homeSet.vue')
+  },
+  {
     title: '平台管理',
     path: 'paasList',
     icon: 'ios-ionic-outline',

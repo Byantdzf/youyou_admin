@@ -15,7 +15,7 @@
       </Button>
     </div>
     <div class="scroll-outer" ref="scrollOuter" @DOMMouseScroll="handlescroll" @mousewheel="handlescroll"
-         style="margin-left: 80px;">
+         style="margin-left: 0px;">
       <div ref="scrollBody" class="scroll-body" :style="{left: tagBodyLeft + 'px'}">
         <transition-group name="taglist-moving-animation">
           <Tag
@@ -202,15 +202,16 @@
 
   .tags-nav {
     background: #F0F0F0;
+    width: 92%;
+    margin-left: 8%;
   }
 
   .tags-nav .contextmenu {
     border: 1px solid #e8eaec !important;
     color: #515a6e !important;
     background: #fff !important;
-    left: 36px;
+    left: -72px;
     top: 4px;
-
     &:hover {
       background: #eee;
     }
