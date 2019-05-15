@@ -60,6 +60,17 @@ const data = [
     component: () => import('@/view/recommend/list.vue')
   },
   {
+    title: '用户权限',
+    path: 'authorization',
+    icon: 'ios-settings-strong',
+    meta: {
+      access: ['admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/referres/list.vue')
+  },
+  {
     title: '用户推荐',
     path: 'referres',
     icon: 'logo-yen',

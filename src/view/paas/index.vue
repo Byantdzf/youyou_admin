@@ -305,7 +305,8 @@
                         title: '温馨提示',
                         content: `<p>是否确认将 <span class="_bold">${params.row.name}</span> 移除同工列表？</p>`,
                         onOk: () => {
-                          this.delWorker(params.row.id)
+                          console.log(params.row.id)
+                          this.delWorker(8)
                         },
                         onCancel: () => {
                           this.$Message.info('点击了取消')
@@ -455,7 +456,7 @@
           user_id: id,
           paas_id: this.id
         }
-        uAxios.delete(`admin/paas/worker`, data)
+        uAxios.delete(`admin/paas/worker?user_id=${id}&paas=${this.id}`)
           .then(response => {
             if (response.data.code === 0) {
               this.$Message.success('删除成功!')
