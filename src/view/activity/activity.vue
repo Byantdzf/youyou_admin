@@ -16,7 +16,7 @@
                 </FormItem>
                 <FormItem label="主办方" prop="name">
                   <Row>
-                    <Input v-model="activity.host" placeholder="Enter activity host"></Input>
+                    <Input v-model="activity.host" placeholder="Enter activity host" :readonly="access=='admin'?false:true"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="费用(￥)" prop="number">
@@ -236,6 +236,7 @@
         wechat_qrcode: [],
         love_characters: [],
         love_languages: [],
+        access: localStorage.getItem('access'),
         character: {},
         message: {},
         client_id: 0,
@@ -403,6 +404,7 @@
         return
       }
       this.title = this.BtnText = '创建活动'
+      this.activity.host = localStorage.getItem('paas')
     }
   }
 </script>

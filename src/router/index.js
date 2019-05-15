@@ -12,7 +12,7 @@ const router = new Router({
 })
 
 const LOGIN_PAGE_NAME = 'login'
-const access = store.state.user.access || getLocalStorage('access').split(',')
+const access = getLocalStorage('access').split(',')
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
   const token = getToken()
@@ -40,7 +40,9 @@ router.beforeEach((to, from, next) => {
     // console.log(to.name)
     // console.log(access)
     // console.log(store.state.app.routersConfig)
-    if (canTurnTo(to.name, access, store.state.app.routersConfig)) {
+    console.log(getLocalStorage('access').split(','))
+    console.log(access)
+    if (canTurnTo(to.name, getLocalStorage('access').split(','), store.state.app.routersConfig)) {
       next() // 有权限，可访问
     } else {
       next({replace: true, name: 'error_401'}) // 无权限，重定向到401页面}

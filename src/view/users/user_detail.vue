@@ -13,11 +13,33 @@
           <Row >
             <i-col span="10">
               <Card>
-                <div style="display: inline-block;margin-left: 12px;">
-                  <span class="font_16 _bold">设置为管理员：</span>
-                  <i-switch v-model="switch1" @on-change="change"/>
-                </div>
-                <Button type="primary" style="margin-left: 32px;display: inline-block;" @click="setapproved"
+                <!--<div style="display: inline-block;margin-left: 12px;">-->
+                  <!--<span class="font_16 _bold">设置为管理员：</span>-->
+                  <!--<i-switch v-model="switch1" @on-change="change"/>-->
+                <!--</div>-->
+                <Dropdown style="margin-left: 20px; position: relative;">
+                  <i-button type="primary">
+                    Ta 的权限：超级管理员
+                    <Icon type="arrow-down-b"></Icon>
+                  </i-button>
+                  <Dropdown-menu slot="list">
+                    <Dropdown-item>超级管理员</Dropdown-item>
+                    <Dropdown placement="right-start">
+                      <Dropdown-item>
+                        平台管理员
+                        <Icon type="arrow-right-b"></Icon>
+                      </Dropdown-item>
+                      <Dropdown-menu slot="list">
+                        <Dropdown-item>挂炉烤鸭</Dropdown-item>
+                        <Dropdown-item>焖炉烤鸭</Dropdown-item>
+                      </Dropdown-menu>
+                    </Dropdown>
+                    <Dropdown-item>红娘</Dropdown-item>
+                    <Dropdown-item>同工</Dropdown-item>
+                  </Dropdown-menu>
+                  <!--<img src="http://images.ufutx.com/201905/14/30ab7c315c4f5a2670e3e9de537d94d5.png" alt="" style="position: absolute;right: -8px;top: -34px;" width="50px">-->
+                </Dropdown>
+                <Button type="info" style="margin-left: 32px;display: inline-block;" @click="setapproved"
                         v-if="is_approved == 0">
                   授权该用户为实名认证用户
                 </Button>

@@ -104,9 +104,7 @@
             if (response.data.code === 0) {
               vm.loading = false
               vm.$Message.success('已修改密码！')
-              console.log(newPassword)
               vm.changeCode = false
-              console.log(vm.$router)
               setTimeout(() => {
                 vm.$router.push({
                   name: 'home'

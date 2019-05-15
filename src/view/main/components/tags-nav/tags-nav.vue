@@ -202,10 +202,9 @@
 
   .tags-nav {
     background: #F0F0F0;
-    width: 92%;
-    margin-left: 8%;
+    width: 94%;
+    margin-left: 6%;
   }
-
   .tags-nav .contextmenu {
     border: 1px solid #e8eaec !important;
     color: #515a6e !important;
@@ -216,7 +215,6 @@
       background: #eee;
     }
   }
-
   .tags-nav .contextmenu li {
     padding: 0;
     padding: 0px 6px;

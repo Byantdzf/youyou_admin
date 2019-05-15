@@ -76,7 +76,6 @@
   import uAxios from '../../api/index'
 
   export default {
-    name: 'paasList',
     components: {},
     data () {
       return {
@@ -198,7 +197,7 @@
           .then(res => {
             let result = res.data.data
             self.total = res.data.total
-            self.information = result
+            self.information = result.data
             console.log(self.information)
             self.orgTotal = result.total
             self.loading = false

@@ -8,12 +8,17 @@ export default {
     userId: '',
     avatorImgPath: '',
     token: '',
-    access: ''
+    access: '',
+    paas: {}
   },
   mutations: {
     setAvator (state, avatorPath) {
       state.avatorImgPath = avatorPath
       setLocalStorage('avator', avatorPath)
+    },
+    setPaas (state, paas) {
+      state.paas = paas
+      setLocalStorage('paas', paas?paas.title: '')
     },
     setUserId (state, id) {
       state.userId = id
@@ -44,6 +49,7 @@ export default {
           const data = res.data.data
           commit('setToken', data.access_token)
           commit('setAvator', data.avatar)
+          commit('setPaas', data.paas_obj)
           commit('setUserName', data.name)
           commit('setUserId', data.id)
           commit('setAccess', [data.admin_type])
@@ -60,10 +66,12 @@ export default {
           commit('setToken', '')
           commit('setAccess', [])
           commit('setAvator', '')
+          commit('setPaas', '')
           commit('setUserName', '')
           commit('setUserId', 0)
           delLocalStorage('id')
           delLocalStorage('name')
+          delLocalStorage('paas')
           delLocalStorage('avator')
           delLocalStorage('access')
           delToken()
@@ -72,10 +80,12 @@ export default {
           commit('setToken', '')
           commit('setAccess', [])
           commit('setAvator', '')
+          commit('setPaas', '')
           commit('setUserName', '')
           commit('setUserId', 0)
           delLocalStorage('id')
           delLocalStorage('name')
+          delLocalStorage('paas')
           delLocalStorage('avator')
           delLocalStorage('access')
           delToken()
