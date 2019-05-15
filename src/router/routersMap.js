@@ -62,13 +62,13 @@ const data = [
   {
     title: '用户权限',
     path: 'authorization',
-    icon: 'ios-settings-strong',
+    icon: 'ios-paw',
     meta: {
       access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
-    component: () => import('@/view/referres/list.vue')
+    component: () => import('@/view/authorization/list.vue')
   },
   {
     title: '用户推荐',
