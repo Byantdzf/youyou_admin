@@ -305,8 +305,7 @@
                         title: '温馨提示',
                         content: `<p>是否确认将 <span class="_bold">${params.row.name}</span> 移除同工列表？</p>`,
                         onOk: () => {
-                          console.log(params.row.id)
-                          this.delWorker(8)
+                          this.delWorker(params.row.delId, params.index)
                         },
                         onCancel: () => {
                           this.$Message.info('点击了取消')
@@ -451,14 +450,11 @@
           this.loading = false
         })
       },
-      delWorker (id) {
-        let data = {
-          user_id: id,
-          paas_id: this.id
-        }
-        uAxios.delete(`admin/paas/worker?user_id=${id}&paas=${this.id}`)
+      delWorker (id, index) {
+        uAxios.delete(`admin/paas/worker/${id}`)
           .then(response => {
             if (response.data.code === 0) {
+              this.information.splice(index,1)
               this.$Message.success('删除成功!')
             } else {
               alert('操作失败！')
@@ -579,6 +575,7 @@
             let result = res.data.data
             self.information = result.data.map((item) => {
               let {user} = item
+              user.delId = item.id
               user.created_at = item.created_at
               user.sex = user.sex == 1 ? '男' : '女'
               user.type = user.type == 'single' ? '单身' : '介绍人'
