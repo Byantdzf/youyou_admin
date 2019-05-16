@@ -80,11 +80,10 @@
         text: '标记为已处理',
         orgColumns: [
           {
-            title: '序号',
-            type: 'index',
+            title: '处理ID',
             width: 80,
+            key: 'feedbackId',
             align: 'center',
-            sortable: true
           },
           {
             title: '反馈人ID',
@@ -191,7 +190,7 @@
         if (this.activeTab == 1) {
           status = 0
         }
-        uAxios.put(`admin/change/feedback/${this.feedbackItem.id}/status?status=${status}`)
+        uAxios.put(`admin/change/feedback/${this.feedbackItem.feedbackId}/status?status=${status}`)
           .then(res => {
             if (res.data.code === 0) this.$Message.info('已处理')
             this.information.splice(this.feedbackIndex, 1)
@@ -213,7 +212,7 @@
               return {
                 content: item.content,
                 created_at: item.created_at,
-                id: item.id,
+                feedbackId: item.id,
                 photos: item.photos,
                 status: item.status,
                 updated_at: item.updated_at,
