@@ -90,7 +90,7 @@ const data = [
       hideInMenu: false,
       notCache: true
     },
-    component: () => import('@/view/paas/clients.vue')
+    component: () => import('@/view/paas/worker.vue')
   },
   {
     title: '用户权限',
@@ -328,7 +328,7 @@ export const staticRouters = [
         meta: {
           title: '收益记录',
           hideInMenu: true,
-          access: ['admin']
+          access: ['admin', 'paas_admin']
         },
         component: () => import('@/view/referres/record.vue')
       },

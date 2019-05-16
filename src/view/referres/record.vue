@@ -18,7 +18,7 @@
             placeholder="关键字搜索..."
             style="width: 200px; margin-bottom: 22px;"/>
           <span @click="handleSearch" >
-                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-right: 12px;">搜索</Button>
                 </span>
           <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
