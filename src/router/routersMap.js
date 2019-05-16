@@ -60,6 +60,39 @@ const data = [
     component: () => import('@/view/recommend/list.vue')
   },
   {
+    title: '平台客户',
+    path: 'paasClients',
+    icon: 'ios-people',
+    meta: {
+      access: ['admin', 'paas_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/paas/clients.vue')
+  },
+  {
+    title: '我的提现',
+    path: 'paasDeposit',
+    icon: 'logo-usd',
+    meta: {
+      access: ['paas_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/paas/clients.vue')
+  },
+  {
+    title: '我的同工',
+    path: 'paasWorker',
+    icon: 'md-contacts',
+    meta: {
+      access: ['paas_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/paas/clients.vue')
+  },
+  {
     title: '用户权限',
     path: 'authorization',
     icon: 'ios-paw',
@@ -184,7 +217,7 @@ const data = [
     path: 'client',
     icon: 'ios-people',
     meta: {
-      access: ['admin', 'paas_admin', 'matcher', 'worker'],
+      access: ['matcher', 'worker'],
       hideInMenu: false,
       notCache: true
     },
