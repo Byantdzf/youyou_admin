@@ -27,7 +27,7 @@
         <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
               style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
       </TabPane>
-      <TabPane label='平台' name="org">
+      <TabPane label='渠道' name="org">
         <Input
           v-model="searchKeyword"
           @on-enter="createLabel"

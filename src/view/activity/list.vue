@@ -52,7 +52,8 @@
               placeholder="关键字搜索..."
               style="width: 200px; margin-bottom: 22px;"/>
             <span @click="handleSearch">
-                        <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+                        <Button type="primary" icon="ios-search"
+                                style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                     </span>
             <span @click="creatParty">
                         <Button type="success" style=" margin-bottom: 22px; float: right;">创建活动</Button>
@@ -158,7 +159,7 @@
             key: 'is_top',
             render: (h, params) => {
               if (params.row.is_cancel > 0 || params.row.is_deadline > 0) {
-                return  h('span', '已结束')
+                return h('span', '已结束')
               }
               return h('i-switch', {
                 props: {
@@ -198,7 +199,7 @@
                 }, '活动详情'),
                 h('Button', {
                   props: {
-                    type: 'primary'
+                    type: 'warning'
                   },
                   style: {
                     margin: '5px'
@@ -212,7 +213,20 @@
                       })
                     }
                   }
-                }, '活动现场')
+                }, '活动现场'),
+                h('Button', {
+                  props: {
+                    type: 'success'
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.copyActivity(params.row.id)
+                    }
+                  }
+                }, '复制活动')
               ])
             }
           }
@@ -221,6 +235,17 @@
       }
     },
     methods: {
+      copyActivity (id) {
+        uAxios.post(`admin/copy/activity/${id}`).then(response => {
+          if (response.data.code === 0) {
+            this.$Message.success('复制成功!')
+            this.getlist(1)
+          } else {
+            alert('操作失败！')
+          }
+        }).catch(() => {
+        })
+      },
       switchFn (val, id) {
         this.switchLoading = true
         switch (val) {
@@ -235,7 +260,7 @@
               }
             })
           }
-            break;
+            break
           default: {
             uAxios.put(`admin/activity/${id}/cancel/top`, this.activity).then(response => {
               if (response.data.code === 0) {
@@ -253,7 +278,7 @@
         // 分页
         this.currentPage = num
         // if (this.social.length == 0) {
-          this.getlist(num)
+        this.getlist(num)
         // } else {
         //   this.filterLabel(num)
         // }

@@ -25,7 +25,7 @@
                     <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
                 </span>
           <Table :columns="workerColumns" :data="addInformation" style="width: 100%;" border
-                 no-data-text="搜素需要配置的权限的用户..."></Table>
+                 no-data-text="搜索需要配置的权限的用户..."></Table>
           <Page :total="workerTotal" @on-change="workerPage" :page-size="15"
                 style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
         </TabPane>
