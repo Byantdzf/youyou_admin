@@ -19,6 +19,12 @@
                       :page-size="15"></Page>
               </Card>
             </span>
+            <span v-else>
+              <p style="display: inline-flex;margin-bottom: 12px;">
+                <div :style="'background-image: url('+information.user.photo+')'" class="image" v-if="information.user.photo"></div>
+                <span v-if="information.user.name">姓名：{{information.user.name}}</span>
+              </p>
+            </span>
           </div>
           <hr/>
           <br/>
@@ -145,6 +151,7 @@
                       }
                       this.data1[params.index].active = true
                       this.user = this.data1[params.index]
+                      this.bindAccount(params.row.id)
                       console.log(this.data1)
                       console.log(this.user)
                       console.log(val, 11)
@@ -313,6 +320,18 @@
       }
     },
     methods: {
+      bindAccount (id) {
+        uAxios.post(`admin/paas/bind/account/users/${id}`)
+          .then(res => {
+            let result = res.data.data
+            if(result.code === 0){
+              console.log('绑定成功')
+              this.getInformation()
+            }else{
+              this.$Message.error(result.message)
+            }
+          })
+      },
       withdraw (type) {
         uAxios.post(`admin/paas/withdraw?type=${type}`)
           .then(res => {
