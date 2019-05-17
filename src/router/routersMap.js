@@ -79,7 +79,7 @@ const data = [
       hideInMenu: false,
       notCache: true
     },
-    component: () => import('@/view/paas/clients.vue')
+    component: () => import('@/view/paas/deposit.vue')
   },
   {
     title: '我的同工',
@@ -332,7 +332,16 @@ export const staticRouters = [
         },
         component: () => import('@/view/referres/record.vue')
       },
-
+      {
+        path: 'referrer/:id',
+        name: 'referrer',
+        meta: {
+          title: '推荐记录',
+          hideInMenu: true,
+          access: ['admin', 'paas_admin']
+        },
+        component: () => import('@/view/paas/referrers.vue')
+      },
       {
         path: 'user_note/:id',
         name: 'user_note',

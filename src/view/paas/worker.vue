@@ -182,7 +182,7 @@
                       click: () => {
                         let argu = {id: params.row.id};
                         this.$router.push({
-                          name: 'record',
+                          name: 'referrer',
                           params: argu
                         });
                       }

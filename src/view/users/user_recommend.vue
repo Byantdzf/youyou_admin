@@ -9,7 +9,7 @@
                         placeholder="关键字搜索..."
                         style="width: 200px; margin-bottom: 22px;"/>
                 <span @click="handleSearch" >
-                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                 </span>
                 <Row>
                     <Col span="11">
