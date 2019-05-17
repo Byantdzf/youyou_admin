@@ -1,6 +1,6 @@
 <template>
   <div v-model="activeTab">
-    <Tabs>
+    <Tabs  @on-click="getTab">
       <TabPane label="提现余额" name="balance">
         <Card>
           <p slot="title">提现信息</p>
@@ -84,7 +84,24 @@
           <hr/>
         </Card>
       </TabPane>
-      <TabPane label="提现记录" name="complain">
+      <TabPane label="活动提现记录" name="ACTIVITY">
+        <Input
+          v-model="searchKeyword"
+          @on-enter="handleSearch"
+          placeholder="关键字搜索..."
+          style="width: 200px; margin-bottom: 22px;"/>
+        <span @click="handleSearch">
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+                </span>
+        <Card>
+          <p slot="title">推荐列表</p>
+          <Table :loading="loading" :columns="orgColumns" :data="historys" style="width: 100%;" border></Table>
+          <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                style="float:right;margin-top:5px;"></Page>
+          <div style="clear: both"></div>
+        </Card>
+      </TabPane>
+      <TabPane label="会员提现记录" name="RANK">
         <Input
           v-model="searchKeyword"
           @on-enter="handleSearch"
@@ -320,6 +337,11 @@
       }
     },
     methods: {
+      getTab (type) { // 获得激活的Tab页
+        this.activeTab = type
+        if(type == 'complain')return
+        this.getlist(1)
+      },
       bindAccount (id) {
         uAxios.post(`admin/paas/bind/account/users/${id}`)
           .then(res => {
@@ -353,12 +375,12 @@
       },
       getlist (page) {
         let self = this
-        let query = '&keyword=' + this.searchKeyword
+        let query = '&keyword=' + this.searchKeyword + '&type=' + this.activeTab
         self.loading = true
-        uAxios.get('admin/users/' + self.id + '/invite/users?page=' + page + query)
+        uAxios.get('admin/paas/withdraws?page=' + page + query)
           .then(res => {
             let result = res.data.data
-            self.history = result.data
+            self.historys = result.data
             self.orgTotal = result.total
             self.loading = false
           })
