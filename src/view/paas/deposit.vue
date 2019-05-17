@@ -1,6 +1,6 @@
 <template>
   <div v-model="activeTab">
-    <Tabs  @on-click="getTab">
+    <Tabs @on-click="getTab">
       <TabPane label="提现余额" name="balance">
         <Card>
           <p slot="title">提现信息</p>
@@ -21,7 +21,8 @@
             </span>
             <span v-else>
               <p style="display: inline-flex;margin-bottom: 12px;">
-                <div :style="'background-image: url('+information.user.photo+')'" class="image" v-if="information.user.photo"></div>
+                <div :style="'background-image: url('+information.user.photo+')'" class="image"
+                     v-if="information.user.photo"></div>
                 <span v-if="information.user.name">姓名：{{information.user.name}}</span>
               </p>
             </span>
@@ -94,7 +95,7 @@
                     <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                 </span>
         <Card>
-          <p slot="title">推荐列表</p>
+          <p slot="title">提现列表</p>
           <Table :loading="loading" :columns="orgColumns" :data="historys" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
                 style="float:right;margin-top:5px;"></Page>
@@ -111,7 +112,7 @@
                     <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                 </span>
         <Card>
-          <p slot="title">推荐列表</p>
+          <p slot="title">提现列表</p>
           <Table :loading="loading" :columns="orgColumns" :data="historys" style="width: 100%;" border></Table>
           <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
                 style="float:right;margin-top:5px;"></Page>
@@ -241,24 +242,24 @@
         data1: [],
         orgColumns: [
           {
-            title: '用户ID',
+            title: '提现用户ID',
             key: 'id',
             align: 'center',
             editable: true
           },
           {
-            title: '用户名',
+            title: '提现用户',
             key: 'name',
             align: 'center',
             editable: true
           },
           {
-            title: '头像',
+            title: '用户头像',
             key: 'avatar',
             render: (h, params) => {
               return h('img', {
                 attrs: {
-                  src: params.row.circle_avatar
+                  src: params.row.photo
                 },
                 style: {
                   width: '48px',
@@ -282,51 +283,29 @@
             align: 'center'
           },
           {
-            title: '性别',
-            key: 'sex',
-            align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('span', params.row.sex == '1' ? '男' : '女')
-              ])
-            }
-          },
-          {
-            title: '单身/介绍人',
-            key: 'type',
-            align: 'center',
-            render: (h, params) => {
-              return h('span', params.row.type == 'single' ? '单身' : '介绍人')
-            }
-          },
-          {
-            title: '会员等级',
-            key: 'rank_name',
+            title: '提现金额',
+            key: 'withdraw_amount',
             align: 'center'
           },
           {
-            title: '操作',
-            key: 'action',
-            width: 150,
-            align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary'
-                  },
-                  on: {
-                    click: () => {
-                      let argu = {id: params.row.id}
-                      this.$router.push({
-                        name: 'user_detail',
-                        params: argu
-                      })
-                    }
-                  }
-                }, '查看信息')
-              ])
-            }
+            title: '提现手续费',
+            key: 'fee',
+            align: 'center'
+          },
+          {
+            title: '实际到账',
+            key: 'arrival_amount',
+            align: 'center'
+          },
+          {
+            title: '订单号',
+            key: 'trade_no',
+            align: 'center'
+          },
+          {
+            title: '提现时间',
+            key: 'created_at',
+            align: 'center'
           }
         ],
         information: [],
@@ -339,17 +318,17 @@
     methods: {
       getTab (type) { // 获得激活的Tab页
         this.activeTab = type
-        if(type == 'complain')return
+        if (type == 'complain') return
         this.getlist(1)
       },
       bindAccount (id) {
         uAxios.post(`admin/paas/bind/account/users/${id}`)
           .then(res => {
             let result = res.data.data
-            if(result.code === 0){
+            if (result.code === 0) {
               console.log('绑定成功')
               this.getInformation()
-            }else{
+            } else {
               this.$Message.error(result.message)
             }
           })
@@ -358,9 +337,9 @@
         uAxios.post(`admin/paas/withdraw?type=${type}`)
           .then(res => {
             let result = res.data.data
-            if(result.code === 0){
+            if (result.code === 0) {
               this.$Message.info('操作成功,注意查收！')
-            }else{
+            } else {
               this.$Message.error(result.message)
             }
           })
@@ -380,7 +359,14 @@
         uAxios.get('admin/paas/withdraws?page=' + page + query)
           .then(res => {
             let result = res.data.data
-            self.historys = result.data
+            self.historys = result.data.map((item) => {
+              item.user.fee = item.fee
+              item.user.created_at = item.created_at
+              item.user.trade_no = item.trade_no
+              item.user.withdraw_amount = item.withdraw_amount
+              item.user.arrival_amount = item.arrival_amount
+              return item.user
+            })
             self.orgTotal = result.total
             self.loading = false
           })
