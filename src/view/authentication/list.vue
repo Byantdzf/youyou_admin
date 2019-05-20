@@ -395,7 +395,7 @@
         for (let item in self.jump) {
           jump = jump + `&${item}=${self.jump[item]}`
         }
-        uAxios.get('admin/approve/users?page=' + page + '&keyword=' + self.searchKeyword + jump + '&is_approved=' + self.activeTab)
+        uAxios.get('admin/approve/users?page=' + page + '&keyword=' + self.searchKeyword + '&is_approved=' + self.activeTab)
           .then(res => {
             let result = res.data.data
             self.total = res.data.data.total

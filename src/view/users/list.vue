@@ -221,11 +221,15 @@
                     click: () => {
                       this.id = params.row.id
                       let argu = {id: params.row.id}
-                      const {href} = this.$router.resolve({
+                      this.$router.push({
                         name: 'user_recommend',
                         params: argu
                       })
-                      window.open(href, '_blank')
+                      // const {href} = this.$router.resolve({
+                      //   name: 'user_recommend',
+                      //   params: argu
+                      // })
+                      // window.open(href, '_blank')
                     }
                   }
                 }, '推荐列表'),
@@ -237,11 +241,15 @@
                   on: {
                     click: () => {
                       let argu = {id: params.row.id}
-                      const {href} = this.$router.resolve({
+                      this.$router.push({
                         name: 'user_note',
                         params: argu
                       })
-                      window.open(href, '_blank')
+                      // const {href} = this.$router.resolve({
+                      //   name: 'user_note',
+                      //   params: argu
+                      // })
+                      // window.open(href, '_blank')
 
                     }
                   }

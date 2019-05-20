@@ -384,7 +384,7 @@ export const staticRouters = [
         name: 'edit_user_detail',
         meta: {
           title: '编辑用户',
-          access: ['admin'],
+          access: ['admin', 'paas_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/edituserDetail.vue')
@@ -394,7 +394,7 @@ export const staticRouters = [
         name: 'user_order',
         meta: {
           title: '订单列表',
-          access: ['admin'],
+          access: ['admin', 'paas_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_order.vue')
@@ -404,7 +404,7 @@ export const staticRouters = [
         name: 'user_gift',
         meta: {
           title: '礼物列表',
-          access: ['admin'],
+          access: ['admin', 'paas_admin'],
           hideInMenu: true
         },
         component: () => import('@/view/users/user_gift.vue')
