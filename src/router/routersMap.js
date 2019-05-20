@@ -64,7 +64,7 @@ const data = [
     path: 'paasClients',
     icon: 'ios-people',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['paas_admin'],
       hideInMenu: false,
       notCache: true
     },
