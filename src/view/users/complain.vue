@@ -46,7 +46,7 @@
     </Modal>
     <Modal
       v-model="modal1"
-      title="反馈照片"
+      title="投诉照片"
       no-cancel>
       <div style="font-size: 16px">
         <div style="text-align: center">
@@ -216,7 +216,7 @@
         if (this.activeTab == 1) {
           status = 0
         }
-        uAxios.put(`admin/change/complaint/${this.feedbackItem.feedbackId}/status?status=${status}`)
+        uAxios.put(`admin/change/complaint/${this.complainItem.id}/status?status=${status}`)
           .then(res => {
             if (res.data.code === 0) this.$Message.info('已处理')
             this.information.splice(this.feedbackIndex, 1)
