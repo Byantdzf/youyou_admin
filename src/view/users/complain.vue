@@ -2,7 +2,20 @@
   <div v-model="activeTab">
     <Card>
       <Tabs @on-click="getTab">
-        <TabPane label="用户投诉列表" name="complain">
+        <TabPane label="未处理" name="0">
+          <Input
+            v-model="searchKeyword"
+            @on-enter="handleSearch"
+            placeholder="关键字搜索..."
+            style="width: 200px; margin-bottom: 22px;"/>
+          <span @click="handleSearch">
+                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+                </span>
+          <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
+          <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+        </TabPane>
+        <TabPane label="已处理" name="1">
           <Input
             v-model="searchKeyword"
             @on-enter="handleSearch"
@@ -20,6 +33,7 @@
     <Modal
       v-model="modal"
       title="投诉内容"
+      :ok-text="text"
       @on-ok="cancel"
     >
       <Card style="margin-top: 12px;">
@@ -62,6 +76,7 @@
         id: '',
         addressList: [],
         modal1: false,
+        text: '标记为已处理',
         complainItem: {},
         orgColumns: [
           {
@@ -198,23 +213,24 @@
       cancel () {
         this.modal = false
         let status = 1
-        // if (this.activeTab == 1) {
-        //   status = 0
-        // }
-        // uAxios.put(`admin/change/feedback/${this.feedbackItem.id}/status?status=${status}`)
-        //   .then(res => {
-        //     if(res.data.code === 0) this.$Message.info('已处理');
-        //     this.getlist(1)
-        //   });
+        if (this.activeTab == 1) {
+          status = 0
+        }
+        uAxios.put(`admin/change/complaint/${this.feedbackItem.feedbackId}/status?status=${status}`)
+          .then(res => {
+            if (res.data.code === 0) this.$Message.info('已处理')
+            this.information.splice(this.feedbackIndex, 1)
+          })
       },
       getTab (type) {
         // 获得激活的Tab页
         this.activeTab = type
+        this.getlist(1)
       },
       getlist (page) {
         let self = this
         self.loading = true
-        uAxios.get('admin/complaints?page=' + page)
+        uAxios.get(`admin/complaints?page=${page}&status=${self.activeTab}`)
           .then(res => {
             let result = res.data.data
             console.log(result)
@@ -222,7 +238,6 @@
             self.orgTotal = result.total
             self.loading = false
             // self.searchKeyword = ''
-
           })
       },
       handlePage (num) {
@@ -232,25 +247,16 @@
       },
       handleSearch () {
         // 搜索
-        let query = '&keyword=' + this.searchKeyword
+        let query = 'keyword=' + this.searchKeyword
         let self = this
         let page = 1
-        uAxios.get('admin/complaints?page=' + page + query)
+        uAxios.get(`admin/complaints?page=${page}&status=${self.activeTab}&${query}`)
           .then(res => {
             let result = res.data.data
             console.log(result)
             self.information = result.data
             self.orgTotal = result.total
-            self.searchKeyword = ''
           })
-//            },
-//            remove (index,_id) {
-//                this.information.splice(index, 1);
-//                console.log(_id)
-//                uAxios.delete('profiles/' + _id)
-//                    .then(res => {
-//                        this.$Message.info('删除成功');
-//                    });
       }
     },
     mounted () {

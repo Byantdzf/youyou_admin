@@ -238,7 +238,7 @@
       },
       handleSearch () {
         // 搜索
-        let query = '&keyword=' + this.searchKeyword
+        let query = 'keyword=' + this.searchKeyword
         let self = this
         let page = 1
         uAxios.get(`admin/feedbacks?page=${page}&${query}&status=${self.activeTab}`)
