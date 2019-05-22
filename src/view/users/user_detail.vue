@@ -10,34 +10,42 @@
       <Card v-if="user_is_admin==1" shadow>
         <p slot="title" style="color: #ff6c4c">管理员操作</p>
         <div style="width: 100%;">
-          <Row >
+          <Row>
             <i-col span="10">
               <Card>
+                <div style="width:100%; padding: 12px;border-bottom: 1px solid #d3d3d3;margin-bottom: 12px;">
+                  <div class="font_16 _bold" style="margin-top: 6px;float: left;">账号状态:</div>
+                  <Button type="primary" style="margin-left: 22px;float: right;" @click="alterState">确定修改</Button>
+                  <Select v-model="type" style="width: 45%;margin-left: 12px;">
+                    <Option v-for="item,index in typeList" :value="item.name" :key="index">{{ item.title }}</Option>
+                  </Select>
+                  <div style="clear: both"></div>
+                </div>
                 <!--<div style="display: inline-block;margin-left: 12px;">-->
-                  <!--<span class="font_16 _bold">设置为管理员：</span>-->
-                  <!--<i-switch v-model="switch1" @on-change="change"/>-->
+                <!--<span class="font_16 _bold">设置为管理员：</span>-->
+                <!--<i-switch v-model="switch1" @on-change="change"/>-->
                 <!--</div>-->
                 <!--<Dropdown style="margin-left: 20px; position: relative;">-->
-                  <!--<i-button type="primary">-->
-                    <!--Ta 的权限：超级管理员-->
-                    <!--<Icon type="arrow-down-b"></Icon>-->
-                  <!--</i-button>-->
-                  <!--<Dropdown-menu slot="list">-->
-                    <!--<Dropdown-item>超级管理员</Dropdown-item>-->
-                    <!--<Dropdown placement="right-start">-->
-                      <!--<Dropdown-item>-->
-                        <!--平台管理员-->
-                        <!--<Icon type="arrow-right-b"></Icon>-->
-                      <!--</Dropdown-item>-->
-                      <!--<Dropdown-menu slot="list">-->
-                        <!--<Dropdown-item>挂炉烤鸭</Dropdown-item>-->
-                        <!--<Dropdown-item>焖炉烤鸭</Dropdown-item>-->
-                      <!--</Dropdown-menu>-->
-                    <!--</Dropdown>-->
-                    <!--<Dropdown-item>红娘</Dropdown-item>-->
-                    <!--<Dropdown-item>同工</Dropdown-item>-->
-                  <!--</Dropdown-menu>-->
-                  <!--&lt;!&ndash;<img src="http://images.ufutx.com/201905/14/30ab7c315c4f5a2670e3e9de537d94d5.png" alt="" style="position: absolute;right: -8px;top: -34px;" width="50px">&ndash;&gt;-->
+                <!--<i-button type="primary">-->
+                <!--Ta 的权限：超级管理员-->
+                <!--<Icon type="arrow-down-b"></Icon>-->
+                <!--</i-button>-->
+                <!--<Dropdown-menu slot="list">-->
+                <!--<Dropdown-item>超级管理员</Dropdown-item>-->
+                <!--<Dropdown placement="right-start">-->
+                <!--<Dropdown-item>-->
+                <!--平台管理员-->
+                <!--<Icon type="arrow-right-b"></Icon>-->
+                <!--</Dropdown-item>-->
+                <!--<Dropdown-menu slot="list">-->
+                <!--<Dropdown-item>挂炉烤鸭</Dropdown-item>-->
+                <!--<Dropdown-item>焖炉烤鸭</Dropdown-item>-->
+                <!--</Dropdown-menu>-->
+                <!--</Dropdown>-->
+                <!--<Dropdown-item>红娘</Dropdown-item>-->
+                <!--<Dropdown-item>同工</Dropdown-item>-->
+                <!--</Dropdown-menu>-->
+                <!--&lt;!&ndash;<img src="http://images.ufutx.com/201905/14/30ab7c315c4f5a2670e3e9de537d94d5.png" alt="" style="position: absolute;right: -8px;top: -34px;" width="50px">&ndash;&gt;-->
                 <!--</Dropdown>-->
                 <Button type="info" style="margin-left: 32px;display: inline-block;" @click="setapproved"
                         v-if="is_approved == 0">
@@ -49,7 +57,7 @@
               </Card>
             </i-col>
             <i-col span="13" offset="1">
-              <Card >
+              <Card>
                 <Select v-model="client_id" style="width: 300px;" filterable @on-query-change="getGropData">
                   <Option v-for="item in redMun" :value="item.id" :key="item.id">{{ item.name }}</Option>
                 </Select>
@@ -66,7 +74,8 @@
           <div style="display: inline-block">
             <span class="font_16 _bold">头像：<img
               :src="avatar?avatar:'http://images.ufutx.com/201905/13/599151d27fc07ba1bc4cc57a291525e5.jpeg'" alt=""
-              width="80px" height="80px" style="box-shadow: 1px 1px 12px #c1c1c1" @click="showModal(avatar,'image')"></span>
+              width="80px" height="80px" style="box-shadow: 1px 1px 12px #c1c1c1"
+              @click="showModal(avatar,'image')"></span>
           </div>
           <div style="display: inline-block;margin-left: 42px;">
             <span class="font_16 _bold">用户名：</span>
@@ -80,7 +89,7 @@
                v-if="is_audited == 0" style="margin-left: 12px;margin-bottom: -16px;" width="62">
           <img src="http://images.ufutx.com/201905/13/20626fbd174313d584176c1d6bc74ef3.png" alt="" v-else
                style="margin-left: 12px;margin-bottom: -16px;" width="62">
-          <div style="display: inline-block;margin-top: 22px;"  v-if="user_is_admin==1">
+          <div style="display: inline-block;margin-top: 22px;" v-if="user_is_admin==1">
             <Card>
               <Button type="primary" style="margin-left: 8px;" @click="gotoEdit">编辑用户</Button>
               <Button type="warning" style="margin-left: 8px" @click="gotoUrl('user_order','id',id)">用户订单</Button>
@@ -220,6 +229,20 @@
         redMun: [], // 红娘列表
         disabled: false,
         loading: false,
+        type: '',
+        typeList: [
+          {
+            title: '单身',
+            name: 'single'
+          },
+          {
+            title: '恋爱',
+            name: 'loveing'
+          },
+          {
+            title: '介绍人',
+            name: 'marriage'
+          }],
         user_is_admin: 0,
         //                enterprises_id: '', // 默认企业id
         columns: [
@@ -367,6 +390,19 @@
       }
     },
     methods: {
+      alterState () {
+        console.log()
+        uAxios.put(`admin/users/${this.id}?type=${this.type}`).then((response) => {
+          if (response.data.code === 0) {
+            this.$Message.info('修改成功')
+            this.getlist(this.currentPage)
+          } else {
+            this.$Modal.error({
+              content: response.data.message
+            })
+          }
+        })
+      },
       showDeleteUser () {
         this.modal1 = true
       },
@@ -550,6 +586,7 @@
             let result = res.data.data
             console.log(result)
             self.name = result.name
+            self.type = result.type
             self.switch1 = result.is_admin != 0
             self.maker_name = result.maker_name
             self.is_approved = result.is_approved

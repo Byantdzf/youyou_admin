@@ -50,13 +50,6 @@
             <div style="clear: both"></div>
           </div>
           <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
-            <div class="font_16 _bold" style="margin-top: 6px;float: left;">账号状态:</div>
-            <Select v-model="type" style="float: right;width: 300px">
-              <Option v-for="item in typeList" :value="item" :key="item">{{ item }}</Option>
-            </Select>
-            <div style="clear: both"></div>
-          </div>
-          <div style="width:100%;border-bottom: 1px solid #ececec;padding: 12px;">
             <div class="font_16 _bold" style="margin-top: 6px;float: left;">宗教信仰:</div>
             <Select v-model="belief" style="float: right;width: 300px">
               <Option v-for="item in beliefList" :value="item" :key="item">{{ item }}</Option>
