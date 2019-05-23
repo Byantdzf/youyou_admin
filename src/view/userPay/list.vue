@@ -198,6 +198,7 @@
         uAxios.get(`admin/users?keyword=${value}`)
           .then(res => {
             setTimeout(msg, 3000)
+            self.loading = false
             let result = res.data.data.data
             this.userList = result.map((item) => {
               return {
@@ -247,6 +248,8 @@
             if (result.data) {
               self.information = result.data
               self.orgTotal = result.total
+              self.loading = false
+
               // self.searchKeyword = ''
             }
           })
