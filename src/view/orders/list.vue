@@ -67,18 +67,24 @@
         addressList: [],
         modal1: false,
         orgColumns: [
-          {
-            title: '序号',
-            type: 'index',
-//                        width: 80,
-            align: 'center',
-            sortable: true
-          },
+//           {
+//             title: '序号',
+//             type: 'index',
+// //                        width: 80,
+//             align: 'center',
+//             sortable: true
+//           },
           {
             title: 'ID',
             key: 'id',
             align: 'center',
 //                        width: 100,
+            editable: true
+          },
+          {
+            title: 'USERID',
+            key: 'user_id',
+            align: 'center',
             editable: true
           },
           {
@@ -105,7 +111,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {id: params.row.id}
+                    let argu = {id: params.row.user_id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -281,7 +287,7 @@
                 goods: item.goods,
                 created_at: item.created_at,
                 id: item.id,
-                id: item.id,
+                user_id: item.user_id,
                 status: item.status,
                 price: item.price
               }
