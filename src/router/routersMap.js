@@ -126,6 +126,17 @@ const data = [
     component: () => import('@/view/users/list.vue')
   },
   {
+    title: '用户会员',
+    path: 'userMembers',
+    icon: 'ios-body',
+    meta: {
+      access: ['admin', 'paas_admin'],
+      hideInMenu: false,
+      notCache: false
+    },
+    component: () => import('@/view/users/userMembers.vue')
+  },
+  {
     title: '用户充值',
     path: 'userPay',
     icon: 'logo-usd',
