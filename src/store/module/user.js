@@ -48,7 +48,7 @@ export default {
         }).then(res => {
           const data = res.data.data
           commit('setToken', data.access_token)
-          commit('setAvator', data.avatar)
+          commit('setAvator', data.photo)
           commit('setPaas', data.paas_obj)
           commit('setUserName', data.name)
           commit('setUserId', data.id)
