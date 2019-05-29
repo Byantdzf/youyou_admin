@@ -93,6 +93,7 @@
             <Card>
               <Button type="primary" style="margin-left: 8px;" @click="gotoEdit">编辑用户</Button>
               <Button type="warning" style="margin-left: 8px" @click="gotoUrl('user_order','id',id)">用户订单</Button>
+              <Button style="margin-left: 8px;background-image: linear-gradient(-225deg, #A445B2 0%, #D41872 52%, #FF0066 100%);color: white;" @click="gotoUrl('userMembers','id',id)">用户会员</Button>
               <Button type="success" style="margin-left: 8px" @click="gotoUrl('user_integral','id',id)">福分记录</Button>
               <Button type="info" style="margin-left: 8px" @click="gotoUrl('user_gift','id',id)">礼物列表</Button>
               <Button type="error" style="margin-left: 8px" @click="showDeleteUser">删除用户</Button>

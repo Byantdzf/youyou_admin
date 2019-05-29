@@ -126,17 +126,6 @@ const data = [
     component: () => import('@/view/users/list.vue')
   },
   {
-    title: '用户会员',
-    path: 'userMembers',
-    icon: 'ios-body',
-    meta: {
-      access: ['admin', 'paas_admin'],
-      hideInMenu: false,
-      notCache: false
-    },
-    component: () => import('@/view/users/userMembers.vue')
-  },
-  {
     title: '用户充值',
     path: 'userPay',
     icon: 'logo-usd',
@@ -323,6 +312,17 @@ export const staticRouters = [
           // access: ['super_admin']
         },
         component: () => import('@/view/users/user_detail.vue')
+      },
+      {
+        path: 'userMembers/:id',
+        name: 'userMembers',
+        meta: {
+          title: '用户会员',
+          hideInMenu: true,
+          notCache: false,
+          // access: ['super_admin']
+        },
+        component: () => import('@/view/users/userMembers.vue')
       },
       {
         path: 'user_recommend/:id',
