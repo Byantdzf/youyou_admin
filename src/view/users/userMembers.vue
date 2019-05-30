@@ -92,50 +92,50 @@
             title: '会员ID',
             key: 'id',
             align: 'center',
-            width: 130,
+            width: 110,
             editable: true
           },
           {
             title: '用户ID',
             key: 'user_id',
             align: 'center',
-            width: 130,
+            width: 110,
             editable: true
           },
           {
             title: 'VIP类型',
             key: 'rank_name',
-            width: 140,
+            width: 120,
             align: 'center'
           },
           {
             title: 'VIP类型',
             key: 'type',
-            width: 140,
+            width: 120,
             align: 'center'
           },
           {
             title: '会员价格',
             key: 'price',
-            width: 140,
+            width: 120,
             align: 'center'
           },
           {
             title: '购买时间',
             key: 'created_at',
-            width: 220,
+            width: 200,
             align: 'center'
           },
           {
             title: '到期时间',
             key: 'deadline',
-            width: 220,
+            width: 200,
             align: 'center'
           },
           {
             title: '会员详情',
             key: 'content',
-            width: 220,
+            width: 200,
             align: 'center'
           },
           {
