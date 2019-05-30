@@ -4,19 +4,20 @@
 
 <script>
 import echarts from 'echarts';
+
 export default {
-    name: 'serviceRequests',
-    props: ['option'],
-    watch: {
-        option:function () {
-            const serviceRequestCharts = echarts.init(document.getElementById('service_request_con'));
-            serviceRequestCharts.setOption(this.option);
-            window.addEventListener('resize', function () {
-                serviceRequestCharts.resize();
-            });
-        }
-    },
-    mounted () {
+  name: 'serviceRequests',
+  props: ['option'],
+  watch: {
+    option: function () {
+      const serviceRequestCharts = echarts.init(document.getElementById('service_request_con'));
+      serviceRequestCharts.setOption(this.option);
+      window.addEventListener('resize', function () {
+        serviceRequestCharts.resize();
+      });
     }
+  },
+  mounted() {
+  }
 };
 </script>

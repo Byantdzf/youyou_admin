@@ -207,7 +207,7 @@
         uAxios.get(`admin/feedbacks?page=${page}&status=${self.activeTab}`)
           .then(res => {
             let result = res.data.data
-            console.log(result)
+            console.log(result,'1231')
             self.information = result.data.map((item, inde, arr) => {
               return {
                 content: item.content,
