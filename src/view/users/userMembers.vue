@@ -16,7 +16,7 @@
               <Card>
                 <p slot="title">用户信息</p>
                 <div style="display: inline-block">
-                  <span class="font_16 _bold">头像：<img :src="avatar" alt="" width="80rpx"
+                  <span class="font_16 _bold">头像：<img :src="photo" alt="" width="80rpx"
                                                       style="box-shadow: 1px 1px 12px #c1c1c1"></span>
                 </div>
                 <div style="display: inline-block;margin-left: 22px;">
@@ -30,14 +30,13 @@
               </Card>
             </Col>
           </Row>
-          <Row style="width: 100%;margin-top: 26px;">
+          <Row style="margin-top:22px;">
             <Col span="24">
               <Card>
-                <p slot="title">福分记录</p>
                 <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
-                <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                      style="float:right;margin-top:5px;"></Page>
-                <div style="clear: both"></div>
+                <!--<Page :total="orgTotal" @on-change="handlePage" :page-size="15"-->
+                      <!--style="float:right;margin-top:5px;"></Page>-->
+                <!--<div style="clear: both"></div>-->
               </Card>
             </Col>
           </Row>
@@ -49,7 +48,18 @@
     title="修改到期时间"
     @on-ok="cancel"
     >
-      <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time(Excluding seconds)" style="width: 200px"></DatePicker>
+      <p style="color: #000000;font-size: 14px">
+        到期时间：
+        <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time(Excluding seconds)" style="width: 200px"></DatePicker>
+      </p>
+    </Modal>
+    <Modal
+    v-model="modaldelete"
+    ok-text="OK"
+    title="温馨提示"
+    @on-ok="ok"
+    >
+    <p>是否确定删除该会员？</p>
     </Modal>
   </div>
 </template>
@@ -63,66 +73,75 @@
     name: 'index',
     data () {
       return {
+        cancel: true,
         activeTab: 'complain',
-        currentPage: 1,
-        searchKeyword: '',
-        orgTotal: 0,
-        fieldList: [],
-        modelValue: '',
         name: '',
         mobile: '',
-        avatar: '',
-        industryList: [],
+        photo: '',
         id: '',
-        addressList: [],
-        modal1: false,
+        modaldelete: false,
         orgColumns: [
           {
             title: '序号',
             type: 'index',
-            width: 80,
+            width: 100,
             align: 'center',
             sortable: true
           },
           {
-            title: '商品名称',
-            key: 'message',
+            title: '会员ID',
+            key: 'id',
             align: 'center',
-//                        width: 100,
+            width: 130,
             editable: true
           },
           {
-            title: '消费类型',
+            title: '用户ID',
+            key: 'user_id',
+            align: 'center',
+            width: 130,
+            editable: true
+          },
+          {
+            title: 'VIP类型',
+            key: 'rank_name',
+            width: 140,
+            align: 'center'
+          },
+          {
+            title: 'VIP类型',
             key: 'type',
-            align: 'center',
-//                        width: 100,
-            editable: true
+            width: 140,
+            align: 'center'
           },
           {
-            title: '消费金额',
-            key: 'amount',
-            align: 'center',
-//                        width: 100,
-            editable: true
+            title: '会员价格',
+            key: 'price',
+            width: 140,
+            align: 'center'
           },
           {
-            title: '消费时间',
+            title: '购买时间',
             key: 'created_at',
-            align: 'center',
-//                        width: 100,
-            editable: true
+            width: 220,
+            align: 'center'
           },
           {
-            title: '剩余金额',
-            key: 'value',
-            align: 'center',
-//                        width: 100,
-            editable: true
+            title: '到期时间',
+            key: 'deadline',
+            width: 220,
+            align: 'center'
+          },
+          {
+            title: '会员详情',
+            key: 'content',
+            width: 220,
+            align: 'center'
           },
           {
             title: '操作',
             key: 'action',
-            width: 150,
+            // width: 180,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -130,18 +149,47 @@
                   props: {
                     type: 'primary'
                   },
+                  style: {
+                    margin: '5px',
+                    background: '#d95233',
+                    border: 'none'
+                  },
                   on: {
                     click: () => {
                       this.modal = true
-                      // console.log(params.row.id)
-                      // let argu = {id: params.row.id}
-                      // this.$router.push({
-                      //   name: 'order-detail',
-                      //   params: argu
-                      // })
                     }
                   }
-                }, '详情')
+                }, '会员添加'),
+                h('Button', {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    margin: '5px',
+                    background: '#d9d226',
+                    border: 'none'
+                  },
+                  on: {
+                    click: () => {
+                      this.modal = true
+                    }
+                  }
+                }, '会员修改'),
+                h('Button', {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    margin: '5px',
+                    background: '#a328d9',
+                    border: 'none'
+                  },
+                  on: {
+                    click: () => {
+                      this.modaldelete = true
+                    }
+                  }
+                }, '会员删除')
               ])
             }
           }
@@ -156,51 +204,45 @@
       }
     },
     methods: {
-      handlePage (num) {
-        // 分页
-        this.currentPage = num
-        this.getlist(num)
-
-      },
-      getlist (page) {
+      getlist () {
         let self = this
         console.log(self.id)
-        uAxios.get('admin/users/' + self.id + '?page=' + page)
+        uAxios.get('admin/users/' + self.id + '/rank/histories')
           .then(res => {
             let result = res.data.data
             console.log(result)
-            self.name = result.name
-            self.avatar = result.avatar
-            self.mobile = result.mobile
+            self.name = result.user.name
+            self.photo = result.user.photo
+            self.mobile = result.user.mobile
+            self.information = result.histories.map((item) => {
+              return {
+                id: item.id,
+                deadline: item.deadline,
+                price: item.rank.price+'/月',
+                rank_name: item.rank.name+'VIP',
+                created_at: item.rank.created_at,
+                content: item.rank.content,
+                type: item.rank.type,
+                user_id: item.user_id
+              }
+            })
+            self.loading = false
           })
         self.loading = true
-        uAxios.get('admin/users/' + self.id + '/score/histories?page=' + page)
-          .then(res => {
-            let result = res.data.data
-            console.log(result)
-            self.information = result.data
-            self.orgTotal = result.total
-            self.loading = false
-            // self.searchKeyword = ''
-
-          })
       },
-      handleSearch () {
-        let query = '&keyword=' + this.searchKeyword
+      ok () {
         let self = this
-        let page = 1
-        self.loading = true
-        uAxios.get('admin/users/' + self.id + '/score/histories?page=' + page + query)
-          .then(res => {
-            let result = res.data.data
-            console.log(result)
-            self.information = result.data
-            self.orgTotal = result.total
-            self.loading = false
-            // self.searchKeyword = ''
-
-          })
-      }
+        uAxios.delete('admin/users/' + self.id ).then((response) => {
+          if (response.data.code === 1) {
+            this.$Message.info('删除成功');
+            this.getlist(this.currentPage)
+          } else {
+            this.$Modal.error({
+              content: response.data.message
+            });
+          }
+        });
+      },
     },
     mounted () {
       this.id = this.$route.params.id

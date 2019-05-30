@@ -282,7 +282,7 @@
                 uAxios.get('admin/users/' + self.id + '/orders?page=' + page )
                     .then(res => {
                         let result = res.data.data;
-                        console.log(result)
+                        console.log(result,'13213')
                         self.information = result.data
                         self.orgTotal = result.total;
                         self.loading = false
