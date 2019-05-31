@@ -339,7 +339,6 @@
             self.orgTotal = result.total
             self.loading = false
             // self.searchKeyword = ''
-
           })
       },
       getmatchmakers () {
@@ -386,6 +385,8 @@
         self.loading = true
         uAxios.get('admin/activities/' + self.id)
           .then(res => {
+            debugger
+            console.log(res, '999999')
             let result = res.data.data
             this.data = []
             this.address = `${result.address}`
