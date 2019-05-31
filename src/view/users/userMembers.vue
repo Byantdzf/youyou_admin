@@ -166,7 +166,6 @@
                   },
                   style: {
                     margin: '5px',
-                    background: '#d9d226',
                     border: 'none'
                   },
                   on: {
@@ -183,7 +182,7 @@
                   },
                   style: {
                     margin: '5px',
-                    background: '#a328d9',
+                    background: '#d93511',
                     border: 'none'
                   },
                   on: {
@@ -237,7 +236,7 @@
                 deadline: item.deadline,
                 price: item.rank.price + '/月',
                 rank_name: item.rank.name + 'VIP',
-                created_at: item.rank.created_at,
+                created_at: item.created_at,
                 content: item.rank.content,
                 type: item.rank.type,
                 user_id: item.user_id,
