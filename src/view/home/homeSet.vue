@@ -32,16 +32,19 @@
           <Card>
             <p slot="title" style="color: #3bc84d;">首页通知</p>
             <Row>
-              <Col span="24" v-for="item,index in messageList" :key="index" style="margin-top: 12px;padding-bottom: 12px;border-bottom: 2px solid #f0f0f0;">
+              <Col span="24" v-for="item,index in messageList" :key="index" style="padding-bottom: 12px;border-bottom: 2px solid #f0f0f0;">
+                <div @click="getIndex(index)">
+                  <informPic v-on:uploadPictures="uploadInformPic" :pic="item.pic" style="margin-top: 12px;"></informPic>
+                </div>
                 <Col span="11">
-                  <Input v-model="item.title" type="textarea" :rows="5"  placeholder="Enter message..." />
+                  <Input v-model="item.title" type="textarea" :rows="2"  placeholder="Enter message..." />
                 </Col>
-                <Col span="12" offset="1">
+                <Col span="12" offset="1" style="position: absolute;bottom: 12px;right: -10px">
                   <Input v-model="item.path" placeholder="跳转路径（path）" style="width: 300px" />
-                  <Select v-model="item.type" style="width: 300px;margin-top: 8px;" >
+                  <Select v-model="item.type" style="width: 300px;margin-top: 12px;" >
                     <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
-                  <DatePicker type="daterange" v-model="item.date" placement="bottom-end" placeholder="通知显示时间" style="width: 220px;margin-top: 8px
+                  <DatePicker type="daterange" v-model="item.date" placement="bottom-end" placeholder="通知显示时间" style="width: 220px;margin-top: 12px
 ;margin-right: 12px"></DatePicker>
                   <Button type="error"  @click="removeMessage(index)">删除</Button>
                 </Col>
@@ -68,7 +71,8 @@ export default {
   name: 'Org',
   components: {
     dropdown: dropdown,
-    uploadImage: uploadImage
+    uploadImage: uploadImage,
+    informPic:uploadImage
   },
   data () {
     return {
@@ -84,6 +88,7 @@ export default {
       client_id: 0,
       searchKeyword: '',
       photo: '',
+      informIndex: 0,
       activeTab: 'orgInfo',
       character: {},
       uploaddata: [],
@@ -103,6 +108,12 @@ export default {
   methods: {
     uploadPictures (image) {
       this.photo = image // 轮播
+    },
+    uploadInformPic (image) {
+      this.messageList[this.informIndex].pic = image
+    },
+    getIndex (index) {
+      this.informIndex = index
     },
     getGropData (value) {
       console.log(this.searchKeyword)
@@ -158,7 +169,7 @@ export default {
       let data = {
         announcement: this.messageList
       }
-      uAxios.post(`admin/announcements`, data).then((response) => {
+      uAxios.post(`admin/announcements`,data).then((response) => {
         if (response.data.code === 0) {
           this.$Message.info('设置成功')
         } else {
@@ -217,6 +228,7 @@ export default {
       let self = this
       uAxios.get('admin/home/recommends')
         .then(res => {
+          console.log(res,'9999')
           let result = res.data.data
           self.information = result.map((item, index) => {
             return {
@@ -237,7 +249,8 @@ export default {
               start_time: item.start_time,
               end_time: item.end_time,
               path: item.path,
-              type: item.type
+              type: item.type,
+              pic: item.pic
             })
           }
         })
