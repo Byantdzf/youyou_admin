@@ -280,10 +280,12 @@ export const staticRouters = [
       component: routerMap['Home']
     }]
   },
+  ...setRouter(),
   {
-    path: '/homeSet',
-    name: '首页设置',
+    path: '/',
+    name: '设置',
     meta: {
+      access: ['admin', 'paas_admin'],
       notCache: true, hideInMenu: false,
       icon: 'logo-sass',
     },
@@ -301,7 +303,7 @@ export const staticRouters = [
         component: () => import('@/view/home/homeSet.vue')
       },
       {
-        path: 'homeSet21',
+        path: 'homeRecommend',
         name: '首页推荐',
         icon: 'md-cog',
         meta: {
@@ -309,11 +311,21 @@ export const staticRouters = [
           hideInMenu: false,
           notCache: true
         },
-        component: () => import('@/view/home/homeSet.vue')
+        component: () => import('@/view/home/homeRecommend.vue')
+      },
+      {
+        path: 'homeRecommend',
+        name: '群发信息',
+        icon: 'md-cog',
+        meta: {
+          access: ['admin', 'paas_admin'],
+          hideInMenu: false,
+          notCache: true
+        },
+        component: () => import('@/view/home/massTexting.vue')
       }
     ]
   },
-  ...setRouter(),
   {
     path: '/',
     name: '二级页面',
