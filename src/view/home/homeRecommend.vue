@@ -58,7 +58,6 @@
           </Card>
         </Col>
       </div>
-
     </Card>
   </div>
 </template>

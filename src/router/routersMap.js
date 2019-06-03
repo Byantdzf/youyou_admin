@@ -314,7 +314,7 @@ export const staticRouters = [
         component: () => import('@/view/home/homeRecommend.vue')
       },
       {
-        path: 'homeRecommend',
+        path: 'massTexting',
         name: '群发信息',
         icon: 'md-cog',
         meta: {
