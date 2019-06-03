@@ -282,6 +282,8 @@ export const staticRouters = [
   },
   ...setRouter(),
   {
+    path: '/homeSet',
+    name: '首页设置',
     path: '/',
     name: '设置',
     meta: {
@@ -303,6 +305,7 @@ export const staticRouters = [
         component: () => import('@/view/home/homeSet.vue')
       },
       {
+        path: 'homeSet21',
         path: 'homeRecommend',
         name: '首页推荐',
         icon: 'md-cog',
@@ -311,6 +314,7 @@ export const staticRouters = [
           hideInMenu: false,
           notCache: true
         },
+        component: () => import('@/view/home/homeSet.vue')
         component: () => import('@/view/home/homeRecommend.vue')
       },
       {
@@ -326,6 +330,7 @@ export const staticRouters = [
       }
     ]
   },
+  ...setRouter(),
   {
     path: '/',
     name: '二级页面',
