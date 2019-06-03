@@ -26,17 +26,17 @@ const data = [
     },
     component: () => import('@/view/home/home.vue')
   },
-  {
-    title: '首页设置',
-    path: 'homeSet',
-    icon: 'md-cog',
-    meta: {
-      access: ['admin', 'paas_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/home/homeSet.vue')
-  },
+  // {
+  //   title: '首页设置',
+  //   path: 'homeSet',
+  //   icon: 'md-cog',
+  //   meta: {
+  //     access: ['admin', 'paas_admin'],
+  //     hideInMenu: false,
+  //     notCache: true
+  //   },
+  //   component: () => import('@/view/home/homeSet.vue')
+  // },
   {
     title: '平台管理',
     path: 'paasList',
@@ -279,6 +279,39 @@ export const staticRouters = [
       meta: {notCache: true, hideInMenu: true, title: '首页'},
       component: routerMap['Home']
     }]
+  },
+  {
+    path: '/homeSet',
+    name: '首页设置',
+    meta: {
+      notCache: true, hideInMenu: false,
+      icon: 'logo-sass',
+    },
+    component: routerMap['Main'],
+    children: [
+      {
+        path: 'homeSet',
+        name: '首页通知',
+        icon: 'md-cog',
+        meta: {
+          access: ['admin', 'paas_admin'],
+          hideInMenu: false,
+          notCache: true
+        },
+        component: () => import('@/view/home/homeSet.vue')
+      },
+      {
+        path: 'homeSet21',
+        name: '首页推荐',
+        icon: 'md-cog',
+        meta: {
+          access: ['admin', 'paas_admin'],
+          hideInMenu: false,
+          notCache: true
+        },
+        component: () => import('@/view/home/homeSet.vue')
+      }
+    ]
   },
   ...setRouter(),
   {

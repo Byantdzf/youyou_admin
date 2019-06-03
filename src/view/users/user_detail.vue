@@ -604,7 +604,7 @@
             self.graduate_photos = result.profile.graduate_photos
             self.other_photos = result.profile.other_photos
             self.identification_photos = result.profile.identification_photos
-            self.wechat_qrcode = result.profile.wechat_qrcode.length? JSON.parse(result.profile.wechat_qrcode): []
+            self.wechat_qrcode = result.profile.wechat_qrcode
             self.information = [
               {
                 name: '会员等级',
