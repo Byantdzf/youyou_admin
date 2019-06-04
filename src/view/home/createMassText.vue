@@ -44,7 +44,7 @@
           <Card style="overflow: hidden;">
             <div class="bc_box">
               <div class="font_16 _bold bc_title">发送内容：</div>
-              <Input placeholder="Enter something..." class="bc_input" type="textarea" :value="content"/>
+              <Input placeholder="Enter something..." class="bc_input" type="textarea" v-model="content"/>
             </div>
             <div class="bc_box">
               <div class="font_16 bc_title">
@@ -233,8 +233,12 @@
         console.log(data)
         uAxios.post(`admin/send/assistant/message`, data)
           .then(res => {
-            let result = res.data.data
-            console.log(result)
+            let {code} = res.data
+            if(code === 0) {
+              this.$Message.success('发送成功！')
+              this.list = this.information = []
+              this.content = ''
+            }
           }).catch((res)=>{
             console.log(res)
         })
