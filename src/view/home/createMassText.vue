@@ -293,7 +293,7 @@
     overflow: hidden;
 
     .bc_input {
-      float: right;
+      /*float: right;*/
       max-width: 72%;
     }
 
