@@ -359,6 +359,28 @@ export const staticRouters = [
         component: () => import('@/view/users/user_detail.vue')
       },
       {
+        path: 'createMassText',
+        name: 'createMassText',
+        meta: {
+          title: '群发消息',
+          hideInMenu: true,
+          notCache: false,
+          // access: ['super_admin']
+        },
+        component: () => import('@/view/home/createMassText.vue')
+      },
+      {
+        path: 'messageDetail/:id',
+        name: 'messageDetail',
+        meta: {
+          title: '群发详情',
+          hideInMenu: true,
+          notCache: false,
+          // access: ['super_admin']
+        },
+        component: () => import('@/view/home/messageDetail.vue')
+      },
+      {
         path: 'userMembers/:id',
         name: 'userMembers',
         meta: {
