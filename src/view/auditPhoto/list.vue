@@ -43,8 +43,8 @@
     name: 'auditPhoto',
     data () {
       return {
-        activeTab: '0',
-        tab: [{title: '未审核', jump: '0'}, {title: '已审核', jump: '1'}],
+        activeTab: '-1',
+        tab: [{title: '未审核', jump: '-1'}, {title: '已审核', jump: '1'}],
         currentPage: 1,
         searchKeyword: '',
         modal: false, // 弹框
@@ -116,10 +116,9 @@
           },
           {
             title: '操作',
-            key: 'action',
             align: 'center',
             render: (h, params) => {
-              if (this.activeTab == '0') {
+              if (this.activeTab == '-1') {
                 return h('div', [
                   h('Button', {
                     props: {
@@ -162,11 +161,7 @@
                     },
                     on: {
                       click: () => {
-                        let argu = {id: params.row.id}
-                        this.$router.push({
-                          name: 'user_detail',
-                          params: argu
-                        })
+                        this.showPhoto(params.row.avatar)
                       }
                     }
                   }, '查看头像')
@@ -197,26 +192,7 @@
                     },
                     on: {
                       click: () => {
-                        this.$Modal.confirm({
-                          render: (h, params) => {
-                            return h('img', {
-                              attrs: {
-                                src: params.row.avatar
-                              },
-                              style: {
-                                width: '48px',
-                                height: '48px',
-                                borderRadius: '50%',
-                                marginTop: '6px',
-                                border: '4px solid #f4f4f4'
-                              },
-                              on: {
-                                click: () => {
-                                }
-                              }
-                            })
-                          }
-                        })
+                        this.showPhoto(params.row.avatar)
                       }
                     }
                   }, '查看头像')
@@ -234,10 +210,16 @@
     },
     watch: {},
     methods: {
+      showPhoto (photo) {
+        this.$Modal.success({
+          title: `审核头像`,
+          content: `<img src="${photo}" width="100%"/>`
+        });
+      },
       ok () {
         let self = this,
           data = {
-            status: this.cost
+            is_photo_audited: this.cost
           }
         uAxios.put(`admin/audit/users/${self.id}/photo`, data).then((response) => {
           if (response.data.code === 0) {
@@ -285,7 +267,7 @@
       getlist (page) {
         let self = this
         self.loading = true
-        uAxios.get('admin/audit/users/photo?page=' + page + '&keyword=' + self.searchKeyword + '&status=' + self.activeTab)
+        uAxios.get('admin/audit/users/photo?page=' + page + '&keyword=' + self.searchKeyword + '&is_photo_audited=' + self.activeTab)
           .then(res => {
             let result = res.data.data
             self.total = res.data.data.total
