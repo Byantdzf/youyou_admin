@@ -59,7 +59,7 @@
       ok-text="OK"
       @on-ok="deleteUser"
       no-cancel>
-      <p>是否确认删除该用户？</p>
+      <p>是否取消该用户为推荐人？</p>
     </Modal>
   </div>
 </template>
@@ -86,6 +86,7 @@
         social: 0,
         total: '',
         count: [],
+        deleteIndex: 0,
         jump: {
           is_vip: 0,
           is_match: 0,
@@ -193,27 +194,21 @@
                     }
                   }
                 }, '用户详情'),
-//                                h('Button', {
-//                                    props: {
-//                                        type: 'warning',
-//                                    },
-//                                    style: {
-//                                        margin: '5px'
-//                                    },
-//                                    on: {
-//                                        click: () => {
-////                                            this.modal = true;
-//                                            this.id = params.row.id;
-//
-//                                            let argu = {id: params.row.id};
-//                                            const { href } = this.$router.resolve({
-//                                                name: 'user_recommend',
-//                                                params: argu
-//                                            });
-//                                            window.open(href, '_blank');
-//                                        }
-//                                    }
-//                                }, '推荐列表')
+                // h('Button', {
+                //   props: {
+                //     type: 'error',
+                //   },
+                //   style: {
+                //     margin: '5px'
+                //   },
+                //   on: {
+                //     click: () => {
+                //       this.modal = true
+                //       this.id = params.row.id
+                //       this.deleteIndex = params.index
+                //     }
+                //   }
+                // }, '删除推荐')
               ])
             }
           }
@@ -275,10 +270,10 @@
       },
       deleteUser () {
         let self = this
-        uAxios.delete('admin/users/' + self.id).then((response) => {
+        uAxios.delete('admin/referres/' + self.id).then((response) => {
           if (response.data.code === 0) {
-            this.$Message.info('删除成功')
-            this.getlist(this.currentPage)
+            this.$Message.info('取消成功')
+            this.information.splice(this.deleteIndex, 1)
           } else {
             this.$Modal.error({
               content: response.data.message

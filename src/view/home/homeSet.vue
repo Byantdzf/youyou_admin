@@ -9,31 +9,30 @@
     <Card style="margin-top: 18px;">
       <p slot="title" style="color: #ff6c4c;">管理员操作</p>
       <div style="display: inline-block;margin-left: 22px;width: 100%;">
-        <Col span="9">
-          <Card>
-            <!--<dropdown :dropData="redMun" v-on:getGropData="getGropData"  title="请选择用户"  style="display: inline-block;margin-bottom: 12px;"></dropdown>-->
-            <Select v-model="client_id" style="width: 300px;" filterable @on-query-change="getGropData">
-              <Option v-for="item in redMun" :value="item.id" :key="item.id">{{ item.name }}</Option>
-            </Select>
-            <!--<Input placeholder="请搜索用户" style="width: 300px;" />-->
-            <Button type="success" style="display: inline-block; margin-left: 12px;" @click="allocation">增加征婚推荐</Button>
-            <uploadImage v-on:uploadPictures="uploadPictures" style="margin-top: 12px;"></uploadImage>
-          </Card>
-          <div>
-                        <span v-for="item,index in information" :key="index"
-                              style="padding: 22px;border-bottom: 2px solid #f6f6f6;display: inline-block;">
-                            <img :src="item.photo" alt="" width="100" style="box-shadow: 0px 0px 12px #d3d3d3;">
-                            <span style="font-size: 16px;font-weight: bold;margin-left: 22px;">用户名：{{item.name}}</span>
-                            <Button type="error" style="margin-left: 22px" @click="deleteUser(item.id)">删除</Button>
-                        </span>
-          </div>
-        </Col>
-        <Col span="12" offset="1">
+        <!--<Col span="9">-->
+          <!--<Card>-->
+            <!--&lt;!&ndash;<dropdown :dropData="redMun" v-on:getGropData="getGropData"  title="请选择用户"  style="display: inline-block;margin-bottom: 12px;"></dropdown>&ndash;&gt;-->
+            <!--<Select v-model="client_id" style="width: 300px;" filterable @on-query-change="getGropData">-->
+              <!--<Option v-for="item in redMun" :value="item.id" :key="item.id">{{ item.name }}</Option>-->
+            <!--</Select>-->
+            <!--&lt;!&ndash;<Input placeholder="请搜索用户" style="width: 300px;" />&ndash;&gt;-->
+            <!--<Button type="success" style="display: inline-block; margin-left: 12px;" @click="allocation">增加征婚推荐</Button>-->
+            <!--<uploadImage v-on:uploadPictures="uploadPictures" style="margin-top: 12px;"></uploadImage>-->
+          <!--</Card>-->
+          <!--<div>-->
+                        <!--<span v-for="item,index in information" :key="index"-->
+                              <!--style="padding: 22px;border-bottom: 2px solid #f6f6f6;display: inline-block;">-->
+                            <!--<img :src="item.photo" alt="" width="100" style="box-shadow: 0px 0px 12px #d3d3d3;">-->
+                            <!--<span style="font-size: 16px;font-weight: bold;margin-left: 22px;">用户名：{{item.name}}</span>-->
+                            <!--<Button type="error" style="margin-left: 22px" @click="deleteUser(item.id)">删除</Button>-->
+                        <!--</span>-->
+          <!--</div>-->
+        <!--</Col>-->
+        <Col span="14" >
           <Card>
             <p slot="title" style="color: #3bc84d;">首页通知</p>
             <Row>
-              <Col span="24" v-for="item,index in messageList" :key="index"
-                   style="margin-top: 12px;padding-bottom: 12px;border-bottom: 2px solid #f0f0f0;">
+              <Col span="24" v-for="item,index in messageList" :key="index" class="bc_item">
                 <Col span="11">
                   <div  @click="getIndex(index)">
                     <informPic v-on:uploadPictures="uploadInformPic" :pic="item.pic"></informPic>
@@ -49,6 +48,12 @@
 ;margin-right: 12px"></DatePicker>
                   <Button type="error" @click="removeMessage(index)">删除</Button>
                 </Col>
+                <div class="move_box">
+                  <div class="moveUp _bold" @click="move(item,'up')">上移</div>
+                  <div class="moveDown _bold" @click="move(item,'down')">下移</div>
+                </div>
+                <!--<img src="http://images.ufutx.com/201906/05/2b5b4bfb61c0224d76770040bb173a64.png" alt="moveUp" class="moveUp" width="36">-->
+                <!--<img src="http://images.ufutx.com/201906/05/b1c6e7e8a4c6671798fdce0508ecd142.png" alt="moveDowm" class="moveDown" width="36">-->
               </Col>
             </Row>
             <div style="text-align: center;margin-top: 22px;">
@@ -107,6 +112,10 @@
       }
     },
     methods: {
+      move (item, type) {
+        let  myindex= this.messageList.indexOf(item)
+        this.messageList.splice(myindex-1,0, this.messageList.splice(myindex,1)[0])
+      },
       uploadPictures (image) {
         this.photo = image // 轮播
       },
@@ -267,8 +276,34 @@
   }
 </script>
 
-<style>
+<style lang="less">
   ._bold {
     font-weight: bold
   }
+  .bc_item{
+    margin-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f0;
+    position: relative;
+  }
+  .move_box{
+    position: absolute;
+    top: 0;
+    right: 12px;
+    .moveUp,.moveDown{
+      margin-top: 4px;
+      padding: 2px 8px;
+    }
+    .moveUp{
+      border-top: 2px solid #33c627;
+      color: #33c627;
+      /*border-bottom-left-radius: 12px;*/
+    }
+    .moveDown{
+      border-bottom: 2px solid #ec5a39;
+      color: #ec5a39;
+      margin-top: 12px;
+    }
+  }
+
 </style>

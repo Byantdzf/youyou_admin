@@ -69,7 +69,7 @@
           </Col>
         </Row>
       </TabPane>
-      <TabPane label='活动订单' name="activity" v-if="id != 0">
+      <TabPane label='报名成员' name="activity" v-if="id != 0">
         <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
         <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
               style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
@@ -142,25 +142,19 @@
         activeTab: 'detail',
         orgColumns: [
           {
-            title: '序号',
-            type: 'index',
-//                        width: 80,
-            align: 'center',
-            sortable: true
-          },
-          {
             title: 'ID',
             key: 'id',
-            align: 'center',
-//                        width: 100,
-            editable: true
+            align: 'center'
+          },
+          {
+            title: '用户ID',
+            key: 'userId',
+            align: 'center'
           },
           {
             title: '用户名',
             key: 'user_name',
-            align: 'center',
-//                        width: 100,
-            editable: true
+            align: 'center'
           },
           {
             title: '头像',
@@ -179,7 +173,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {id: params.row.id}
+                    let argu = {id: params.row.userId}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -218,6 +212,33 @@
             align: 'center',
 //                        width: 100,
             editable: true
+          },
+          {
+            title: '操作',
+            key: 'title',
+            align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      let argu = {id: params.row.user_id}
+                      const {href} = this.$router.resolve({
+                        name: 'user_detail',
+                        params: argu
+                      })
+                      window.open(href, '_blank')
+                    }
+                  }
+                }, '申请退款')
+              ])
+            }
           }
         ],
         orgData: [],
@@ -326,11 +347,11 @@
             self.information = result.data.map((item) => {
               return {
                 user_name: item.user ? item.user.name : '',
-                avatar: item.user ? item.user.circle_avatar : '',
+                avatar: item.user ? item.user.photo : '',
                 goods: item.goods,
                 created_at: item.created_at,
                 id: item.id,
-                id: item.id,
+                userId: item.user.id,
                 status: item.pay_status,
                 price: item.price
               }

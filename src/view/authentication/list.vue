@@ -20,8 +20,9 @@
     <Modal
       v-model="modal1"
       title='审核信息'
-      ok-text="通过审核"
-      @on-ok="ok">
+      ok-text="确认"
+      @on-ok="approved"
+      @on-cancel="cancel">
       <div style="font-size: 14px; font-weight: bold;">
         <p style="width:84px;display: inline-block;">姓名：</p>
         <Input prefix="ios-contact" placeholder="Enter name" :value="name" v-model="name"
@@ -33,6 +34,19 @@
         <div v-for="item in identification_photos" style="max-width: 92%;margin: 12px auto;">
           <img :src="item" alt="" style="width: 100%;border-radius: 4px;box-shadow: 1px 1px 12px #d3d3d3;">
         </div>
+        <span>审核状态：</span>
+        <RadioGroup v-model="state">
+          <Radio label="1">
+            <Icon type="md-checkmark"/>
+            <span>通过</span>
+          </Radio>
+          <Radio label="-1">
+            <Icon type="md-close"/>
+            <span>失败</span>
+          </Radio>
+        </RadioGroup>
+        <Input v-model="reason" type="textarea" :rows="2" placeholder="拒绝理由..." style="margin-top: 12px;"
+               v-if="state == '-1'"/>
       </div>
     </Modal>
     <Modal
@@ -57,7 +71,7 @@
     data () {
       return {
         activeTab: '0',
-        tab: [{title: '未审核', jump: '0'}, {title: '已审核', jump: '1'}],
+        tab: [{title: '未认证', jump: '0'}, {title: '已认证', jump: '1'}],
         currentPage: 1,
         searchKeyword: '',
         modal: false, // 弹框
@@ -69,6 +83,7 @@
         cost: '',
         count: [],
         card_num: 0,
+        state: '0',
         identification_photos: [],
         jump: {
           is_vip: 0,
@@ -79,13 +94,6 @@
         },
         name: '',
         Columns: [
-          {
-            title: '序号',
-            type: 'index',
-            width: 80,
-            align: 'center',
-            sortable: true
-          },
           {
             title: 'ID',
             align: 'center',
@@ -103,7 +111,6 @@
           },
           {
             title: '头像',
-            key: 'updatedAt',
             render: (h, params) => {
               return h('img', {
                 attrs: {
@@ -196,38 +203,106 @@
                         })
                       }
                     }
-                  }, '用户详情')
+                  }, '用户详情'),
+                  h('Button', {
+                      props: {
+                        type: 'error'
+                      },
+                      style: {
+                        margin: '5px'
+                      },
+                      on: {
+                        click: () => {
+                          this.id = params.row.id
+                          this.refuseText()
+                        }
+                      }
+                    }, '删除认证'
+                  )
                 ])
               }
             }
           }
         ],
+        reason: '', // 拒绝理由
         value: '',
         information: [],
         loading: false,
         type: ''
       }
     },
-    watch: {},
+    watch: {
+      state () {
+        console.log(this.state)
+      }
+    },
     methods: {
-      ok () {
+      cancel () {
+        this.state = '0'
+      },
+      refuseText () {
+        this.$Modal.confirm({
+          title: '温馨提示',
+          content: `<p>是否删除该用户的认证？</p>`,
+          render: (h) => {
+            return h('div', [
+              h('p', '请填写删除理由！！！'),
+              h('Input', {
+                props: {
+                  value: this.value,
+                  autofocus: true,
+                  placeholder: 'Please enter your reason...'
+                },
+                style: {
+                  marginTop: '12px'
+                },
+                on: {
+                  input: (val) => {
+                    this.reason = val
+                  }
+                }
+              })
+            ])
+          },
+          onOk: () => {
+            this.state = '-1'
+            this.approved()
+          },
+          onCancel: () => {
+            this.state = '0'
+          }
+        })
+      },
+      approved () {
         let self = this,
           data = {
             name: this.name,
-            card_num: this.card_num
+            card_num: this.card_num,
+            content: this.reason,
+            type: this.state
           }
-        console.log(data)
+        if (this.state === '0') {
+          return
+        }
+        if (this.state === '-1' && !this.reason) {
+          return this.$Notice.error({
+            title: 'Notification title',
+            desc: '请填写拒绝理由 '
+          });
+        }
         uAxios.put('admin/users/' + self.id + '/approved', data).then((response) => {
           if (response.data.code === 0) {
             this.$Message.info('操作成功')
             this.getlist(this.currentPage)
+            this.$Modal.remove()
           } else {
             this.$Modal.error({
               content: response.data.message
             })
           }
         })
-      },
+      }
+      ,
       handleClose2 (name, event) {
         const index = this.count.indexOf(name)
         this.count.splice(index, 1)
@@ -268,7 +343,8 @@
         if (this.count.length != 0) {
           this.labels[0].disabled = true
         }
-      },
+      }
+      ,
       change (item, status) {
         if (status) {
           if (item.title === '全部') {
@@ -299,18 +375,21 @@
         }
         this.getlist(1)
 //                this.$Message.info('开关状态：' + status);
-      },
+      }
+      ,
       createLabel () {
         console.log(this.searchKeyword)
         this.page = 1
         this.getlist(1)
-      },
+      }
+      ,
       complainList () {
         // 投诉列表
         this.$router.push({
           name: 'complain'
         })
-      },
+      }
+      ,
       filterLabel (page) {
         console.log(this.social)
         if (this.social == 1 || this.social == 2) {
@@ -320,7 +399,8 @@
         }
         this.page = 1
         this.getlist(1)
-      },
+      }
+      ,
       deleteUser () {
         let self = this
         uAxios.delete('admin/good/match/' + self.id).then((response) => {
@@ -333,12 +413,14 @@
             })
           }
         })
-      },
+      }
+      ,
       getTab (type) {
         // 获得激活的Tab页
         this.activeTab = type
         this.getlist(1)
-      },
+      }
+      ,
       handlePage (num) {
         // 分页
         this.currentPage = num
@@ -348,7 +430,8 @@
           this.filterLabel(num)
         }
 
-      },
+      }
+      ,
       searchTitle () {
         let arr = [
           {key: 'is_vip', value: 'vip'},
@@ -386,7 +469,8 @@
           this.jump.type = ''
         }
         console.log(this.jump)
-      },
+      }
+      ,
       getlist (page) {
         let self = this,
           jump = ''
@@ -401,7 +485,7 @@
             self.total = res.data.data.total
             self.information = result.data.map((item) => {
               return {
-                avatar: item.circle_avatar,
+                avatar: item.photo,
                 created_at: item.created_at,
                 id: item.id,
                 mobile: item.mobile,
@@ -419,7 +503,8 @@
             self.orgTotal = result.total
             self.loading = false
           })
-      },
+      }
+      ,
       handleSearch () {
         let query = '&keyword=' + this.searchKeyword
         let self = this
@@ -433,7 +518,8 @@
             // self.searchKeyword = ''
           })
       }
-    },
+    }
+    ,
     mounted () {
       // if (Cookies.get('admin_type') === 'matcher') {
       //     return this.$router.push({

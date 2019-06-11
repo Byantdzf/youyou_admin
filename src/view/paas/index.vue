@@ -37,11 +37,11 @@
             <i-col span="11" offset="2" v-if="id != 0">
               <Card :bordered="true">
                 <Form ref="paasDetail" :model="paasDetail" :label-width="100">
-                  <FormItem label="logo" prop="image">
-                    <Card>
-                      <uploadImage v-on:uploadPictures="uploadLogo" :pic="platform.logo"></uploadImage>
-                    </Card>
-                  </FormItem>
+                  <!--<FormItem label="logo" prop="image">-->
+                    <!--<Card>-->
+                      <!--<uploadImage v-on:uploadPictures="uploadLogo" :pic="platform.logo"></uploadImage>-->
+                    <!--</Card>-->
+                  <!--</FormItem>-->
                   <FormItem label="名称" prop="name">
                     <Input v-model="platform.name" placeholder="Enter paasDetail name"></Input>
                   </FormItem>
@@ -89,6 +89,17 @@
       </Card>
     </Card>
     <Modal
+      v-model="modal"
+      title="小程序码"
+      no-cancel>
+      <div style="font-size: 16px">
+        <div style="text-align: center">
+          <img :src="appletImage" style="width: 400px;" v-if="appletImage"/>
+          <p v-else>暂无小程序预览图</p>
+        </div>
+      </div>
+    </Modal>
+    <Modal
       v-model="modalInput"
       title="修改名字"
       @on-ok="ok">
@@ -119,6 +130,8 @@
         paasName: '',
         platform: {},
         modalInput: false,
+        modal: false,
+        appletImage: '',
         title: '平台详情',
         BtnText: '保存修改',
         paasIndex: 0,
@@ -138,7 +151,7 @@
             editable: true
           },
           {
-            title: 'logo',
+            title: '小程序码',
             key: 'logo',
             render: (h, params) => {
               return h('img', {
@@ -154,6 +167,8 @@
                 },
                 on: {
                   click: () => {
+                    this.modal = true
+                    this.appletImage = params.row.logo
                   }
                 }
               })
@@ -198,7 +213,21 @@
                       this.paasName = params.row.name
                     }
                   }
-                }, '修改名字')
+                }, '修改名字'),
+                h('Button', {
+                  props: {
+                    type: 'info'
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.modal = true
+                      this.appletImage = params.row.logo
+                    }
+                  }
+                }, '小程序码')
               ])
             }
           }

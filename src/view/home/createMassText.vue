@@ -9,27 +9,26 @@
               <div class="font_16 _bold bc_title">发送内容：</div>
               <Input placeholder="Enter something..." class="bc_input" type="textarea" v-model="content"/>
             </div>
-            <!--<div class="bc_box">-->
-            <!--<div class="font_16 _bold bc_title">-->
-            <!--接收成员：-->
-            <!--<div-->
-            <!--style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin: 6px 0;">-->
-            <!--<Checkbox-->
-            <!--:indeterminate="indeterminate"-->
-            <!--:value="checkAll"-->
-            <!--@click.prevent.native="handleCheckAll">全选-->
-            <!--</Checkbox>-->
-            <!--</div>-->
-            <!--<CheckboxGroup v-model="FilterType" @on-change="checkAllGroupChange">-->
-            <!--<Checkbox :label="item" v-for="item,index in this.labels"></Checkbox>-->
-            <!--</CheckboxGroup>-->
-            <!--</div>-->
-            <!--</div>-->
+            <div class="bc_box">
+            <div class="font_16 _bold bc_title">
+            接收成员：
+            <div
+            style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin: 6px 0;">
+            <Checkbox
+            :indeterminate="indeterminate"
+            :value="checkAll"
+            @click.prevent.native="handleCheckAll">全选
+            </Checkbox>
+            </div>
+            <CheckboxGroup v-model="FilterType" @on-change="checkAllGroupChange">
+            <Checkbox :label="item" v-for="item,index in this.labels"></Checkbox>
+            </CheckboxGroup>
+            </div>
+            </div>
             <div style="margin: 22px 12px;">
               <span class="_bold"> 搜索用户：</span>
-              <Select v-model="PayID" style="width: 300px;" filterable @on-query-change="getGropData" clearable
-                      ref="store">
-                <Option v-for="item in userList" :value="item.id" :key="item.id" @ @click.native="changGropData(item)">
+              <Select v-model="PayID" style="width: 300px;" filterable @on-query-change="getGropData" clearable ref="store">
+                <Option v-for="item in userList" :value="item.id" :key="item.id" @click.native="changGropData(item)">
                   {{ item.name }}
                 </Option>
               </Select>
