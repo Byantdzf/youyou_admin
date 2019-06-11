@@ -193,11 +193,22 @@
             editable: true
           },
           {
+            title: '退款状态',
+            align: 'center',
+            render: (h, params) => {
+              if (params.row.is_refund) {
+                return h('div', '已经退款')
+              } else {
+                return h('div', '未退款')
+              }
+            }
+          },
+          {
             title: '操作',
             key: 'title',
             align: 'center',
             render: (h, params) => {
-              if (params.row.is_refund) {
+              if (params.row.is_refund && !params.row.is_refund) {
                 return h('div', [
                   h('Button', {
                     props: {
