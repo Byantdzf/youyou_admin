@@ -108,6 +108,7 @@
         showMapModel: false,
         address: '',
         switch1: false,
+        Index: 0,
         setLocation: [],
         redMun: [],    // 红娘列表
         disabled: false,
@@ -196,7 +197,7 @@
             key: 'title',
             align: 'center',
             render: (h, params) => {
-              if (params.row.can_refund) {
+              if (params.row.is_refund) {
                 return h('div', [
                   h('Button', {
                     props: {
@@ -207,6 +208,7 @@
                     },
                     on: {
                       click: () => {
+                        this.Index = params.index
                         this.refund(params.row.id,params.row.name)
                       }
                     }
@@ -340,7 +342,7 @@
                     this.$Modal.remove();
                     this.$Message.info('操作成功');
                   }, 200);
-                  self.getOrder(1)
+                  self.information.splice(this.Index,1)
                 } else {
                   alert('操作失败！')
                 }

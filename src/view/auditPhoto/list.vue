@@ -197,10 +197,25 @@
                     },
                     on: {
                       click: () => {
-                        let argu = {id: params.row.id}
-                        this.$router.push({
-                          name: 'user_detail',
-                          params: argu
+                        this.$Modal.confirm({
+                          render: (h, params) => {
+                            return h('img', {
+                              attrs: {
+                                src: params.row.avatar
+                              },
+                              style: {
+                                width: '48px',
+                                height: '48px',
+                                borderRadius: '50%',
+                                marginTop: '6px',
+                                border: '4px solid #f4f4f4'
+                              },
+                              on: {
+                                click: () => {
+                                }
+                              }
+                            })
+                          }
                         })
                       }
                     }
