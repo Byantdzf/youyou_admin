@@ -43,8 +43,8 @@
     name: 'auditPhoto',
     data () {
       return {
-        activeTab: '-1',
-        tab: [{title: '未审核', jump: '-1'}, {title: '已审核', jump: '1'}],
+        activeTab: '0',
+        tab: [{title: '未审核', jump: '0'}, {title: '已审核', jump: '1'}],
         currentPage: 1,
         searchKeyword: '',
         modal: false, // 弹框
@@ -118,7 +118,7 @@
             title: '操作',
             align: 'center',
             render: (h, params) => {
-              if (this.activeTab == '-1') {
+              if (this.activeTab == '0') {
                 return h('div', [
                   h('Button', {
                     props: {
