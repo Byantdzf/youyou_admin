@@ -207,7 +207,7 @@
                     },
                     on: {
                       click: () => {
-                        this.refund(params.row.id)
+                        this.refund(params.row.id,params.row.name)
                       }
                     }
                   }, '申请退款')
@@ -327,17 +327,26 @@
           }
         })
       },
-      refund (id) {
+      refund (id, name) {
         let self = this
-        uAxios.get(`admin/activity/members/${id}/refund`)
-          .then(res => {
-            if (response.data.code === 0) {
-              self.$Message.success('操作成功!')
-              self.getOrder(1)
-            } else {
-              alert('操作失败！')
-            }
-          })
+        this.$Modal.confirm({
+          title: '温馨提示',
+          content: `<p>是否 <span class="_bold">${name}</span>执行 <span style="color: orange">"申请退款"</span> 操作？</p>`,
+          onOk: () => {
+            uAxios.post(`admin/activity/members/${id}/refund`)
+              .then(res => {
+                if (res.data.code === 0) {
+                  setTimeout(() => {
+                    this.$Modal.remove();
+                    this.$Message.info('操作成功');
+                  }, 200);
+                  self.getOrder(1)
+                } else {
+                  alert('操作失败！')
+                }
+              })
+          }
+        });
       },
       getOrder (page) {
         let self = this
@@ -350,7 +359,6 @@
             console.log(self.information)
             self.orgTotal = result.total
             self.loading = false
-            // self.searchKeyword = ''
           })
       },
       getmatchmakers () {

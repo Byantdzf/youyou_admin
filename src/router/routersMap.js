@@ -181,6 +181,17 @@ const data = [
     component: () => import('@/view/beloved/list.vue')
   },
   {
+    title: '审核头像',
+    path: 'auditPhoto',
+    icon: 'md-clipboard',
+    meta: {
+      access: ['admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/auditPhoto/list.vue')
+  },
+  {
     title: '活动列表',
     path: 'activityList',
     icon: 'ios-wine',
