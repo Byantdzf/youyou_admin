@@ -148,12 +148,12 @@
           },
           {
             title: '用户ID',
-            key: 'userId',
+            key: 'user_id',
             align: 'center'
           },
           {
             title: '用户名',
-            key: 'user_name',
+            key: 'name',
             align: 'center'
           },
           {
@@ -173,7 +173,7 @@
                 },
                 on: {
                   click: () => {
-                    let argu = {id: params.row.userId}
+                    let argu = {id: params.row.user_id}
                     this.$router.push({
                       name: 'user_detail',
                       params: argu
@@ -186,31 +186,9 @@
             align: 'center'
           },
           {
-            title: '商品名称',
-            key: 'goods',
-            align: 'center',
-//                        width: 100,
-            editable: true
-          },
-          {
-            title: '支付状态',
-            key: 'status',
-            align: 'center',
-//                        width: 100,
-            editable: true
-          },
-          {
-            title: '金额',
-            key: 'price',
-            align: 'center',
-//                        width: 100,
-            editable: true
-          },
-          {
-            title: '消费时间',
+            title: '报名时间',
             key: 'created_at',
             align: 'center',
-//                        width: 100,
             editable: true
           },
           {
@@ -218,26 +196,38 @@
             key: 'title',
             align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                  },
-                  style: {
-                    margin: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      let argu = {id: params.row.user_id}
-                      const {href} = this.$router.resolve({
-                        name: 'user_detail',
-                        params: argu
-                      })
-                      window.open(href, '_blank')
+              if (params.row.can_refund) {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'primary',
+                    },
+                    style: {
+                      margin: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.refund(params.row.id)
+                      }
                     }
-                  }
-                }, '申请退款')
-              ])
+                  }, '申请退款')
+                ])
+              }else{
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      disabled: true
+                    },
+                    style: {
+                      margin: '5px'
+                    },
+                    on: {
+                      click: () => {
+                      }
+                    }
+                  }, '暂无退款')
+                ])
+              }
             }
           }
         ],
@@ -337,25 +327,26 @@
           }
         })
       },
+      refund (id) {
+        let self = this
+        uAxios.get(`admin/activity/members/${id}/refund`)
+          .then(res => {
+            if (response.data.code === 0) {
+              self.$Message.success('操作成功!')
+              self.getOrder(1)
+            } else {
+              alert('操作失败！')
+            }
+          })
+      },
       getOrder (page) {
         let self = this
         self.loading = true
-        uAxios.get(`admin/activities/${self.id}/orders?page=` + page + '&type=' + self.activeTab + '&keyword=' + self.searchKeyword)
+        uAxios.get(`admin/activity/${self.id}/members?page=` + page + '&type=' + self.activeTab + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
             console.log(result)
-            self.information = result.data.map((item) => {
-              return {
-                user_name: item.user ? item.user.name : '',
-                avatar: item.user ? item.user.photo : '',
-                goods: item.goods,
-                created_at: item.created_at,
-                id: item.id,
-                userId: item.user.id,
-                status: item.pay_status,
-                price: item.price
-              }
-            })
+            self.information = result.data
             console.log(self.information)
             self.orgTotal = result.total
             self.loading = false

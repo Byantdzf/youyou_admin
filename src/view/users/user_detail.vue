@@ -656,7 +656,7 @@
                 key: result.profile.city
               },
               {
-                name: '户口类型',
+                name: '成长环境',
                 key: result.profile.resident_type
               },
               {

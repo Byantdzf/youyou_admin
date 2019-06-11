@@ -166,7 +166,7 @@
             key: 'is_approved'
           },
           {
-            title: '是否审核？',
+            title: '头像审核？',
             align: 'center',
             key: 'is_audited'
           },
@@ -225,11 +225,6 @@
                         name: 'user_recommend',
                         params: argu
                       })
-                      // const {href} = this.$router.resolve({
-                      //   name: 'user_recommend',
-                      //   params: argu
-                      // })
-                      // window.open(href, '_blank')
                     }
                   }
                 }, '推荐列表'),
@@ -245,12 +240,6 @@
                         name: 'user_note',
                         params: argu
                       })
-                      // const {href} = this.$router.resolve({
-                      //   name: 'user_note',
-                      //   params: argu
-                      // })
-                      // window.open(href, '_blank')
-
                     }
                   }
                 }, '备注管理'),
@@ -456,7 +445,7 @@
                 rank: item.rank,
                 is_approved: item.is_approved == '0' ? '未认证' : '已认证',
                 address: `${item.province}${item.city}` == '' ? '暂无' : `${item.province} ${item.city}`,
-                is_audited: item.is_audited == '0' ? '未审核' : '已审核'
+                is_audited: item.is_audited == '0' ? '否' : '是'
               }
             })
             self.orgTotal = result.total
