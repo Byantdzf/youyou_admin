@@ -5,6 +5,12 @@
 </style>
 <template>
   <div id="name">
+    <!--<Button @click="value1 = true" type="primary">Open</Button>-->
+    <!--<Drawer title="Basic Drawer" :closable="false" v-model="value1">-->
+      <!--<p>Some contents...</p>-->
+      <!--<p>Some contents...</p>-->
+      <!--<p>Some contents...</p>-->
+    <!--</Drawer>-->
     <Card :bordered="false">
       <div slot="title">
         <span style="font-weight: bold;">选择查询日期：</span>
@@ -70,6 +76,7 @@
     },
     data () {
       return {
+        value1: false,
         count: {
           createUser: 0, // 新增总数
           collection: 0, // 单身
@@ -82,10 +89,10 @@
         //
       };
     },
-    methods: {
+      methods: {
       changeDate: function (res) {
         this.date = res;
-        uAxios.get(`admin/daliy/stat?start_time=${this.date}`)
+        uAxios.get(`admin/12daliy/stat?start_time=${this.date}`)
           .then(res => {
             let result = res.data.data;
             this.count = {

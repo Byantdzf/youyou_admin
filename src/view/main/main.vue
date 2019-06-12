@@ -62,7 +62,14 @@
         collapsed: false,
         minLogo,
         maxLogo,
-        isFullscreen: false
+        isFullscreen: false,
+        pStyle: {
+          fontSize: '16px',
+          color: 'rgba(0,0,0,0.85)',
+          lineHeight: '24px',
+          display: 'block',
+          marginBottom: '16px'
+        }
       }
     },
     computed: {

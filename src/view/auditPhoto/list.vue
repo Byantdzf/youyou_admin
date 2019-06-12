@@ -182,7 +182,7 @@
                         this.Index = params.index
                       }
                     }
-                  }, '删除佳偶'),
+                  }, '删除认证'),
                   h('Button', {
                     props: {
                       type: 'primary'
