@@ -287,20 +287,17 @@
             })
             console.log(self.information)
             self.orgTotal = result.total
+            self.tab = [{title: (h) => {
+                return h('div', [
+                  h('span', '未审核'),
+                  h('Badge', {
+                    props: {
+                      count: self.orgTotal
+                    }
+                  })
+                ])
+              }, jump: '0'}, {title: '已审核', jump: '1'}]
             self.loading = false
-          })
-      },
-      handleSearch () {
-        let query = '&keyword=' + this.searchKeyword
-        let self = this
-        let page = 1
-        uAxios.get('posts?page=' + page + query)
-          .then(res => {
-            let result = res.data.data
-            self.orgData = result.data
-            console.log(self.orgData)
-            self.orgTotal = result.total
-            // self.searchKeyword = ''
           })
       }
     },

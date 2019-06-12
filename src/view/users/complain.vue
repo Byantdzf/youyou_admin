@@ -2,20 +2,7 @@
   <div v-model="activeTab">
     <Card>
       <Tabs @on-click="getTab">
-        <TabPane label="未处理" name="0">
-          <Input
-            v-model="searchKeyword"
-            @on-enter="handleSearch"
-            placeholder="关键字搜索..."
-            style="width: 200px; margin-bottom: 22px;"/>
-          <span @click="handleSearch">
-                    <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
-                </span>
-          <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
-          <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
-        </TabPane>
-        <TabPane label="已处理" name="1">
+        <TabPane  :label="item.title" :name="item.jump" v-for="item,index in tab" :key="index">
           <Input
             v-model="searchKeyword"
             @on-enter="handleSearch"
@@ -199,6 +186,7 @@
           {id: 256, updatedAt: '数据缺失'},
           {id: 257, updatedAt: '数据缺失'}
         ],
+        tab: [{title: '未处理', jump: '0'}, {title: '已处理', jump: '1'}],
         title: '',
         msgBiz: '',
         loading: false,
@@ -237,6 +225,16 @@
             self.information = result.data
             self.orgTotal = result.total
             self.loading = false
+            self.tab = [{title: (h) => {
+                return h('div', [
+                  h('span', '未处理'),
+                  h('Badge', {
+                    props: {
+                      count: self.orgTotal
+                    }
+                  })
+                ])
+              }, jump: '0'}, {title: '已处理', jump: '1'}]
             // self.searchKeyword = ''
           })
       },

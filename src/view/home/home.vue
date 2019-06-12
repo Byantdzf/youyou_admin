@@ -92,7 +92,7 @@
       methods: {
       changeDate: function (res) {
         this.date = res;
-        uAxios.get(`admin/12daliy/stat?start_time=${this.date}`)
+        uAxios.get(`admin/daliy/stat?start_time=${this.date}`)
           .then(res => {
             let result = res.data.data;
             this.count = {

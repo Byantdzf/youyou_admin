@@ -2,7 +2,7 @@
   <div v-model="activeTab">
     <Card>
       <Tabs @on-click="getTab">
-        <TabPane :label="item.title" :name="item.jump" v-for="item,index in tab" :key="index">
+        <TabPane :label="item.title" :name="item.jump" v-for="item,index in tab" :key="index" >
           <Input
             v-model="searchKeyword"
             @on-enter="createLabel"
@@ -501,6 +501,16 @@
             })
             console.log(self.information)
             self.orgTotal = result.total
+            self.tab = [{title: (h) => {
+                return h('div', [
+                  h('span', '未认证'),
+                  h('Badge', {
+                    props: {
+                      count: self.orgTotal
+                    }
+                  })
+                ])
+              }, jump: '0'}, {title: '已认证', jump: '1'}],
             self.loading = false
           })
       }

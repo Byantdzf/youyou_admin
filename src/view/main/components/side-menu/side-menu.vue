@@ -5,7 +5,9 @@
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
           <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-          <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`"><common-icon :type="item.children[0].icon || ''"/><span class="notices">{{ showTitle(item.children[0]) }}
+          <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`"><common-icon :type="item.children[0].icon || ''"/>
+            <span style="position: relative">{{ showTitle(item.children[0]) }}
+               <span class="notices" v-if="showNotices(item.children[0], notices)">{{ showNotices(item.children[0], notices) }}</span>
           </span>
           </menu-item>
         </template>
@@ -30,6 +32,7 @@ import SideMenuItem from './side-menu-item.vue'
 import CollapsedMenu from './collapsed-menu.vue'
 import { getUnion } from '@/libs/tools'
 import mixin from './mixin'
+import uAxios from '@/api/index';
 
 export default {
   name: 'SideMenu',
@@ -72,6 +75,7 @@ export default {
   },
   data () {
     return {
+      notices: {},
       openedNames: []
     }
   },
@@ -108,21 +112,14 @@ export default {
   },
   mounted () {
     this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
+    uAxios.get(`admin/notices`)
+      .then(res => {
+        let result = res.data.data;
+        this.notices = result
+      });
   }
 }
 </script>
 <style lang="less" scoped>
-@import './side-menu.less';
-.notices{
-  position: relative;
-  .notices:before{
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: red;
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-}
+  @import './side-menu.less';
 </style>
