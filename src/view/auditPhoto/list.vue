@@ -292,7 +292,7 @@
                   h('span', '未审核'),
                   h('Badge', {
                     props: {
-                      count: self.orgTotal
+                      count: self.activeTab == 0 ? self.orgTotal : 0
                     }
                   })
                 ])

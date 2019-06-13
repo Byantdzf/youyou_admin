@@ -53,7 +53,7 @@
     name: 'complain',
     data () {
       return {
-        activeTab: 'complain',
+        activeTab: 0,
         currentPage: 1,
         searchKeyword: '',
         orgTotal: 0,
@@ -225,16 +225,18 @@
             self.information = result.data
             self.orgTotal = result.total
             self.loading = false
-            self.tab = [{title: (h) => {
+            self.tab = [{
+              title: (h) => {
                 return h('div', [
                   h('span', '未处理'),
                   h('Badge', {
                     props: {
-                      count: self.orgTotal
+                      count: self.activeTab == 0 ? self.orgTotal : 0
                     }
                   })
                 ])
-              }, jump: '0'}, {title: '已处理', jump: '1'}]
+              }, jump: '0'
+            }, {title: '已处理', jump: '1'}]
             // self.searchKeyword = ''
           })
       },

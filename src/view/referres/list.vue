@@ -146,11 +146,10 @@
           },
           {
             title: '操作',
-            key: 'id',
             align: 'center',
             render: (h, params) => {
               console.log(params.row.num)
-              if (params.row.num) {
+              if (params.row.num > 0) {
                 return h('div', [
                   h('Button', {
                     props: {

@@ -1,42 +1,36 @@
 <template>
   <div class="hello">
     <Card style="margin-top: 18px;">
-      <p slot="title" style="color: #ff6c4c;">群发详情</p>
+      <p slot="title" style="color: #ff6c4c;">编辑信息</p>
       <Row>
         <Col span="15" style="min-height: 60vh">
-          <Card style="overflow: hidden;">
-            <div class="bc_box">
-              <div class="font_16 _bold bc_title">发送内容：</div>
-              <Input placeholder="Enter something..." class="bc_input" type="textarea" v-model="content"/>
-            </div>
-            <div class="bc_box">
-            <div class="font_16 _bold bc_title">
-            接收成员：
-            <div
-            style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin: 6px 0;">
-            <Checkbox
-            :indeterminate="indeterminate"
-            :value="checkAll"
-            @click.prevent.native="handleCheckAll">全选
-            </Checkbox>
-            </div>
+          <Card title="发送内容" icon="md-mail">
+            <Input placeholder="Enter something..." class="bc_input" type="textarea" v-model="content"/>
+          </Card>
+          <Card title="批量发送" icon="ios-people" style="margin: 16px 0;">
+            <!--<div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;">-->
+            <!--<Checkbox-->
+            <!--:indeterminate="indeterminate"-->
+            <!--:value="checkAll"-->
+            <!--@click.prevent.native="handleCheckAll">全部成员-->
+            <!--</Checkbox>-->
+            <!--</div>-->
             <CheckboxGroup v-model="FilterType" @on-change="checkAllGroupChange">
-            <Checkbox :label="item" v-for="item,index in this.labels"></Checkbox>
+              <Checkbox :label="item" v-for="item,index in this.labels"></Checkbox>
             </CheckboxGroup>
-            </div>
-            </div>
-            <div style="margin: 22px 12px;">
-              <span class="_bold"> 搜索用户：</span>
-              <Select v-model="PayID" style="width: 300px;" filterable @on-query-change="getGropData" clearable ref="store">
-                <Option v-for="item in userList" :value="item.id" :key="item.id" @click.native="changGropData(item)">
-                  {{ item.name }}
-                </Option>
-              </Select>
-              <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;margin-top: 22px;"
-                     border></Table>
-              <!--<Page :total="orgTotal" @on-change="handlePage" :page-size="15"-->
-              <!--style="float:right;margin: 12px;"></Page>-->
-            </div>
+          </Card>
+          <Card title="逐个发送" icon="md-person">
+            <span class="_bold"> 搜索用户：</span>
+            <Select v-model="PayID" style="width: 300px;" filterable @on-query-change="getGropData" clearable
+                    ref="store">
+              <Option v-for="item in userList" :value="item.id" :key="item.id" @click.native="changGropData(item)">
+                {{ item.name }}
+              </Option>
+            </Select>
+            <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;margin-top: 22px;"
+                   border></Table>
+            <!--<Page :total="orgTotal" @on-change="handlePage" :page-size="15"-->
+            <!--style="float:right;margin: 12px;"></Page>-->
           </Card>
         </Col>
         <Col span="8" offset="1" style="min-height: 60vh">
@@ -48,8 +42,10 @@
             <div class="bc_box">
               <div class="font_16 bc_title">
                 <span class="_bold">接收成员：</span>
-                <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin: 6px 0;">
-                  <span v-for="item,index in this.information">{{item.name}}、</span>
+                <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin: 6px 0;color: #ff0517;"
+                     class="_bold">
+                  <span v-for="item,index in this.FilterType" v-if="FilterType.length>0">{{item}}、</span>
+                  <span v-for="item,index in this.information" v-else>{{item.name}}、</span>
                 </div>
               </div>
             </div>
@@ -85,7 +81,7 @@
         PayID: '',
         userList: [], // 用户列表
         content: '',
-        labels: ['vip', '实名认证', '单身', '介绍人', '男', '女',],
+        labels: ['vip', '实名认证', '单身', '介绍人', '男', '女', '全部成员'],
         FilterType: [],
         typeList: [],
         orgColumns: [
@@ -226,20 +222,24 @@
         for (let item of this.information) {
           ids.push(item.id)
         }
-        if(!this.content) {return this.$Message.error('请填写发送信息')}
-        if(this.information.length < 1) {return this.$Message.error('请添加接收信息的成员')}
+        if (!this.content) {
+          return this.$Message.error('请填写发送信息')
+        }
+        if (this.information.length < 1) {
+          return this.$Message.error('请添加接收信息的成员')
+        }
         data = {content: this.content, user_ids: ids}
         console.log(data)
         uAxios.post(`admin/send/assistant/message`, data)
           .then(res => {
             let {code} = res.data
-            if(code === 0) {
+            if (code === 0) {
               this.$Message.success('发送成功！')
               this.list = this.information = []
               this.content = ''
             }
-          }).catch((res)=>{
-            console.log(res)
+          }).catch((res) => {
+          console.log(res)
         })
       },
       handleSearch () {
@@ -249,27 +249,14 @@
         this.getlist(num)
       },
       handleCheckAll () {
-        this.information = []
-        if (this.indeterminate) {
-          this.checkAll = false
-        } else {
-          this.checkAll = !this.checkAll
-        }
-        this.indeterminate = false
+        this.checkAll = !this.checkAll
         if (this.checkAll) {
-          this.FilterType = this.labels
-        } else {
           this.FilterType = []
-          this.information = this.list
         }
       },
       checkAllGroupChange (data) {
         this.information = []
-        if (data.length === this.labels.length) {
-          this.indeterminate = false
-          this.checkAll = true
-        } else if (data.length > 0) {
-          this.indeterminate = true
+        if (data.length > 0) {
           this.checkAll = false
         } else {
           this.indeterminate = false

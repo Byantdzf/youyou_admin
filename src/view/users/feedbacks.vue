@@ -216,7 +216,7 @@
                   h('span', '未处理'),
                   h('Badge', {
                     props: {
-                      count: self.orgTotal
+                      count: self.activeTab == 0 ? self.orgTotal : 0
                     }
                   })
                 ])
