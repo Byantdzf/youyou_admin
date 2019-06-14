@@ -420,7 +420,7 @@
       }
     },
     mounted () {
-      this.id = this.$route.params.edit_id
+      this.id = this.$route.params.id
       this.getlist(1)
       uAxios.get('addresses/v2')
         .then(res => {

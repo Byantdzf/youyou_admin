@@ -8,20 +8,17 @@
             <Input placeholder="Enter something..." class="bc_input" type="textarea" v-model="content"/>
           </Card>
           <Card title="批量发送" icon="ios-people" style="margin: 16px 0;">
-            <!--<div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;">-->
-            <!--<Checkbox-->
-            <!--:indeterminate="indeterminate"-->
-            <!--:value="checkAll"-->
-            <!--@click.prevent.native="handleCheckAll">全部成员-->
-            <!--</Checkbox>-->
-            <!--</div>-->
-            <CheckboxGroup v-model="FilterType" @on-change="checkAllGroupChange">
+            <CheckboxGroup v-model="FilterType" @on-change="checkAllGroupChange"
+                           style="padding-bottom: 6px;margin-bottom:6px; border-bottom: 1px solid #d3d3d3">
+              <Checkbox label="全部成员"></Checkbox>
+            </CheckboxGroup>
+            <CheckboxGroup v-model="FilterType" @on-change="checkGroupChange">
               <Checkbox :label="item" v-for="item,index in this.labels"></Checkbox>
             </CheckboxGroup>
           </Card>
           <Card title="逐个发送" icon="md-person">
             <span class="_bold"> 搜索用户：</span>
-            <Select v-model="PayID" style="width: 300px;" filterable @on-query-change="getGropData" clearable
+            <Select v-model="userID" style="width: 300px;" filterable @on-query-change="getGropData" clearable
                     ref="store">
               <Option v-for="item in userList" :value="item.id" :key="item.id" @click.native="changGropData(item)">
                 {{ item.name }}
@@ -44,8 +41,12 @@
                 <span class="_bold">接收成员：</span>
                 <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin: 6px 0;color: #ff0517;"
                      class="_bold">
-                  <span v-for="item,index in this.FilterType" v-if="FilterType.length>0">{{item}}、</span>
-                  <span v-for="item,index in this.information" v-else>{{item.name}}、</span>
+                  <div v-if="FilterType.length>0">
+                    <span v-for="item,index in this.FilterType">{{item}}、</span>
+                  </div>
+                  <div v-else>
+                    <span v-for="item,index in this.information">{{item.name}}、</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -73,17 +74,12 @@
     },
     data () {
       return {
-        loading: false,
-        searchKeyword: '',
         orgTotal: 1,
-        indeterminate: false,
-        checkAll: false, // 全选
-        PayID: '',
+        userID: '',
         userList: [], // 用户列表
-        content: '',
-        labels: ['vip', '实名认证', '单身', '介绍人', '男', '女', '全部成员'],
+        content: '',  // 信息内容
+        labels: ['vip', '实名认证', '单身', '介绍人', '男', '女'],
         FilterType: [],
-        typeList: [],
         orgColumns: [
           {
             title: '用户ID',
@@ -168,33 +164,95 @@
           }
         ],
         information: [],
-        messages: {},
+        sendTypes: {
+          type: '',
+          is_approved: '',
+          user_rank: '',
+          user_sex: '',
+          user_type: ''
+        },
         loading: false
       }
     },
     watch: {
       FilterType () {
         console.log(this.FilterType)
+        if (this.FilterType.includes('实名认证')) {
+          this.sendTypes.is_approved = 1
+        } else {
+          this.sendTypes.is_approved = ''
+        }
+        if (this.FilterType.includes('vip')) {
+          this.sendTypes.user_rank = 1
+        } else {
+          this.sendTypes.user_rank = ''
+        }
+        if (this.FilterType.includes('男')) {
+          this.sendTypes.user_sex = 1
+        } else if (this.FilterType.includes('女')) {
+          this.sendTypes.user_sex = 2
+        } else if (this.FilterType.includes('女') && this.FilterType.includes('男')) {
+          this.sendTypes.user_sex = ''
+        }
+
+        if (this.FilterType.includes('女') && this.FilterType.includes('男')) {
+          this.sendTypes.user_sex = ''
+        }
+
+        if (this.FilterType.includes('单身')) {
+          this.sendTypes.user_type = 'single'
+        } else if (this.FilterType.includes('介绍人')) {
+          this.sendTypes.user_type = 'marriage'
+        } else {
+          this.sendTypes.user_type = ''
+        }
+        if (this.FilterType.includes('单身') && this.FilterType.includes('介绍人')) {
+          this.sendTypes.user_type = ''
+        }
+
+
+        if (this.FilterType.includes('全部成员')) {
+          this.sendTypes.type = 'ALL'
+        } else {
+          this.sendTypes.type = ''
+        }
+        console.log(this.sendTypes)
       }
     },
     methods: {
       changGropData (item) {
-        this.FilterType = []
-        this.checkAll = false
-        this.indeterminate = false
+        this.FilterType = [] // 清理批量
         if (this.information > 14) {
           return this.$Message.error('群发指定人暂且支持15人')
         }
         this.information.push(item)
         let hash = {}
-        this.information = this.information.reduce((preVal, curVal) => {
+        this.information = this.information.reduce((preVal, curVal) => { // 过滤数组
           hash[curVal.id] ? '' : hash[curVal.id] = true && preVal.push(curVal)
           return preVal
         }, [])
-        this.list = this.information
-        this.$refs.store.clearSingleSelect()
+        this.list = this.information // 存贮数组
+        this.$refs.store.clearSingleSelect() // 清空列表
       },
-      getGropData (value) {
+      checkAllGroupChange (data) { // 全部复选框
+        data.map((item, index) => {
+          if (item == '全部成员') {
+            this.FilterType.splice(0, index)
+          }
+        })
+      },
+      checkGroupChange (data) { // 批量复选框
+        data.map((item, index) => {
+          if (item == '全部成员') {
+            this.FilterType.splice(index, 1)
+          }
+        })
+        this.information = []
+        if (!this.FilterType.length) {
+          this.information = this.list
+        }
+      },
+      getGropData (value) { // 搜索用户
         let self = this
         const msg = self.$Message.loading('正在加载中...')
         uAxios.get(`admin/users?keyword=${value}`)
@@ -216,7 +274,7 @@
             self.loading = false
           })
       },
-      sendMessages () {
+      sendMessages () { // 发送
         let ids = [],
           data
         for (let item of this.information) {
@@ -225,10 +283,11 @@
         if (!this.content) {
           return this.$Message.error('请填写发送信息')
         }
-        if (this.information.length < 1) {
-          return this.$Message.error('请添加接收信息的成员')
+        if (this.information.length > 0) {
+          data = {content: this.content, user_ids: ids}
+        } else {
+          data = {content: this.content, ...this.sendTypes}
         }
-        data = {content: this.content, user_ids: ids}
         console.log(data)
         uAxios.post(`admin/send/assistant/message`, data)
           .then(res => {
@@ -247,23 +306,7 @@
       },
       handlePage (num) {
         this.getlist(num)
-      },
-      handleCheckAll () {
-        this.checkAll = !this.checkAll
-        if (this.checkAll) {
-          this.FilterType = []
-        }
-      },
-      checkAllGroupChange (data) {
-        this.information = []
-        if (data.length > 0) {
-          this.checkAll = false
-        } else {
-          this.indeterminate = false
-          this.checkAll = false
-          this.information = this.list
-        }
-      },
+      }
     },
     mounted () {
       this.getGropData(1)
