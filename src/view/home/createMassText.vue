@@ -196,7 +196,7 @@
         }
 
         if (this.FilterType.includes('女') && this.FilterType.includes('男')) {
-          this.sendTypes.user_sex = ''
+          this.sendTypes.user_sex = 'ALL'
         }
 
         if (this.FilterType.includes('单身')) {
@@ -207,7 +207,7 @@
           this.sendTypes.user_type = ''
         }
         if (this.FilterType.includes('单身') && this.FilterType.includes('介绍人')) {
-          this.sendTypes.user_type = ''
+          this.sendTypes.user_type = 'ALL'
         }
 
 
