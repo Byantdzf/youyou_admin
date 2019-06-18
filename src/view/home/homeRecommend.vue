@@ -42,9 +42,11 @@
     <Modal
       v-model="modal2"
       title="温馨提示"
+      :ok-text="text"
+      @on-ok="deleteUser"
       no-cancel>
-      <div style="font-size: 16px">
-
+      <div style="font-size: 14px">
+        是否确定删除该推荐？
       </div>
     </Modal>
   </div>
@@ -85,7 +87,7 @@ export default {
         {
           title: '名称',
           key: 'user_name',
-          align: 'center',
+          align: 'center'
         },
         {
           title: '头像',
@@ -98,7 +100,7 @@ export default {
               style: {
                 width: '42px',
                 height: '42px',
-                marginTop: '6px',
+                marginTop: '6px'
               },
               on: {
                 click: () => {
@@ -121,7 +123,7 @@ export default {
         {
           title: '性别',
           key: 'sex',
-          align: 'center',
+          align: 'center'
         },
         {
           title: '单身/介绍人',
@@ -167,7 +169,6 @@ export default {
                       this.modal = true
                       this.status = '-1'
                       this.recommend_id = params.row.recommend_id
-                      console.log(params, '56565')
                     }
                   }
                 }, '拒绝申请')
@@ -183,8 +184,8 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.modal2 = true
                       this.recommend_id = params.row.recommend_id
-                      this.deleteUser()
                     }
                   }
                 }, '删除推荐')
@@ -198,11 +199,7 @@ export default {
       value: '',
       recommend_id: '',
       image: '',
-      information: [
-        {id: 250, updatedAt: '数据缺失'},
-        {id: 256, updatedAt: '数据缺失'},
-        {id: 257, updatedAt: '数据缺失'}
-      ],
+      information: [],
       title: '',
       loading: false,
     }
@@ -220,7 +217,6 @@ export default {
           status: this.status,
           content: this.content
         }
-      console.log(self.recommend_id, '6666666')
       uAxios.put(`admin/check/home/recommends/` + self.recommend_id, data)
         .then(res => {
           if (res.data.code === 0) this.$Message.info('已处理')
@@ -251,12 +247,11 @@ export default {
       uAxios.get(`admin/home/recommends/v2?page=${page}&status=${self.activeTab}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
-          console.log(result, '9999')
+          console.log(result)
           self.orgTotal = result.total
           self.loading = false
           self.information = result.data.map((item) => {
             return {
-              circle_avatar: item.user.circle_avatar,
               created_at: item.created_at,
               recommend_id: item.id,
               photo: item.user.photo,
@@ -264,10 +259,7 @@ export default {
               mobile: item.user.mobile,
               user_name: item.user.name,
               sex: item.user.sex == 1 ? '男' : '女',
-              rank: item.rank,
               type: item.user.type == 'single' ? '单身' : '介绍人',
-              is_good_match: item.is_good_match == '0' ? '未认证' : '已认证',
-              address: `${item.province}${item.city}` == '' ? `${item.province} ${item.city}` : '暂无'
             }
           })
         })
