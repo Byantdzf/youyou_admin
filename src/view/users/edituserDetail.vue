@@ -265,7 +265,7 @@
     watch: {
       lifePic () {
         this.FilterData(this.lifePic, this.lifePhotos)
-        console.log(this.FilterData(this.lifePic, this.lifePhotos))
+        console.log(this.FilterData(this.lifePic, this.lifePhotos), '9999')
       }
     },
     methods: {
@@ -287,15 +287,12 @@
         }
         console.log(this.message)
       },
-      FilterData (a, b) {   //循环判断数组a里的元素在b里面有没有，有的话就放入新建立的数组中
-        var result = new Array()
-        var c = b.toString()
-        for (var i = 0; i < a.length; i++) {
-          if (c.indexOf(a[i].toString()) == -1) {
-            result.push(a[i])
-          }
-        }
-        return result
+      FilterData (newList, oldList) {   //循环判断数组a里的元素在b里面有没有，有的话就放入新建立的数组中
+        var result = [...newList, ...oldList]
+        console.log(result)
+        let list = Array.from(new Set(result))
+        console.log(newList)
+        return newList
       },
       uploadPictures (key, value) {
         this[key] = value
@@ -305,6 +302,7 @@
         uAxios.get('admin/users/' + self.id)
           .then(res => {
             let result = res.data.data
+            console.log(result, '6565')
             self.orgData = result
             self.birthday = result.profile.birthday
             self.sex = result.profile.sex
