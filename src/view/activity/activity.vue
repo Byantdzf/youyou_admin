@@ -208,7 +208,7 @@
             key: 'title',
             align: 'center',
             render: (h, params) => {
-              if (params.row.is_refund && !params.row.is_refund) {
+              if (params.row.can_refund && !params.row.is_refund) {
                 return h('div', [
                   h('Button', {
                     props: {
