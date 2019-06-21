@@ -24,6 +24,9 @@
                 {{ item.name }}
               </Option>
             </Select>
+            <!--<span @click="getGropData">-->
+                    <!--<Button type="primary" icon="ios-search" style="margin-left: 12px;">搜索</Button>-->
+                <!--</span>-->
             <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;margin-top: 22px;"
                    border></Table>
             <!--<Page :total="orgTotal" @on-change="handlePage" :page-size="15"-->

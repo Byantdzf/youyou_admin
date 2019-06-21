@@ -599,7 +599,7 @@
             self.love_characters = result.love_characters
             self.love_languages = result.love_languages
             self.character = result.character
-            self.photos = result.profile.photos
+            // self.photos = result.profile.photos
             self.lifePhotos = result.lifePhotos
             self.graduate_photos = result.profile.graduate_photos
             self.other_photos = result.profile.other_photos
@@ -703,7 +703,6 @@
                 name: '理想对象',
                 key: result.profile.ideal_mate
               }
-
             ]
             self.VIPinformation = [
               {
