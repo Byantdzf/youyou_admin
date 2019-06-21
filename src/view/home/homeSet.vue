@@ -48,10 +48,10 @@
 ;margin-right: 12px"></DatePicker>
                   <Button type="error" @click="removeMessage(index)">删除</Button>
                 </Col>
-                <div class="move_box">
-                  <div class="moveUp _bold" @click="move(item,'up')">上移</div>
-                  <div class="moveDown _bold" @click="move(item,'down')">下移</div>
-                </div>
+                <!--<div class="move_box">-->
+                  <!--<div class="moveUp _bold" @click="move(item,'up')">上移</div>-->
+                  <!--<div class="moveDown _bold" @click="move(item,'down')">下移</div>-->
+                <!--</div>-->
                 <!--<img src="http://images.ufutx.com/201906/05/2b5b4bfb61c0224d76770040bb173a64.png" alt="moveUp" class="moveUp" width="36">-->
                 <!--<img src="http://images.ufutx.com/201906/05/b1c6e7e8a4c6671798fdce0508ecd142.png" alt="moveDowm" class="moveDown" width="36">-->
               </Col>
