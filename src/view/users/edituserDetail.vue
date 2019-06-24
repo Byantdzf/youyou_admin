@@ -322,6 +322,7 @@ export default {
           self.lifePic = result.lifePhotos.map((item) => {
             return item.photo
           })
+          console.log(self.lifePic, '5555')
           self.graduate_photos = result.profile.graduate_photos
           self.other_photos = result.profile.other_photos
           self.identification_photos = result.profile.identification_photos
@@ -339,7 +340,6 @@ export default {
             {name: '工作单位', value: result.profile.company}
           ]
           self.orgTotal = result.total
-
         })
     },
     // 赋值子行业
@@ -376,7 +376,7 @@ export default {
       return data
     },
     save () {
-      // console.log(this.arr, '56565')
+      // console.log(this.lifePic, '56565')
       // debugger
       this.loading = true
       var d = new Date(this.birthday)

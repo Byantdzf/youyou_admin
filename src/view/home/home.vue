@@ -48,7 +48,7 @@
         </Row>
       </div>
     </Card>
-    <Row class="margin-top-10">
+    <Row class="margin-top-10" style="margin-top: 15px">
       <Card>
         <p slot="title" class="card-title">
           <Icon type="ios-shuffle-strong"></Icon>
@@ -60,7 +60,7 @@
         </div>
       </Card>
     </Row>
-    <Row class="margin-top-10" style="margin-top: 10rpx">
+    <Row class="margin-top-10" style="margin-top: 15px">
       <Card>
         <p slot="title" class="card-title">
           <Icon type="ios-shuffle-strong"></Icon>

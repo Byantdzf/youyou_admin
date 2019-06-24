@@ -126,6 +126,11 @@ export default {
           align: 'center'
         },
         {
+          title: 'Vip等级',
+          key: 'rank_name',
+          align: 'center'
+        },
+        {
           title: '单身/介绍人',
           key: 'type',
           align: 'center'
@@ -171,7 +176,20 @@ export default {
                       this.recommend_id = params.row.recommend_id
                     }
                   }
-                }, '拒绝申请')
+                }, '拒绝申请'),
+                h('Button', {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.showPhoto(params.row.avatar)
+                    }
+                  }
+                }, '查看头像')
               ])
             } else {
               return h('div', [
@@ -205,6 +223,12 @@ export default {
     }
   },
   methods: {
+    showPhoto (photo) {
+      this.$Modal.success({
+        title: `查看头像`,
+        content: `<img src="${photo}" width="100%"/>`
+      })
+    },
     showModel (item) {
       this.modal1 = true
       this.image = item
@@ -247,12 +271,13 @@ export default {
       uAxios.get(`admin/home/recommends/v2?page=${page}&status=${self.activeTab}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
-          console.log(result)
+          console.log(result, '9595')
           self.orgTotal = result.total
           self.loading = false
           self.information = result.data.map((item) => {
             return {
               created_at: item.created_at,
+              rank_name: item.user.rank_name,
               recommend_id: item.id,
               photo: item.user.photo,
               user_id: item.user.id,
