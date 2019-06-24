@@ -60,123 +60,265 @@
         </div>
       </Card>
     </Row>
+    <Row class="margin-top-10" style="margin-top: 10rpx">
+      <Card>
+        <p slot="title" class="card-title">
+          <Icon type="ios-shuffle-strong"></Icon>
+           周收入报表
+        </p>
+        <h4 style="text-align: center;margin: 22px;">福恋数据</h4>
+        <div class="line-chart-con">
+          <report-data :columnar="columnar"></report-data>
+        </div>
+      </Card>
+    </Row>
   </div>
 </template>
 
 <script>
-  import uAxios from '../../api/index';
-  import inforCard from './components/inforCard.vue';
-  import serviceRequests from './components/serviceRequests.vue';
+import uAxios from '../../api/index'
+import inforCard from './components/inforCard.vue'
+import serviceRequests from './components/serviceRequests.vue'
+import reportData from './components/reportData.vue'
 
-  export default {
-    name: 'home',
-    components: {
-      inforCard,
-      serviceRequests
-    },
-    data () {
-      return {
-        value1: false,
-        count: {
-          createUser: 0, // 新增总数
-          collection: 0, // 单身
-          transfer: 0    // 介绍人
-        },
-        date: '', // 当前日期
-        income: '', // 周总收入
-        Data_arr: {}, // XY轴参数
-        option: {} // 折线图参数
-        //
-      };
-    },
-      methods: {
-      changeDate: function (res) {
-        this.date = res;
-        uAxios.get(`admin/daliy/stat?start_time=${this.date}`)
-          .then(res => {
-            let result = res.data.data;
-            this.count = {
-              createUser: result.courtship_count + result.marriage_count,
-              collection: result.courtship_count,
-              transfer: result.marriage_count
-            }
-            console.log(this.count)
-          });
+export default {
+  name: 'home',
+  components: {
+    inforCard,
+    serviceRequests,
+    reportData
+  },
+  data () {
+    return {
+      value1: false,
+      count: {
+        createUser: 0, // 新增总数
+        collection: 0, // 单身
+        transfer: 0    // 介绍人
       },
-      getData () {
-        let self = this;
-        uAxios.get(`admin/daliy/stat?start_time=${this.date}`)
-          .then(res => {
-            let result = res.data.data;
-            this.count = {
-              createUser: result.courtship_count + result.marriage_count,
-              collection: result.courtship_count,
-              transfer: result.marriage_count
-            };
-          });
-        uAxios.get('admin/week/stat')
-          .then(res => {
-            let result = res.data.data;
-            this.Data_arr.xData = result.day_arr;
-            this.Data_arr.marriage_arr = result.marriage_arr;
-            this.Data_arr.courtship_arr = result.courtship_arr;
-            this.income = result.income;
-            let self = this;
-            this.option = {
-              tooltip: {
-                trigger: 'axis'
+      date: '', // 当前日期
+      income: '', // 周总收入
+      Data_arr: {}, // XY轴参数
+      option: {}, // 折线图参数
+      columnar: {},
+      Data_newArr: {},
+      start_time: [],
+      money: ''
+    }
+  },
+  methods: {
+    changeDate: function (res) {
+      this.date = res
+      uAxios.get(`admin/daliy/stat?start_time=${this.date}`)
+        .then(res => {
+          let result = res.data.data;
+          this.count = {
+            createUser: result.courtship_count + result.marriage_count,
+            collection: result.courtship_count,
+            transfer: result.marriage_count
+          }
+          console.log(this.count)
+        });
+    },
+    getData () {
+      let self = this
+      uAxios.get(`admin/daliy/stat?start_time=${this.date}`)
+        .then(res => {
+          let result = res.data.data
+          this.count = {
+            createUser: result.courtship_count + result.marriage_count,
+            collection: result.courtship_count,
+            transfer: result.marriage_count
+          };
+        });
+      uAxios.get('admin/week/stat')
+        .then(res => {
+          let result = res.data.data
+          console.log(result, '22222')
+          this.Data_arr.xData = result.day_arr
+          this.Data_arr.marriage_arr = result.marriage_arr
+          this.Data_arr.courtship_arr = result.courtship_arr
+          this.income = result.income
+          let self = this
+          this.option = {
+            tooltip: {
+              trigger: 'axis'
+            },
+            legend: {
+              data: ['介绍人人数', '单身人数']
+            },
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            xAxis: [
+              {
+                type: 'category',
+                boundaryGap: false,
+                data: self.Data_arr.xData
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value'
+              }
+            ],
+            series: [
+              {
+                name: '介绍人人数',
+                type: 'line',
+                areaStyle: {
+                  normal: {
+                    color: '#f25e43'
+                  }
+                },
+                data: self.Data_arr.marriage_arr
               },
-              legend: {
-                data: ['介绍人人数', '单身人数']
-              },
-              tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                  type: 'cross',
-                  label: {
-                    backgroundColor: '#6a7985'
+              {
+                name: '单身人数',
+                type: 'line',
+                areaStyle: {
+                  normal: {
+                    color: '#ffd572'
+                  }
+                },
+                data: self.Data_arr.courtship_arr
+              }
+            ]
+          }
+        })
+    },
+    newData () {
+      uAxios.get('admin/weeks/stat')
+        .then(res => {
+          let result = res.data.data
+          console.log(result, '959595')
+          // this.Data_newArr.xDay = result.time_arr.start_time //时间
+          this.Data_newArr.xDay = result.time_arr.map((item) => {
+            return {
+              start_time: item.start_time
+            }
+          })
+          for (let i in this.Data_newArr.xDay) {
+            this.start_time.push(this.Data_newArr.xDay[i].start_time)
+          }
+          this.Data_newArr.activity_cash_arr = result.activity_cash_arr // 活动金额
+          this.Data_newArr.pay_orders_cash_arr = result.pay_orders_cash_arr // 订单金额
+          this.Data_newArr.award_cash_arr = result.award_cash_arr // 推荐注册金额
+          this.Data_newArr.approve_refund_cash_arr = result.approve_refund_cash_arr // 认证退款金额
+          let self = this
+          this.columnar = {
+            tooltip: {
+              trigger: 'axis',
+            },
+            legend: {
+              data: ['认证退款金额', '订单金额', '活动金额', '推荐注册金额']
+            },
+            calculable: true,
+            animation: true,
+            xAxis: [
+              {
+                type: 'category',
+                data: self.start_time
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value'
+              }
+            ],
+            series: [
+              {
+                name: '认证退款金额',
+                type: 'bar',
+                data: self.Data_newArr.approve_refund_cash_arr,
+                itemStyle: {
+                  emphasis: {color: '#19F0CD'},
+                  normal: {
+                    color: function (params) {
+                      var colorList = ['rgb(25,240,205)']
+                      return colorList[params.dataIndex]
+                    },
+                    label: {
+                      show: true,
+                      position: 'top',
+                      textstyle: {color: 'black', fontSize: 14}
+                    }
                   }
                 }
               },
-              xAxis: [
-                {
-                  type: 'category',
-                  boundaryGap: false,
-                  data: self.Data_arr.xData
+              {
+                name: '订单金额',
+                type: 'bar',
+                data: self.Data_newArr.pay_orders_cash_arr,
+                itemStyle: {
+                  emphasis: {color: '#2999B7'},
+                  normal: {
+                    color: function (params) {
+                      var colorList = ['rgb(41,153,183)']
+                      return colorList[params.dataIndex]
+                    },
+                    label: {
+                      show: true,
+                      position: 'top',
+                      textstyle: {color: 'black', fontSize: 14}
+                    }
+                  }
                 }
-              ],
-              yAxis: [
-                {
-                  type: 'value'
+              },
+              {
+                name: '活动金额',
+                type: 'bar',
+                data: self.Data_newArr.activity_cash_arr,
+                itemStyle: {
+                  emphasis: {color: '#F27844'},
+                  normal: {
+                    color: function (params) {
+                      var colorList = ['rgb(242,120,68)']
+                      return colorList[params.dataIndex]
+                    },
+                    label: {
+                      show: true,
+                      position: 'top',
+                      textstyle: {color: 'black', fontSize: 14}
+                    }
+                  }
                 }
-              ],
-              series: [
-                {
-                  name: '介绍人人数',
-                  type: 'line',
-//                                stack: '总量',
-                  areaStyle: {normal: {
-                      color: '#2d8cf0'
-                    }},
-                  data: self.Data_arr.marriage_arr
-                },
-                {
-                  name: '单身人数',
-                  type: 'line',
-                  areaStyle: {normal: {
-                      color: '#10A6FF'
-                    }},
-                  data: self.Data_arr.courtship_arr
+              },
+              {
+                name: '推荐注册金额',
+                type: 'bar',
+                data: self.Data_newArr.award_cash_arr,
+                itemStyle: {
+                  emphasis: {color: '#909090'},
+                  normal: {
+                    color: function (params) {
+                      var colorList = ['rgb(114,114,114)']
+                      return colorList[params.dataIndex]
+                    },
+                    label: {
+                      show: true,
+                      position: 'top',
+                      textstyle: {color: 'black', fontSize: 14}
+                    }
+                  }
                 }
-              ]
-            };
-          });
-      }
-    },
-    mounted(){
-      var myDate = new Date();
-      this.date = `${myDate.getFullYear()}-${myDate.getMonth()+1}-${myDate.getDate()}`
-      this.getData();
+              }
+            ]
+          }
+        })
     }
-  };
+  },
+  mounted () {
+    var myDate = new Date()
+    this.date = `${myDate.getFullYear()}-${myDate.getMonth() + 1}-${myDate.getDate()}`
+    this.getData()
+    this.newData()
+  }
+}
 </script>
