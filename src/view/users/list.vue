@@ -438,7 +438,7 @@
                 id: item.id,
                 mobile: item.mobile,
                 name: item.name,
-                sex: item.sex == 1 ? '男' : '女',
+                sex: item.sex == 2 ? '女' : '男',
                 type: item.type == 'single' ? '单身' : '介绍人',
                 from_name: item.from_name,
                 invite_count: item.invite_count,
