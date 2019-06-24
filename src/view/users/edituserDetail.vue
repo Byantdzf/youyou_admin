@@ -316,102 +316,12 @@ export default {
           self.work_sort = result.profile.work_sort
           self.degree = result.profile.degree
           self.photos = result.profile.photos
-          // self.lifePhotos = result.lifePhotos.map((item, index) => {
-          //   return item.photo
-          // })
-          self.lifePic = result.lifePhotos.map((item) => {
-            return item.photo
-    getlist (page) {
-      let self = this
-      uAxios.get('admin/users/' + self.id)
-        .then(res => {
-          let result = res.data.data
-          console.log(result, '999')
-          self.orgData = result
-          self.birthday = result.profile.birthday
-          self.sex = result.profile.sex
-          self.state = result.profile.state
-          self.type = result.type == 'single' ? '单身' : '介绍人'
-          self.belief = result.profile.belief
-          self.resident_type = result.profile.resident_type
-          self.work_sort = result.profile.work_sort
-          self.degree = result.profile.degree
-          self.photos = result.profile.photos
           self.lifePhotos = result.lifePhotos.map((item) => {
             return item.photo
           })
           self.lifePic = result.lifePhotos.map((item) => {
             return item.photo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           })
-          // for (let i in self.lifePic) {
-          //   self.arr.push(self.lifePic[i])
-          // }
-          self.graduate_photos = result.profile.graduate_photos
-          self.other_photos = result.profile.other_photos
-          self.identification_photos = result.profile.identification_photos
-          self.wechat_qrcode = result.profile.wechat_qrcode
-          self.dwell = [result.profile.country, result.profile.province, result.profile.city] // 长居地
-          // self.dwell = ['中国', '广东省', '深圳市']
-          self.resident = [result.profile.country, result.profile.resident_province, result.profile.resident_city] // 成长地
-          self.information = [
-            {name: '用户名', value: result.name},
-            {name: '手机号', value: result.mobile},
-            {name: '身高', value: result.profile.stature},
-            {name: '体重', value: result.profile.weight},
-            {name: '身份证', value: result.card_num},
-            {name: '毕业学校', value: result.profile.graduate_school},
-            {name: '工作单位', value: result.profile.company}
-          ]
-          self.orgTotal = result.total
-
           self.graduate_photos = result.profile.graduate_photos
           self.other_photos = result.profile.other_photos
           self.identification_photos = result.profile.identification_photos
