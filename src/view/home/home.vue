@@ -60,18 +60,18 @@
         </div>
       </Card>
     </Row>
-    <Row class="margin-top-10" style="margin-top: 15px">
-      <Card>
-        <p slot="title" class="card-title">
-          <Icon type="ios-shuffle-strong"></Icon>
-           周收入报表
-        </p>
-        <h4 style="text-align: center;margin: 22px;">福恋数据</h4>
-        <div class="line-chart-con">
-          <report-data :columnar="columnar"></report-data>
-        </div>
-      </Card>
-    </Row>
+    <!--<Row class="margin-top-10" style="margin-top: 15px">-->
+      <!--<Card>-->
+        <!--<p slot="title" class="card-title">-->
+          <!--<Icon type="ios-shuffle-strong"></Icon>-->
+           <!--周收入报表-->
+        <!--</p>-->
+        <!--<h4 style="text-align: center;margin: 22px;">福恋数据</h4>-->
+        <!--<div class="line-chart-con">-->
+          <!--<report-data :columnar="columnar"></report-data>-->
+        <!--</div>-->
+      <!--</Card>-->
+    <!--</Row>-->
   </div>
 </template>
 

@@ -174,6 +174,7 @@ export default {
                       this.modal = true
                       this.status = '-1'
                       this.recommend_id = params.row.recommend_id
+                      console.log(params.row, '9999')
                     }
                   }
                 }, '拒绝申请'),
@@ -186,7 +187,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showPhoto(params.row.avatar)
+                      this.showPhoto(params.row.photo)
                     }
                   }
                 }, '查看头像')
