@@ -131,6 +131,11 @@ export default {
           align: 'center'
         },
         {
+          title: '实名认证',
+          key: 'is_approved',
+          align: 'center'
+        },
+        {
           title: '单身/介绍人',
           key: 'type',
           align: 'center'
@@ -285,7 +290,8 @@ export default {
               mobile: item.user.mobile,
               user_name: item.user.name,
               sex: item.user.sex == 1 ? '男' : '女',
-              type: item.user.type == 'single' ? '单身' : '介绍人',
+              is_approved: item.user.is_approved == 1 ? '已认证' : '未验证',
+              type: item.user.type == 'single' ? '单身' : '介绍人'
             }
           })
         })
@@ -343,5 +349,8 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
+  }
+  .ivu-modal-confirm-body{
+    padding: 0;
   }
 </style>
