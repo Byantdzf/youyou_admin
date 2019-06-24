@@ -162,6 +162,7 @@
                     on: {
                       click: () => {
                         this.showPhoto(params.row.avatar)
+                        console.log(params.row, '999')
                       }
                     }
                   }, '查看头像')
@@ -224,7 +225,7 @@
         uAxios.put(`admin/audit/users/${self.id}/photo`, data).then((response) => {
           if (response.data.code === 0) {
             this.$Message.info('操作成功')
-            this.information.splice(this.Index,1)
+            this.information.splice(this.Index, 1)
           } else {
             this.$Modal.error({
               content: response.data.message
