@@ -25,10 +25,26 @@
     >
       <Card style="margin-top: 12px;">
         <p style="border-bottom: 4px solid #eeeeee;padding-bottom: 12px;margin-bottom: 16rpx;">
-          内容：{{complainItem.content}}</p>
+          内容：{{complainItem.content}}
+        </p>
         <span v-for="(item,index) in complainItem.photos" style="margin: 0 10px;">
-						<img :src="item" alt="" width="80rpx" @click="showModel(item)">
-					</span>
+          <img :src="item" alt="" width="80rpx" @click="showModel(item)">
+        </span>
+        <div style="margin-top: 12px;">
+          <span>审核状态：</span>
+          <RadioGroup v-model="state">
+            <Radio label="1">
+              <Icon type="md-checkmark"/>
+              <span>未审核</span>
+            </Radio>
+            <Radio label="-1">
+              <Icon type="md-close"/>
+              <span>已审核</span>
+            </Radio>
+          </RadioGroup>
+          <Input v-model="reason" type="textarea" :rows="2" placeholder="备注..." style="margin-top: 12px;"
+                 v-if="state == '-1'"/>
+        </div>
       </Card>
     </Modal>
     <Modal
@@ -55,15 +71,18 @@
       return {
         activeTab: 0,
         currentPage: 1,
+        reason: '',
+        type: '',
         searchKeyword: '',
         orgTotal: 0,
         fieldList: [],
+        state: '0',
         modelValue: '',
         industryList: [],
         id: '',
         addressList: [],
         modal1: false,
-        text: '标记为已处理',
+        text: '确定',
         complainItem: {},
         orgColumns: [
           {
@@ -204,7 +223,21 @@
         if (this.activeTab == 1) {
           status = 0
         }
-        uAxios.put(`admin/change/complaint/${this.complainItem.id}/status?status=${status}`)
+        let self = this,
+          data = {
+            content: this.reason,
+            type: this.state
+          }
+        if (this.state === '1') {
+          return
+        }
+        if (this.state === '-1' && !this.reason) {
+          return this.$Notice.error({
+            title: 'Notification title',
+            desc: '请填写备注'
+          });
+        }
+        uAxios.put(`admin/change/complaint/${this.complainItem.id}/status?status=${status}`, data)
           .then(res => {
             if (res.data.code === 0) this.$Message.info('已处理')
             this.information.splice(this.feedbackIndex, 1)

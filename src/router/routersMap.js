@@ -334,7 +334,7 @@ export const staticRouters = [
           notCache: true
         },
         component: () => import('@/view/home/massTexting.vue')
-      }
+      },
     ]
   },
   {
@@ -420,6 +420,16 @@ export const staticRouters = [
           access: ['admin', 'paas_admin']
         },
         component: () => import('@/view/referres/record.vue')
+      },
+      {
+        path: 'referralBonuses/:id',
+        name: 'referralBonuses',
+        icon: 'md-cog',
+        meta: {
+          access: ['admin'],
+          hideInMenu: true,
+        },
+        component: () => import('@/view/referres/referralBonuses.vue')
       },
       {
         path: 'referrer/:id',

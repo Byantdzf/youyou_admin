@@ -102,7 +102,7 @@
           <!--<Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
           <Card style="margin-top: 12px;">
             <p slot="title">生活照</p>
-            <uploadImages :pic="lifePic" v-on:uploadPictures="uploadPictures('lifePic',$event)"></uploadImages>
+            <uploadImages :pic="lifePhotos" v-on:uploadPictures="uploadPictures('lifePhotos',$event)"></uploadImages>
           </Card>
           <Card style="margin-top: 12px;">
             <p slot="title">身份证</p>
@@ -205,7 +205,6 @@ export default {
       addressData: [], // 地址数据
       industry: [], // 行业
       industryData: [], // 行业数据
-      lifePic: [],
       orgColumns: [
         {
           key: 'updatedAt',
@@ -260,16 +259,10 @@ export default {
       message: {},
       client_id: 0,
       uploaddata: [],
-      arr: [],
+      arr: []
     }
   },
   watch: {
-    // lifePic () {
-    //   this.FilterData(this.lifePic, this.lifePhotos)
-    //   // console.log(this.lifePic, '8888')
-    //   // console.log(this.lifePhotos, '7777')
-    //   console.log(this.FilterData(this.lifePic, this.lifePhotos), '9999')
-    // }
   },
   methods: {
     showModal (item, type) {
@@ -319,10 +312,6 @@ export default {
           self.lifePhotos = result.lifePhotos.map((item) => {
             return item.photo
           })
-          self.lifePic = result.lifePhotos.map((item) => {
-            return item.photo
-          })
-          console.log(self.lifePic, '5555')
           self.graduate_photos = result.profile.graduate_photos
           self.other_photos = result.profile.other_photos
           self.identification_photos = result.profile.identification_photos
@@ -376,7 +365,6 @@ export default {
       return data
     },
     save () {
-      // console.log(this.lifePic, '56565')
       // debugger
       this.loading = true
       var d = new Date(this.birthday)
@@ -401,12 +389,13 @@ export default {
         dwell: this.dwell, // 常住地
         resident: this.resident, // 成长地
         photos: this.photos,
-        lifePhotos: this.lifePic,
+        lifePhotos: this.lifePhotos,
         graduate_photos: this.graduate_photos,
         other_photos: this.other_photos,
         identification_photos: this.identification_photos,
         wechat_qrcode: this.wechat_qrcode
       }
+      console.log(this.lifePhotos, '999888')
       console.log(data)
       uAxios.put(`admin/users/${this.id}`, data).then((response) => {
         if (response.data.code === 0) {

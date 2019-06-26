@@ -16,18 +16,18 @@
                 style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
         </TabPane>
         <TabPane label="已处理" name="1">
-          <Input
-            v-model="searchKeyword"
-            @on-enter="handleSearch"
-            placeholder="关键字搜索..."
-            style="width: 200px; margin-bottom: 22px;"/>
-          <span @click="handleSearch">
+        <Input
+          v-model="searchKeyword"
+          @on-enter="handleSearch"
+          placeholder="关键字搜索..."
+          style="width: 200px; margin-bottom: 22px;"/>
+        <span @click="handleSearch">
                     <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                 </span>
-          <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
-          <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
-        </TabPane>
+        <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
+        <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+              style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+      </TabPane>
       </Tabs>
     </Card>
     <Modal
@@ -37,29 +37,29 @@
       @on-ok="cancel"
     >
       <p style="font-size: 14px;font-weight: bold;margin-bottom: 4px">拒绝理由：</p>
-      <i-input style="width: 340px" type="textarea" :rows="3" placeholder="请输入..." v-model="content"></i-input>
+      <i-input style="width: 340px" type="textarea" :rows="3" placeholder="请输入..." v-model="contentText"></i-input>
     </Modal>
-    <Modal
-      v-model="modal2"
-      title="温馨提示"
-      :ok-text="text"
-      @on-ok="deleteUser"
-      no-cancel>
-      <div style="font-size: 14px">
-        是否确定删除该推荐？
-      </div>
-    </Modal>
+    <!--<Modal-->
+      <!--v-model="modal2"-->
+      <!--title="温馨提示"-->
+      <!--:ok-text="text"-->
+      <!--@on-ok="deleteUser"-->
+      <!--no-cancel>-->
+      <!--<div style="font-size: 14px">-->
+        <!--是否确定删除该推荐？-->
+      <!--</div>-->
+    <!--</Modal>-->
   </div>
 </template>
 
 <script>
-import uAxios from '../../api/index'
+import uAxios from '../../api'
 import config from '../../api/config'
 
 export default {
   search: '',
-  name: 'complain',
-  data() {
+  name: 'referralBonuses',
+  data () {
     return {
       activeTab: '0',
       currentPage: 1,
@@ -68,16 +68,11 @@ export default {
       modal2: false,
       type: '',
       id: '',
+      user_id: '',
       modal1: false,
       text: '确认',
-      content: '',
+      contentText: '',
       orgColumns: [
-        {
-          title: 'ID',
-          align: 'center',
-          width: 100,
-          key: 'recommend_id'
-        },
         {
           title: '用户ID',
           align: 'center',
@@ -86,16 +81,16 @@ export default {
         },
         {
           title: '名称',
-          key: 'user_name',
+          key: 'name',
           align: 'center'
         },
         {
           title: '头像',
-          key: 'photo',
+          key: 'circle_avatar',
           render: (h, params) => {
             return h('img', {
               attrs: {
-                src: params.row.photo
+                src: params.row.circle_avatar
               },
               style: {
                 width: '42px',
@@ -121,16 +116,6 @@ export default {
           key: 'mobile'
         },
         {
-          title: '性别',
-          key: 'sex',
-          align: 'center'
-        },
-        {
-          title: 'Vip等级',
-          key: 'rank_name',
-          align: 'center'
-        },
-        {
           title: '实名认证',
           key: 'is_approved',
           align: 'center'
@@ -141,8 +126,23 @@ export default {
           align: 'center'
         },
         {
-          title: '申请时间',
-          key: 'created_at',
+          title: '第一周分享人数',
+          key: 'first_week_count',
+          align: 'center'
+        },
+        {
+          title: '其他周分享人数',
+          key: 'other_week_count',
+          align: 'center'
+        },
+        {
+          title: '总分享人数',
+          key: 'bonus_count',
+          align: 'center'
+        },
+        {
+          title: '奖励金额',
+          key: 'award',
           align: 'center'
         },
         {
@@ -157,12 +157,12 @@ export default {
                     type: 'success'
                   },
                   style: {
-                    margin: '5px'
+                    margin: '3px'
                   },
                   on: {
                     click: () => {
                       this.status = '1'
-                      this.recommend_id = params.row.recommend_id
+                      this.user_id = params.row.user_id
                       this.cancel()
                     }
                   }
@@ -172,13 +172,13 @@ export default {
                     type: 'error'
                   },
                   style: {
-                    margin: '5px'
+                    margin: '3px'
                   },
                   on: {
                     click: () => {
                       this.modal = true
                       this.status = '-1'
-                      this.recommend_id = params.row.recommend_id
+                      this.user_id = params.row.user_id
                       console.log(params.row, '9999')
                     }
                   }
@@ -188,32 +188,32 @@ export default {
                     type: 'primary'
                   },
                   style: {
-                    margin: '5px'
+                    margin: '3px'
                   },
                   on: {
                     click: () => {
-                      this.showPhoto(params.row.photo)
+                      this.showPhoto(params.row.circle_avatar)
                     }
                   }
                 }, '查看头像')
               ])
             } else {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'error'
-                  },
-                  style: {
-                    margin: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.modal2 = true
-                      this.recommend_id = params.row.recommend_id
-                    }
-                  }
-                }, '删除推荐')
-              ])
+              // return h('div', [
+              //   h('Button', {
+              //     props: {
+              //       type: 'error'
+              //     },
+              //     style: {
+              //       margin: '5px'
+              //     },
+              //     on: {
+              //       click: () => {
+              //         this.modal2 = true
+              //         this.user_id = params.row.user_id
+              //       }
+              //     }
+              //   }, '删除推荐')
+              // ])
             }
           }
         }
@@ -243,29 +243,30 @@ export default {
       this.modal = false
       let self = this,
         data = {
-          recommend_id: this.recommend_id,
+          user_id: this.user_id,
           status: this.status,
-          content: this.content
+          contentText: this.contentText
         }
-      uAxios.put(`admin/check/home/recommends/` + self.recommend_id, data)
+      uAxios.post(`admin/deal/added/bonus/users/` + self.user_id, data)
         .then(res => {
           if (res.data.code === 0) this.$Message.info('已处理')
           this.information.splice(this.feedbackIndex, 1)
         })
+      console.log(data, '96969')
     },
-    deleteUser () {
-      let self = this
-      uAxios.delete('admin/home/recommends/' + self.recommend_id).then((response) => {
-        if (response.data.code === 0) {
-          this.$Message.info('删除成功')
-          this.getlist(this.currentPage)
-        } else {
-          this.$Modal.error({
-            content: response.data.message
-          })
-        }
-      })
-    },
+    // deleteUser () {
+    //   let self = this
+    //   uAxios.delete('admin/home/recommends/' + self.recommend_id).then((response) => {
+    //     if (response.data.code === 0) {
+    //       this.$Message.info('删除成功')
+    //       this.getlist(this.currentPage)
+    //     } else {
+    //       this.$Modal.error({
+    //         content: response.data.message
+    //       })
+    //     }
+    //   })
+    // },
     getTab (type) {
       // 获得激活的Tab页
       this.activeTab = type
@@ -274,7 +275,7 @@ export default {
     getlist (page) {
       let self = this
       self.loading = true
-      uAxios.get(`admin/home/recommends/v2?page=${page}&status=${self.activeTab}&keyword=${self.searchKeyword}`)
+      uAxios.get(`admin/referre/added/bonus`)
         .then(res => {
           let result = res.data.data
           console.log(result, '9595')
@@ -282,16 +283,19 @@ export default {
           self.loading = false
           self.information = result.data.map((item) => {
             return {
-              created_at: item.created_at,
-              rank_name: item.user.rank_name,
-              recommend_id: item.id,
-              photo: item.user.photo,
-              user_id: item.user.id,
-              mobile: item.user.mobile,
-              user_name: item.user.name,
-              sex: item.user.sex == 1 ? '男' : '女',
-              is_approved: item.user.is_approved == 1 ? '已认证' : '未认证',
-              type: item.user.type == 'single' ? '单身' : '介绍人'
+              name: item.name,
+              circle_avatar: item.circle_avatar,
+              first_week_count: item.first_week_count,
+              other_week_count: item.other_week_count,
+              bonus_count: item.bonus_count,
+              award: item.award,
+              user_id: item.id,
+              wechat_id: item.wechat.id,
+              mobile: item.mobile,
+              created_at: item.wechat.created_at,
+              gender: item.wechat.gender == '1' ? '男' : '女  ',
+              type: item.type == 'marriage' ? '介绍人' : '单身',
+              is_approved: item.is_approved == '1' ? '已认证' : '未认证'
             }
           })
         })
