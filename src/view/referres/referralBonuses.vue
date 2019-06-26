@@ -273,13 +273,8 @@ export default {
       this.getlist(1)
     },
     getlist (page) {
-      let self = this,
-        data = {
-          user_id: this.user_id,
-          status: this.status,
-          contentText: this.contentText
-        }
-      uAxios.get(`admin/referre/added/bonus`, data)
+      let self = this
+      uAxios.get(`admin/referre/added/bonus?page=${page}&status=${self.activeTab}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
           console.log(result, '9595')
