@@ -28,8 +28,11 @@
           placeholder="关键字搜索..."
           style="width: 160px; margin-bottom: 22px;"/>
         <span @click="handleSearch">
-                    <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
-                </span>
+          <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
+        </span>
+        <span @click="gotoaward">
+          <Button type="success" style="margin-right: 100px;margin-bottom: 22px;float: right">推荐奖励</Button>
+        </span>
         <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
         <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
               style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
@@ -168,23 +171,23 @@ export default {
                     }
                   }
                 }, '收益记录'),
-                h('Button', {
-                  props: {
-                    type: 'warning'
-                  },
-                  style: {
-                    margin: '3px'
-                  },
-                  on: {
-                    click: () => {
-                      let argu = {id: params.row.user_id}
-                      this.$router.push({
-                        name: 'referralBonuses',
-                        params: argu
-                      })
-                    }
-                  }
-                }, '推荐奖励'),
+                // h('Button', {
+                //   props: {
+                //     type: 'warning'
+                //   },
+                //   style: {
+                //     margin: '3px'
+                //   },
+                //   on: {
+                //     click: () => {
+                //       let argu = {id: params.row.user_id}
+                //       this.$router.push({
+                //         name: 'referralBonuses',
+                //         params: argu
+                //       })
+                //     }
+                //   }
+                // }, '推荐奖励'),
                 h('Button', {
                   props: {
                     type: 'error'
@@ -227,6 +230,13 @@ export default {
     }
   },
   methods: {
+    gotoaward () {
+      let argu = {id: 0}
+      this.$router.push({
+        name: 'referralBonuses',
+        params: argu
+      })
+    },
     deleteUser () {
       let self = this
       uAxios.delete('admin/referres/' + self.id).then((response) => {

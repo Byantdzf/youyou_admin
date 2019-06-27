@@ -2,6 +2,11 @@
   .line-chart-con{
     height: 300px;
   }
+  .ivu-tabs-bar{
+    margin-bottom: 0;
+    margin-top: 15px;
+    background: #fff;
+  }
 </style>
 <template>
   <div id="name">
@@ -48,30 +53,28 @@
         </Row>
       </div>
     </Card>
-    <Row class="margin-top-10" style="margin-top: 15px">
-      <Card>
-        <p slot="title" class="card-title">
-          <Icon type="ios-shuffle-strong"></Icon>
-          最近七天注册人数
-        </p>
-        <h4 style="text-align: center;margin: 22px;">本周营销总收入：{{income}}</h4>
-        <div class="line-chart-con">
-          <service-requests :option="option"></service-requests>
-        </div>
-      </Card>
-    </Row>
-    <!--<Row class="margin-top-10" style="margin-top: 15px">-->
-      <!--<Card>-->
-        <!--<p slot="title" class="card-title">-->
-          <!--<Icon type="ios-shuffle-strong"></Icon>-->
-           <!--周收入报表-->
-        <!--</p>-->
-        <!--<h4 style="text-align: center;margin: 22px;">福恋数据</h4>-->
-        <!--<div class="line-chart-con">-->
-          <!--<report-data :columnar="columnar"></report-data>-->
-        <!--</div>-->
-      <!--</Card>-->
-    <!--</Row>-->
+    <Tabs @on-click="getTab">
+      <TabPane label="最近七天注册人数" name="0">
+        <Row class="margin-top-10">
+          <Card>
+            <h4 style="text-align: center;margin: 22px;">本周营销总收入：{{income}}</h4>
+            <div class="line-chart-con">
+              <service-requests :option="option"></service-requests>
+            </div>
+          </Card>
+        </Row>
+      </TabPane>
+      <TabPane label="周收入报表" name="1" v-has="'admin'">
+        <Row class="margin-top-10">
+          <Card>
+            <h4 style="text-align: center;margin: 22px;">福恋数据</h4>
+            <div class="line-chart-con">
+              <report-data :columnar="columnar"></report-data>
+            </div>
+          </Card>
+        </Row>
+      </TabPane>
+    </Tabs>
   </div>
 </template>
 
@@ -107,11 +110,35 @@ export default {
     }
   },
   methods: {
+    // handleLogin ({ commit }, { userName, password }) {
+    //   userName = userName.trim()
+    //   return new Promise((resolve, reject) => {
+    //     login({
+    //       userName,
+    //       password
+    //     }).then(res => {
+    //       const data = res.data.data
+    //       commit('setToken', data.access_token)
+    //       commit('setAvator', data.photo)
+    //       commit('setPaas', data.paas_obj)
+    //       commit('setUserName', data.name)
+    //       commit('setUserId', data.id)
+    //       commit('setAccess', [data.admin_type])
+    //       resolve(res.data)
+    //     }).catch(err => {
+    //       reject(err)
+    //     })
+    //   })
+    // },
+    getTab (type) {
+      // 获得激活的Tab页
+      this.activeTab = type
+    },
     changeDate: function (res) {
       this.date = res
       uAxios.get(`admin/daliy/stat?start_time=${this.date}`)
         .then(res => {
-          let result = res.data.data;
+          let result = res.data.data
           this.count = {
             createUser: result.courtship_count + result.marriage_count,
             collection: result.courtship_count,
@@ -134,7 +161,7 @@ export default {
       uAxios.get('admin/week/stat')
         .then(res => {
           let result = res.data.data
-          console.log(result, '22222')
+          console.log(result)
           this.Data_arr.xData = result.day_arr
           this.Data_arr.marriage_arr = result.marriage_arr
           this.Data_arr.courtship_arr = result.courtship_arr
@@ -197,7 +224,7 @@ export default {
       uAxios.get('admin/weeks/stat')
         .then(res => {
           let result = res.data.data
-          console.log(result, '959595')
+          console.log(result)
           // this.Data_newArr.xDay = result.time_arr.start_time //时间
           this.Data_newArr.xDay = result.time_arr.map((item) => {
             return {

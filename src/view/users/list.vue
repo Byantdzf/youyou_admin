@@ -168,7 +168,7 @@
           {
             title: '头像审核？',
             align: 'center',
-            key: 'is_audited'
+            key: 'is_photo_audited'
           },
           {
             title: '推荐人',
@@ -445,7 +445,7 @@
                 rank: item.rank,
                 is_approved: item.is_approved == '0' ? '未认证' : '已认证',
                 address: `${item.province}${item.city}` == '' ? '暂无' : `${item.province} ${item.city}`,
-                is_audited: item.is_audited == '0' ? '否' : '是'
+                is_photo_audited: item.is_photo_audited == '0' ? '否     ' : '是'
               }
             })
             self.orgTotal = result.total

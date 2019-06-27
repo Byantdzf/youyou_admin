@@ -68,11 +68,18 @@ export default {
       modal2: false,
       type: '',
       id: '',
+      bonus_id: '',
       user_id: '',
       modal1: false,
       text: '确认',
       contentText: '',
       orgColumns: [
+        {
+          title: 'ID',
+          align: 'center',
+          width: 120,
+          key: 'bonus_id'
+        },
         {
           title: '用户ID',
           align: 'center',
@@ -162,7 +169,7 @@ export default {
                   on: {
                     click: () => {
                       this.status = '1'
-                      this.user_id = params.row.user_id
+                      this.bonus_id = params.row.bonus_id
                       this.cancel()
                     }
                   }
@@ -178,7 +185,7 @@ export default {
                     click: () => {
                       this.modal = true
                       this.status = '-1'
-                      this.user_id = params.row.user_id
+                      this.bonus_id = params.row.bonus_id
                       console.log(params.row, '9999')
                     }
                   }
@@ -241,13 +248,18 @@ export default {
     },
     cancel () {
       this.modal = false
+      if (this.contentText == '') {
+        alert('请输入拒绝理由')
+      } else {
+        return
+      }
       let self = this,
         data = {
-          user_id: this.user_id,
+          bonus_id: this.bonus_id,
           status: this.status,
           contentText: this.contentText
         }
-      uAxios.post(`admin/deal/added/bonus/users/` + self.user_id, data)
+      uAxios.post(`admin/deal/added/bonus/` + self.bonus_id, data)
         .then(res => {
           if (res.data.code === 0) this.$Message.info('已处理')
           this.information.splice(this.feedbackIndex, 1)
@@ -274,7 +286,8 @@ export default {
     },
     getlist (page) {
       let self = this
-      uAxios.get(`admin/referre/added/bonus?page=${page}&status=${self.activeTab}&keyword=${self.searchKeyword}`)
+      self.loading = true
+      uAxios.get(`admin/referre/added/bonuses?page=${page}&status=${self.activeTab}&keyword=${self.searchKeyword}`)
         .then(res => {
           let result = res.data.data
           console.log(result, '9595')
@@ -282,18 +295,17 @@ export default {
           self.loading = false
           self.information = result.data.map((item) => {
             return {
-              name: item.name,
-              circle_avatar: item.circle_avatar,
+              bonus_id: item.id,
+              name: item.user.name,
+              circle_avatar: item.user.circle_avatar,
               first_week_count: item.first_week_count,
               other_week_count: item.other_week_count,
               bonus_count: item.bonus_count,
               award: item.award,
-              user_id: item.id,
-              wechat_id: item.wechat.id,
-              mobile: item.mobile,
-              created_at: item.wechat.created_at,
-              gender: item.wechat.gender == '1' ? '男' : '女  ',
-              type: item.type == 'marriage' ? '介绍人' : '单身',
+              user_id: item.user.id,
+              mobile: item.user.mobile,
+              gender: item.user.sex == '1' ? '男' : '女  ',
+              type: item.user.type == 'single' ? '单身' : '介绍人',
               is_approved: item.is_approved == '1' ? '已认证' : '未认证'
             }
           })
@@ -309,6 +321,8 @@ export default {
     }
   },
   mounted () {
+    // console.log(this.$route)
+    // this.user_id = this.$route.params.id
     this.getlist(1)
   }
 }

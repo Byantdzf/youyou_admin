@@ -21,6 +21,7 @@ const data = [
     icon: 'md-analytics',
     meta: {
       access: ['admin', 'paas_admin'],
+      btnPermissions: ['admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -49,7 +50,7 @@ const data = [
     component: () => import('@/view/paas/paasList.vue')
   },
   {
-    title: '平台推荐',
+    title: '流量渠道',
     path: 'recommend',
     icon: 'ios-contacts',
     meta: {
@@ -424,8 +425,8 @@ export const staticRouters = [
       {
         path: 'referralBonuses/:id',
         name: 'referralBonuses',
-        icon: 'md-cog',
         meta: {
+          title: '推荐奖励',
           access: ['admin'],
           hideInMenu: true,
         },
