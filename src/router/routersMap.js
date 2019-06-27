@@ -20,7 +20,8 @@ const data = [
     path: 'statistics',
     icon: 'md-analytics',
     meta: {
-      access: ['admin', 'paas_admin'],
+      // access: ['admin', 'paas_admin'],
+      btnPermissions: ['admin'],
       hideInMenu: false,
       notCache: true
     },

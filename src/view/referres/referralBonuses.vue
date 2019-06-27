@@ -248,11 +248,6 @@ export default {
     },
     cancel () {
       this.modal = false
-      if (this.contentText == '') {
-        alert('请输入拒绝理由')
-      } else {
-        return
-      }
       let self = this,
         data = {
           bonus_id: this.bonus_id,
@@ -261,6 +256,11 @@ export default {
         }
       uAxios.post(`admin/deal/added/bonus/` + self.bonus_id, data)
         .then(res => {
+          if (this.contentText == '') {
+            alert('请输入拒绝理由')
+          } else {
+            return
+          }
           if (res.data.code === 0) this.$Message.info('已处理')
           this.information.splice(this.feedbackIndex, 1)
         })

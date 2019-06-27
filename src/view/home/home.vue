@@ -64,7 +64,7 @@
           </Card>
         </Row>
       </TabPane>
-      <TabPane label="周收入报表" name="1">
+      <TabPane label="周收入报表" name="1" v-has="'admin'">
         <Row class="margin-top-10">
           <Card>
             <h4 style="text-align: center;margin: 22px;">福恋数据</h4>
