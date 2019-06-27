@@ -14,7 +14,6 @@ import '@/assets/icons/iconfont.css'
 import VueAMap from 'vue-amap'
 import {lazyAMapApiLoaderInstance} from 'vue-amap'
 import { Message } from 'iview'
-import has from '@/router/btnPermissions'
 
 Vue.use(VueAMap)
 VueAMap.initAMapApiLoader({

@@ -21,7 +21,6 @@ const data = [
     icon: 'md-analytics',
     meta: {
       access: ['admin', 'paas_admin'],
-      btnPermissions: ['admin'],
       hideInMenu: false,
       notCache: true
     },
