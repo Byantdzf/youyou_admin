@@ -7,6 +7,10 @@
     margin-top: 15px;
     background: #fff;
   }
+  .ivu-tabs-nav{
+    padding: 10px 0 10px 0;
+    font-weight: bold;
+  }
 </style>
 <template>
   <div id="name">
@@ -64,7 +68,7 @@
           </Card>
         </Row>
       </TabPane>
-      <TabPane label="周收入报表" name="1" v-has="'admin'">
+      <TabPane label="周收入报表" name="1" v-if="access === 'admin'">
         <Row class="margin-top-10">
           <Card>
             <h4 style="text-align: center;margin: 22px;">福恋数据</h4>
@@ -106,7 +110,8 @@ export default {
       columnar: {},
       Data_newArr: {},
       start_time: [],
-      money: ''
+      money: '',
+      access: localStorage.getItem('access')
     }
   },
   methods: {
