@@ -22,17 +22,19 @@
     </Card>
     <Tabs @on-click="getTab" style="margin-top: 12px;">
       <TabPane label="推荐人列表" name="score">
-        <Input
-          v-model="searchKeyword"
-          @on-enter="handleSearch"
-          placeholder="关键字搜索..."
-          style="width: 160px; margin-bottom: 22px;"/>
-        <span @click="handleSearch">
-          <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
-        </span>
-        <span @click="gotoaward">
-          <Button type="success" style="margin-right: 100px;margin-bottom: 22px;float: right">推荐奖励</Button>
-        </span>
+        <div style="margin-bottom: 18px">
+          <Input
+            v-model="searchKeyword"
+            @on-enter="handleSearch"
+            placeholder="关键字搜索..."
+            style="width: 160px;"/>
+          <span @click="handleSearch">
+            <Button type="primary" icon="ios-search" style="margin-left: 12px;">搜索</Button>
+          </span>
+          <span @click="gotoaward">
+            <Button type="success" style="margin-right: 100px;float: right">推荐奖励</Button>
+          </span>
+        </div>
         <Table :loading="loading" :columns="orgColumns" :data="information" style="width: 100%;" border></Table>
         <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
               style="float:right;margin-top:5px;margin-bottom:30px;"></Page>

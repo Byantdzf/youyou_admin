@@ -11,6 +11,19 @@
     padding: 10px 0 10px 0;
     font-weight: bold;
   }
+  .ivu-row-flex{
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    margin-left: -4px;
+    border: 1px solid #dcdee2;
+    border-color: #e8eaec;
+  }
+  .infor-card-icon-con{
+    z-index: 999;
+  }
+  .ivu-card-bordered{
+   border: 0;
+  }
 </style>
 <template>
   <div id="name">
