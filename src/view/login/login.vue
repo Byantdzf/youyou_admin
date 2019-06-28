@@ -5,12 +5,12 @@
 <template>
   <div class="login ">
     <div class="login-con">
-      <Card icon="md-heart-outline" class="interim" title="福恋智能后台管理系统" :bordered="false">
+      <Card icon="ios-analytics" class="interim" title="后台管理系统" :bordered="false" v-if="!changeCode">
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit" :load="loading"></login-form>
-          <p class="login-tip">【福恋智能】 -- 后台
-            <!--<a style="float: right;" @click="changeCode=true">忘记密码？</a>-->
-          </p>
+          <p class="login-tip">【】 -- 后台
+            <a style="float: right;" @click="changeCode=true">忘记密码？</a>
+          </p>s
         </div>
       </Card>
       <!--<Card icon="md-heart-outline" class="interim" title="福恋智能后台管理系统" :bordered="false" v-else>-->
