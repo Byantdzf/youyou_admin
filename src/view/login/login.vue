@@ -10,7 +10,7 @@
           <login-form @on-success-valid="handleSubmit" :load="loading"></login-form>
           <p class="login-tip">【】 -- 后台
             <a style="float: right;" @click="changeCode=true">忘记密码？</a>
-          </p>s
+          </p>
         </div>
       </Card>
       <!--<Card icon="md-heart-outline" class="interim" title="福恋智能后台管理系统" :bordered="false" v-else>-->
