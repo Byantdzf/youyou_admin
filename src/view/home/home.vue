@@ -2,28 +2,28 @@
   .line-chart-con{
     height: 300px;
   }
-  .ivu-tabs-bar{
-    margin-bottom: 0;
-    margin-top: 15px;
-    background: #fff;
-  }
-  .ivu-tabs-nav{
-    padding: 10px 0 10px 0;
-    font-weight: bold;
-  }
-  .ivu-row-flex{
-    border-radius: 4px;
-    border-top-left-radius: 0;
-    margin-left: -4px;
-    border: 1px solid #dcdee2;
-    border-color: #e8eaec;
-  }
-  .infor-card-icon-con{
-    z-index: 999;
-  }
-  .ivu-card-bordered{
-   border: 0;
-  }
+  /*.ivu-tabs-bar{*/
+    /*margin-bottom: 0;*/
+    /*margin-top: 15px;*/
+    /*background: #fff;*/
+  /*}*/
+  /*.ivu-tabs-nav{*/
+    /*padding: 10px 0 10px 0;*/
+    /*font-weight: bold;*/
+  /*}*/
+  /*.ivu-row-flex{*/
+    /*border-radius: 4px;*/
+    /*border-top-left-radius: 0;*/
+    /*margin-left: -4px;*/
+    /*border: 1px solid #dcdee2;*/
+    /*border-color: #e8eaec;*/
+  /*}*/
+  /*.infor-card-icon-con{*/
+    /*z-index: 999;*/
+  /*}*/
+  /*.ivu-card-bordered{*/
+   /*border: 0;*/
+  /*}*/
 </style>
 <template>
   <div id="name">
@@ -33,11 +33,7 @@
       <!--<p>Some contents...</p>-->
       <!--<p>Some contents...</p>-->
     <!--</Drawer>-->
-    <Card :bordered="false">
-      <div slot="title">
-        <span style="font-weight: bold;">选择查询日期：</span>
-        <DatePicker type="date" placeholder="Select date" @on-change="changeDate" :value="date" style="width: 200px"></DatePicker>
-      </div>
+    <Card :bordered="false" title="用户数据">
       <div>
         <Row :gutter="5">
           <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
@@ -46,7 +42,7 @@
               :end-val="count.createUser"
               iconType="android-person-add"
               color="#2d8cf0"
-              intro-text="今日新增用户"
+              intro-text="全部用户"
             ></infor-card>
           </Col>
           <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
@@ -55,43 +51,34 @@
               :end-val="count.collection"
               iconType="android-person-add"
               color="#ffd572"
-              intro-text="+单身"
-            ></infor-card>
-          </Col>
-          <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
-            <infor-card
-              id-name="transfer_count"
-              :end-val="count.transfer"
-              iconType="android-person-add"
-              color="#f25e43"
-              intro-text="+介绍人"
+              intro-text="今日新增用户"
             ></infor-card>
           </Col>
         </Row>
       </div>
     </Card>
-    <Tabs @on-click="getTab">
-      <TabPane label="最近七天注册人数" name="0">
-        <Row class="margin-top-10">
-          <Card>
-            <h4 style="text-align: center;margin: 22px;">本周营销总收入：{{income}}</h4>
-            <div class="line-chart-con">
-              <service-requests :option="option"></service-requests>
-            </div>
-          </Card>
-        </Row>
-      </TabPane>
-      <TabPane label="周收入报表" name="1" v-if="access === 'admin'">
-        <Row class="margin-top-10">
-          <Card>
-            <h4 style="text-align: center;margin: 22px;">福恋数据</h4>
-            <div class="line-chart-con">
-              <report-data :columnar="columnar"></report-data>
-            </div>
-          </Card>
-        </Row>
-      </TabPane>
-    </Tabs>
+    <!--<Tabs @on-click="getTab">-->
+      <!--<TabPane label="最近七天注册人数" name="0">-->
+        <!--<Row class="margin-top-10">-->
+          <!--<Card>-->
+            <!--<h4 style="text-align: center;margin: 22px;">本周营销总收入：{{income}}</h4>-->
+            <!--<div class="line-chart-con">-->
+              <!--<service-requests :option="option"></service-requests>-->
+            <!--</div>-->
+          <!--</Card>-->
+        <!--</Row>-->
+      <!--</TabPane>-->
+      <!--<TabPane label="周收入报表" name="1" v-if="access === 'admin'">-->
+        <!--<Row class="margin-top-10">-->
+          <!--<Card>-->
+            <!--<h4 style="text-align: center;margin: 22px;">福恋数据</h4>-->
+            <!--<div class="line-chart-con">-->
+              <!--<report-data :columnar="columnar"></report-data>-->
+            <!--</div>-->
+          <!--</Card>-->
+        <!--</Row>-->
+      <!--</TabPane>-->
+    <!--</Tabs>-->
   </div>
 </template>
 

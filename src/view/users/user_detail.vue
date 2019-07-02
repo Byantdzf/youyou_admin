@@ -14,57 +14,24 @@
             <i-col span="10">
               <Card>
                 <div style="width:100%; padding: 12px;border-bottom: 1px solid #d3d3d3;margin-bottom: 12px;">
-                  <div class="font_16 _bold" style="margin-top: 6px;float: left;">账号状态:</div>
-                  <Button type="primary" style="margin-left: 22px;float: right;" @click="alterState">确定修改</Button>
-                  <Select v-model="type" style="width: 45%;margin-left: 12px;">
-                    <Option v-for="item,index in typeList" :value="item.name" :key="index">{{ item.title }}</Option>
-                  </Select>
+                  <span class="font_16 _bold" style="margin-right: 12px;">屏蔽该账户:</span>
+                  <Radio-group v-model="closeCode">
+                    <Radio label="关闭"></Radio>
+                    <Radio label="开启"></Radio>
+                  </Radio-group>
                   <div style="clear: both"></div>
                 </div>
-                <!--<div style="display: inline-block;margin-left: 12px;">-->
-                <!--<span class="font_16 _bold">设置为管理员：</span>-->
-                <!--<i-switch v-model="switch1" @on-change="change"/>-->
-                <!--</div>-->
-                <!--<Dropdown style="margin-left: 20px; position: relative;">-->
-                <!--<i-button type="primary">-->
-                <!--Ta 的权限：超级管理员-->
-                <!--<Icon type="arrow-down-b"></Icon>-->
-                <!--</i-button>-->
-                <!--<Dropdown-menu slot="list">-->
-                <!--<Dropdown-item>超级管理员</Dropdown-item>-->
-                <!--<Dropdown placement="right-start">-->
-                <!--<Dropdown-item>-->
-                <!--平台管理员-->
-                <!--<Icon type="arrow-right-b"></Icon>-->
-                <!--</Dropdown-item>-->
-                <!--<Dropdown-menu slot="list">-->
-                <!--<Dropdown-item>挂炉烤鸭</Dropdown-item>-->
-                <!--<Dropdown-item>焖炉烤鸭</Dropdown-item>-->
-                <!--</Dropdown-menu>-->
-                <!--</Dropdown>-->
-                <!--<Dropdown-item>红娘</Dropdown-item>-->
-                <!--<Dropdown-item>同工</Dropdown-item>-->
-                <!--</Dropdown-menu>-->
-                <!--&lt;!&ndash;<img src="http://images.ufutx.com/201905/14/30ab7c315c4f5a2670e3e9de537d94d5.png" alt="" style="position: absolute;right: -8px;top: -34px;" width="50px">&ndash;&gt;-->
-                <!--</Dropdown>-->
-                <Button type="info" style="margin-left: 32px;display: inline-block;" @click="setapproved"
-                        v-if="is_approved == 0">
-                  授权该用户为实名认证用户
-                </Button>
-                <Button type="success" style="margin-left: 18px;display: inline-block;" v-if="is_audited == 0"
-                        @click="auditUser">标记为已审核
-                </Button>
               </Card>
             </i-col>
-            <i-col span="13" offset="1">
-              <Card>
-                <Select v-model="client_id" style="width: 300px;" filterable @on-query-change="getGropData">
-                  <Option v-for="item in redMun" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                </Select>
-                <Button type="success" style="margin-left: 8px" @click="allocation">将该用户分配给这位红娘</Button>
-                <span style="color: red;margin-left: 12px" v-if="maker_name">{{maker_name}} 已跟进</span>
-              </Card>
-            </i-col>
+            <!--<i-col span="13" offset="1">-->
+              <!--<Card>-->
+                <!--<Select v-model="client_id" style="width: 300px;" filterable @on-query-change="getGropData">-->
+                  <!--<Option v-for="item in redMun" :value="item.id" :key="item.id">{{ item.name }}</Option>-->
+                <!--</Select>-->
+                <!--<Button type="success" style="margin-left: 8px" @click="allocation">将该用户分配给这位红娘</Button>-->
+                <!--<span style="color: red;margin-left: 12px" v-if="maker_name">{{maker_name}} 已跟进</span>-->
+              <!--</Card>-->
+            <!--</i-col>-->
           </Row>
         </div>
       </Card>
@@ -81,101 +48,38 @@
             <span class="font_16 _bold">用户名：</span>
             <span class="font_16">{{name}}</span>
           </div>
-          <img src="http://images.ufutx.com/201905/13/61d92561553c6632cd2ac02924d0872e.png" alt=""
-               v-if="is_approved == 0" style="position: absolute;left: 110px;top: 100px;" width="62">
-          <img src="http://images.ufutx.com/201905/13/8d1228814a8697fc3de9d6b8b9c127f4.png" alt="" v-else
-               style="position: absolute;left: 110px;top: 100px;" width="62">
-          <img src="http://images.ufutx.com/201905/13/c4b37a0ffebbfdd9320c57e6d8e453b3.png" alt=""
-               v-if="is_audited == 0" style="margin-left: 12px;margin-bottom: -16px;" width="62">
-          <img src="http://images.ufutx.com/201905/13/20626fbd174313d584176c1d6bc74ef3.png" alt="" v-else
-               style="margin-left: 12px;margin-bottom: -16px;" width="62">
+          <!--<img src="http://images.ufutx.com/201905/13/61d92561553c6632cd2ac02924d0872e.png" alt=""-->
+               <!--v-if="is_approved == 0" style="position: absolute;left: 110px;top: 100px;" width="62">-->
+          <!--<img src="http://images.ufutx.com/201905/13/8d1228814a8697fc3de9d6b8b9c127f4.png" alt="" v-else-->
+               <!--style="position: absolute;left: 110px;top: 100px;" width="62">-->
+          <!--<img src="http://images.ufutx.com/201905/13/c4b37a0ffebbfdd9320c57e6d8e453b3.png" alt=""-->
+               <!--v-if="is_audited == 0" style="margin-left: 12px;margin-bottom: -16px;" width="62">-->
+          <!--<img src="http://images.ufutx.com/201905/13/20626fbd174313d584176c1d6bc74ef3.png" alt="" v-else-->
+               <!--style="margin-left: 12px;margin-bottom: -16px;" width="62">-->
           <div style="display: inline-block;margin-top: 22px;" v-if="user_is_admin==1">
-            <Card>
-              <Button type="primary" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoEdit">编辑用户</Button>
-              <Button type="warning" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoUrl('user_order','id',id)">用户订单</Button>
-              <Button type="warning" style="margin-left: 8px;margin-bottom: 8px;background-image: linear-gradient(-225deg, #A445B2 0%, #D41872 52%, #FF0066 100%);color: white;" @click="gotoUrl('userMembers','id',id)">用户会员</Button>
-              <Button type="success" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoUrl('user_integral','id',id)">福分记录</Button>
-              <Button type="info" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoUrl('user_gift','id',id)">礼物列表</Button>
-              <Button type="error" style="margin-left: 8px;margin-bottom: 8px;" @click="showDeleteUser">删除用户</Button>
-              <Button style="margin-left: 8px;margin-bottom: 8px;" @click="settNote">备注管理</Button>
-            </Card>
+            <!--<Card>-->
+              <!--<Button type="primary" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoEdit">编辑用户</Button>-->
+              <!--<Button type="warning" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoUrl('user_order','id',id)">用户订单</Button>-->
+              <!--<Button type="warning" style="margin-left: 8px;margin-bottom: 8px;background-image: linear-gradient(-225deg, #A445B2 0%, #D41872 52%, #FF0066 100%);color: white;" @click="gotoUrl('userMembers','id',id)">用户会员</Button>-->
+              <!--<Button type="success" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoUrl('user_integral','id',id)">福分记录</Button>-->
+              <!--<Button type="info" style="margin-left: 8px;margin-bottom: 8px;" @click="gotoUrl('user_gift','id',id)">礼物列表</Button>-->
+              <!--<Button type="error" style="margin-left: 8px;margin-bottom: 8px;" @click="showDeleteUser">删除用户</Button>-->
+              <!--<Button style="margin-left: 8px;margin-bottom: 8px;" @click="settNote">备注管理</Button>-->
+            <!--</Card>-->
           </div>
           <Table :columns="columns" :data="information" :show-header="false" :border="false"
                  style="margin-top: 26px"></Table>
         </Card>
       </Col>
-      <Col span="13" offset="1" style="margin-top: 22px;position: relative">
-        <Card>
-          <p slot="title" style="color: #ff6c4c">VIP信息</p>
-          <Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false"
-                 style="margin-top: 26px"></Table>
+      <Col span="13" offset="1" style="margin-top: 12px;position: relative">
           <Card style="margin-top: 12px;">
-            <p slot="title">生活照</p>
-            <span v-for="(item,index) in lifePhotos" style="margin: 0 10px;">
-						<img :src="item.photo" alt="" width="80rpx" style="margin-right: 6px;border: 2px solid #f3f3f3;"
-                 @click="showModal(item.photo,'image')">
-					</span>
-          </Card>
-          <!--<Card style="margin-top: 12px;">-->
-          <!--<p slot="title">身份证</p>-->
-          <!--<span v-for="(item,index) in identification_photos" style="margin: 0 10px;">-->
-          <!--<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">-->
-          <!--</span>-->
-          <!--</Card>-->
-          <!--<Card style="margin-top: 12px;">-->
-          <!--<p slot="title">毕业照</p>-->
-          <!--<span v-for="(item,index) in graduate_photos" style="margin: 0 10px;">-->
-          <!--<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">-->
-          <!--</span>-->
-          <!--</Card>-->
-          <!--<Card style="margin-top: 12px;">-->
-          <!--<p slot="title">其他证件</p>-->
-          <!--<span v-for="(item,index) in other_photos" style="margin: 0 10px;">-->
-          <!--<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">-->
-          <!--</span>-->
-          <!--</Card>-->
-          <Card style="margin-top: 12px;">
-            <p slot="title">二维码</p>
-            <span v-for="(item,index) in wechat_qrcode" style="margin: 0 10px;">
-						<img :src="item" alt="" width="80rpx" @click="showModal(item,'image')">
-					</span>
-          </Card>
-          <Card style="margin-top: 12px;">
-            <p slot="title">测试结果</p>
-            <p
-              style="border-bottom: 1px solid #d3d3d3;padding: 6px;display: inline-block;color: #00a050;font-weight: bold">
-              爱情语言</p>
-            <div style="border-bottom: 1px solid #d3d3d3;padding: 6px;padding-right: 22px;"
-                 v-for="item in love_languages" @click="showModal(item,'test')">
-              <span>{{item.title}}</span>
-              <Icon type="chevron-right" style="float: right;margin-top: 4px;margin-left: 22px;"></Icon>
-              <span style="float: right">{{item.num}}</span>
-            </div>
-            <p
-              style="border-bottom: 1px solid #d3d3d3;padding: 6px;display: inline-block;color: #a03a17;font-weight: bold">
-              交往基因</p>
-            <div style="border-bottom: 1px solid #d3d3d3;padding: 6px;padding-right: 22px;"
-                 v-for="item in love_characters" @click="showModal(item,'test')">
-              <span>{{item.title}}</span>
-              <Icon type="chevron-right" style="float: right;margin-top: 4px;margin-left: 22px;"></Icon>
-              <span style="float: right">{{item.num}}</span>
-
-            </div>
-            <div style="border-bottom: 1px solid #d3d3d3;padding: 6px;padding-right: 22px;"
-                 @click="showModal(character,'character')">
-              <span style="color: #ff1837;font-weight: bold">我的优势</span>
-              <Icon type="chevron-right" style="float: right;margin-top: 4px;"></Icon>
-            </div>
-          </Card>
-          <Card style="margin-top: 12px;">
-            <p slot="title">推荐用户<span style="color: #ff0c18;font-weight: bold">（{{recommendTotal}}人）</span></p>
+            <p slot="title">已报名兼职<span style="color: #ff0c18;font-weight: bold">（{{recommendTotal}}）</span></p>
             <Table :loading="loading" :columns="recommendColumns" :data="recommendData" style="width: 100%;"
                    border></Table>
             <Page :total="recommendTotal" @on-change="handlePage" :page-size="15"
                   style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
             <div style="clear: both"></div>
           </Card>
-        </Card>
       </Col>
     </Row>
     <Modal
@@ -225,6 +129,7 @@
     },
     data () {
       return {
+        closeCode: '关闭',
         articlesId: '',
         switch1: false,
         redMun: [], // 红娘列表
@@ -268,35 +173,19 @@
         ],
         recommendColumns: [
           {
-            title: 'id',
+            title: '兼职id',
             align: 'center',
             key: 'id'
           },
           {
-            title: 'Name',
+            title: '兼职名称',
             align: 'center',
             key: 'name'
           },
           {
-            title: '性别',
-            width: 50,
-            align: 'center',
-            key: 'sex'
-          },
-          {
-            title: '会员等级',
-            align: 'center',
-            key: 'rank'
-          },
-          {
-            title: '实名认证？',
+            title: '报名时间',
             align: 'center',
             key: 'is_approved'
-          },
-          {
-            title: '单身？介绍人？',
-            align: 'center',
-            key: 'type'
           },
           {
             title: '操作',
@@ -322,7 +211,7 @@
                       window.open(href, '_blank')
                     }
                   }
-                }, '用户详情')
+                }, '查看兼职')
               ])
             }
           }
@@ -411,9 +300,6 @@
         this.recommend(num)
       },
       gotoEdit () {
-        // return  this.$Modal.error({
-        //     content: '此功能正在开发...'
-        // });
         let argu = {edit_id: this.id}
         this.$router.push({
           name: 'edit_user_detail',
@@ -607,14 +493,6 @@
             self.wechat_qrcode = result.profile.wechat_qrcode
             self.information = [
               {
-                name: '会员等级',
-                key: result.rank_name
-              },
-              {
-                name: '会员期限',
-                key: result.deadline
-              },
-              {
                 name: 'openid',
                 key: result.openid
               },
@@ -622,11 +500,6 @@
                 name: '手机号',
                 key: result.mobile
               },
-              {
-                name: '类型',
-                key: result.type == 'single' ? '单身' : '介绍人'
-              },
-
               {
                 name: '性别',
                 key: result.sex == '1' ? '男' : '女'
@@ -636,31 +509,7 @@
                 key: result.profile.birthday
               },
               {
-                name: '单身状态',
-                key: result.profile.state
-              },
-              {
-                name: '信仰',
-                key: result.profile.belief
-              },
-              {
-                name: '身高',
-                key: result.profile.stature + 'cm'
-              },
-              {
-                name: '体重',
-                key: result.profile.weight + 'kg'
-              },
-              {
-                name: '常住地',
-                key: result.profile.city
-              },
-              {
-                name: '成长环境',
-                key: result.profile.resident_type
-              },
-              {
-                name: '成长地',
+                name: '地址',
                 key: result.profile.resident_city
               },
               {
@@ -672,36 +521,16 @@
                 key: result.profile.graduate_school
               },
               {
-                name: '工作单位',
+                name: '工作类型',
                 key: result.profile.company
               },
               {
-                name: '单位性质',
+                name: '活动类型',
                 key: result.profile.work_sort
-              },
-              {
-                name: '行业',
-                key: result.industry + '~' + result.industry_sub
               },
               {
                 name: '加入时间',
                 key: result.profile.created_at
-              },
-              {
-                name: '推荐人',
-                key: result.from_user_name
-              },
-              {
-                name: 'VIP等级',
-                key: result.rank_name
-              },
-              {
-                name: '个人简介',
-                key: result.profile.introduction
-              },
-              {
-                name: '理想对象',
-                key: result.profile.ideal_mate
               }
             ]
             self.VIPinformation = [

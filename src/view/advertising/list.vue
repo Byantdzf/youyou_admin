@@ -4,29 +4,29 @@
       <p slot="title" style="color: #ff6c4c;">广告管理</p>
       <div style="display: inline-block;margin-left: 22px;width: 100%;">
         <Col span="14">
-            <Row>
-              <Col span="24" v-for="item,index in messageList" :key="index" class="bc_item">
-                <Col span="11">
-                  <div @click="getIndex(index)">
-                    <informPic v-on:uploadPictures="uploadInformPic" :pic="item.pic"></informPic>
-                  </div>
-                  <Input v-model="item.title" type="textarea" placeholder="Enter message..."/>
-                </Col>
-                <Col span="12" offset="1">
-                  <Input v-model="item.path" placeholder="跳转路径（path）" style="max-width: 300px"/>
-                  <Select v-model="item.type" style="max-width: 300px;margin-top: 8px;">
-                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
-                  <DatePicker type="daterange" v-model="item.date" placement="bottom-end" placeholder="通知显示时间" style="max-width: 220px;margin-top: 8px
-;margin-right: 12px"></DatePicker>
-                  <Button type="error" @click="removeMessage(index)">删除</Button>
-                </Col>
+          <Row>
+            <Col span="24" v-for="item,index in messageList" :key="index" class="bc_item">
+              <Col span="11">
+                <div @click="getIndex(index)">
+                  <informPic v-on:uploadPictures="uploadInformPic" :pic="item.pic"></informPic>
+                </div>
+                <Input v-model="item.title" type="textarea" placeholder="Enter message..."/>
               </Col>
-            </Row>
-            <div style="text-align: center;margin-top: 22px;">
-              <Button style="margin: auto;float: left" type="dashed" @click="addMessage">添加+</Button>
-              <Button type="success" size="large" icon="ios-checkmark" @click="saveMessage">保存</Button>
-            </div>
+              <Col span="12" offset="1">
+                <Input v-model="item.path" placeholder="跳转路径（path）" style="max-width: 300px"/>
+                <Select v-model="item.type" style="max-width: 300px;margin-top: 8px;">
+                  <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+                <DatePicker type="daterange" v-model="item.date" placement="bottom-end" placeholder="通知显示时间" style="max-width: 220px;margin-top: 8px
+;margin-right: 12px"></DatePicker>
+                <Button type="error" @click="removeMessage(index)">删除</Button>
+              </Col>
+            </Col>
+          </Row>
+          <div style="text-align: center;margin-top: 22px;">
+            <Button style="margin: auto;float: left" type="dashed" @click="addMessage">添加+</Button>
+            <Button type="success" size="large" icon="ios-checkmark" @click="saveMessage">保存</Button>
+          </div>
         </Col>
       </div>
     </Card>

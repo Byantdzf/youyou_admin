@@ -5,7 +5,7 @@
     <div v-model="activeTab">
       <Card>
         <Tabs @on-click="getTab">
-          <TabPane label="平台管理" name="search">
+          <TabPane label="文章列表" name="search">
             <Input
               v-model="searchKeyword"
               @on-enter="handleSearch"
@@ -16,15 +16,12 @@
                                 style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
                     </span>
             <span @click="creatPaas">
-                        <Button type="success" style=" margin-bottom: 22px; float: right;">创建平台</Button>
+                        <Button type="success" style=" margin-bottom: 22px; float: right;">创建文章</Button>
                     </span>
-            <Card>
-              <p slot="title" style="color: #ff6c4c ">平台列表</p>
-              <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
-              <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-                    style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
-              <div style="clear: both"></div>
-            </Card>
+            <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+            <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                  style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+            <div style="clear: both"></div>
           </TabPane>
         </Tabs>
       </Card>
@@ -47,23 +44,23 @@
         orgTotal: 0,
         Columns: [
           {
-            title: '平台ID',
+            title: '文章ID',
             align: 'center',
             width: 80,
             key: 'id'
           },
           {
-            title: '平台名称',
+            title: '文章名称',
             align: 'center',
             key: 'name'
           },
           {
-            title: '平台标题',
+            title: '文章标题',
             align: 'center',
             key: 'title'
           },
           {
-            title: '平台logo',
+            title: '文章logo',
             key: 'logo',
             render: (h, params) => {
               return h('img', {
@@ -73,7 +70,9 @@
                 style: {
                   height: '48px',
                   marginTop: '6px',
-                  border: '4px solid #f4f4f4'
+                  padding: '4px',
+                  borderRadius: '4px',
+                  border: '1px solid #f4f4f4'
                 },
                 on: {
                   click: () => {
@@ -84,14 +83,13 @@
             align: 'center'
           },
           {
-            title: '平台简介',
+            title: '文章简介',
             align: 'center',
             key: 'intro'
           },
           {
             title: '创建时间',
             align: 'center',
-            width: 100,
             key: 'created_at'
           },
           {
@@ -111,12 +109,12 @@
                     click: () => {
                       let argu = {id: params.row.id}
                       this.$router.push({
-                        name: 'paasDetail',
+                        name: 'articleDetail',
                         params: argu
                       })
                     }
                   }
-                }, '平台详情')
+                }, '文章详情')
               ])
             }
           }
@@ -141,7 +139,7 @@
       creatPaas () {
         let argu = {id: 0}
         this.$router.push({
-          name: 'paasDetail',
+          name: 'articleDetail',
           params: argu
         })
       },

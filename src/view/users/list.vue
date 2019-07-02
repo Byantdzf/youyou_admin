@@ -1,41 +1,51 @@
 <template>
   <div v-model="activeTab">
-    <Card style="margin-bottom: 32px">
-      <p slot="title">
-        <Icon type="ionic"></Icon>
-        点击标签筛选
-        <span
-          style="background-image: linear-gradient(to right, #c8241b, #fc6906);box-shadow:1px 1px 12px #fc9185;padding:2px 7px;color: white;text-align: center;border-radius: 32px;margin-right: 12px;">{{total}}人</span>
-      </p>
-      <div v-for="(item,index) in labels" style="display: inline-block;margin-right: 12px">
-        <span style="margin-right: 6px;line-height: 56px;">{{item.title}}</span>
-        <i-switch @on-change="change(item,$event)" :disabled="item.disabled" v-model="item.active"
-                  style="margin-bottom: 2px"/>
-      </div>
-      <div>
-        <Tag v-for="item in count" :key="item" closable @on-close="handleClose2(item,$event)">{{item}}</Tag>
-      </div>
-    </Card>
-    <Tabs @on-click="getTab">
-      <TabPane label='用户列表' name="org">
-        <Input
-          v-model="searchKeyword"
-          @on-enter="createLabel"
-          placeholder="搜索用户..."
-          style="width: 200px; margin-bottom: 22px;"/>
-        <span @click="createLabel">
+    <!--<Card style="margin-bottom: 32px">-->
+      <!--<p slot="title">-->
+        <!--<Icon type="ionic"></Icon>-->
+        <!--点击标签筛选-->
+        <!--<span-->
+          <!--style="background-image: linear-gradient(to right, #c8241b, #fc6906);box-shadow:1px 1px 12px #fc9185;padding:2px 7px;color: white;text-align: center;border-radius: 32px;margin-right: 12px;">{{total}}人</span>-->
+      <!--</p>-->
+      <!--<div v-for="(item,index) in labels" style="display: inline-block;margin-right: 12px">-->
+        <!--<span style="margin-right: 6px;line-height: 56px;">{{item.title}}</span>-->
+        <!--<i-switch @on-change="change(item,$event)" :disabled="item.disabled" v-model="item.active"-->
+                  <!--style="margin-bottom: 2px"/>-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<Tag v-for="item in count" :key="item" closable @on-close="handleClose2(item,$event)">{{item}}</Tag>-->
+      <!--</div>-->
+    <!--</Card>-->
+    <Card>
+      <Tabs @on-click="getTab">
+        <TabPane label='已完善资料' name="org">
+          <Input
+            v-model="searchKeyword"
+            @on-enter="createLabel"
+            placeholder="搜索用户..."
+            style="width: 200px; margin-bottom: 22px;"/>
+          <span @click="createLabel">
                 <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
               </span>
-        <!--<span style="float: right">-->
-        <!--<Button type="warning" style="margin-bottom: 22px;margin-right: 22px;"-->
-        <!--@click="feedbacks">用户反馈</Button>-->
-        <!--<Button type="error" style=" margin-bottom: 22px;" @click="complainList">投诉列表</Button>-->
-        <!--</span>-->
-        <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
-        <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
-              style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
-      </TabPane>
-    </Tabs>
+          <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+          <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
+        </TabPane>
+        <TabPane label='未完善资料' name="noOrg">
+          <Input
+            v-model="searchKeyword"
+            @on-enter="createLabel"
+            placeholder="搜索用户..."
+            style="width: 200px; margin-bottom: 22px;"/>
+          <span @click="createLabel">
+                <Button type="primary" icon="ios-search" style="margin-left: 12px; margin-bottom: 22px;">搜索</Button>
+              </span>
+          <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+          <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                style="float:right;margin-top:5px;margin-bottom:30px;"></Page>
+        </TabPane>
+      </Tabs>
+    </Card>
     <Modal
       v-model="modal"
       title='温馨提示'
@@ -142,49 +152,16 @@
           {
             title: '性别',
             align: 'center',
-            width: 50,
             key: 'sex'
           },
           {
-            title: '居住省市',
+            title: '地址',
             align: 'center',
             key: 'address'
           },
           {
-            title: '会员类型',
-            align: 'center',
-            key: 'rank'
-          },
-          {
-            title: '单身/介绍人',
-            align: 'center',
-            key: 'type'
-          },
-          {
-            title: '实名认证？',
-            align: 'center',
-            key: 'is_approved'
-          },
-          {
-            title: '头像审核？',
-            align: 'center',
-            key: 'is_photo_audited'
-          },
-          {
-            title: '推荐人',
-            align: 'center',
-            key: 'from_name'
-          },
-          {
-            title: '已推荐（人）',
-            align: 'center',
-            width: 80,
-            key: 'invite_count'
-          },
-          {
             title: '加入时间',
             align: 'center',
-            width: 100,
             key: 'created_at'
           },
           {
@@ -210,39 +187,39 @@
                     }
                   }
                 }, '用户详情'),
-                h('Button', {
-                  props: {
-                    type: 'warning',
-                  },
-                  style: {
-                    margin: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.id = params.row.id
-                      let argu = {id: params.row.id}
-                      this.$router.push({
-                        name: 'user_recommend',
-                        params: argu
-                      })
-                    }
-                  }
-                }, '推荐列表'),
-                h('Button', {
-                  props: {},
-                  style: {
-                    margin: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      let argu = {id: params.row.id}
-                      this.$router.push({
-                        name: 'user_note',
-                        params: argu
-                      })
-                    }
-                  }
-                }, '备注管理'),
+                // h('Button', {
+                //   props: {
+                //     type: 'warning',
+                //   },
+                //   style: {
+                //     margin: '5px'
+                //   },
+                //   on: {
+                //     click: () => {
+                //       this.id = params.row.id
+                //       let argu = {id: params.row.id}
+                //       this.$router.push({
+                //         name: 'user_recommend',
+                //         params: argu
+                //       })
+                //     }
+                //   }
+                // }, '推荐列表'),
+                // h('Button', {
+                //   props: {},
+                //   style: {
+                //     margin: '5px'
+                //   },
+                //   on: {
+                //     click: () => {
+                //       let argu = {id: params.row.id}
+                //       this.$router.push({
+                //         name: 'user_note',
+                //         params: argu
+                //       })
+                //     }
+                //   }
+                // }, '备注管理'),
               ])
             }
           }

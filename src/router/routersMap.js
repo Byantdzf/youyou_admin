@@ -26,93 +26,27 @@ const data = [
     },
     component: () => import('@/view/home/home.vue')
   },
-  // {
-  //   title: '首页设置',
-  //   path: 'homeSet',
-  //   icon: 'md-cog',
-  //   meta: {
-  //     access: ['admin', 'paas_admin'],
-  //     hideInMenu: false,
-  //     notCache: true
-  //   },
-  //   component: () => import('@/view/home/homeSet.vue')
-  // },
   {
-    title: '平台管理',
-    path: 'paasList',
+    title: '广告管理',
+    path: 'advertising',
+    icon: 'md-cog',
+    meta: {
+      access: ['admin', 'paas_admin'],
+      hideInMenu: false,
+      notCache: true
+    },
+    component: () => import('@/view/advertising/list.vue')
+  },
+  {
+    title: '文章管理',
+    path: 'article',
     icon: 'ios-ionic-outline',
     meta: {
       access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
-    component: () => import('@/view/paas/paasList.vue')
-  },
-  {
-    title: '流量渠道',
-    path: 'recommend',
-    icon: 'ios-contacts',
-    meta: {
-      access: ['admin', 'paas_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/recommend/list.vue')
-  },
-  {
-    title: '平台客户',
-    path: 'paasClients',
-    icon: 'ios-people',
-    meta: {
-      access: ['paas_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/paas/clients.vue')
-  },
-  {
-    title: '我的提现',
-    path: 'paasDeposit',
-    icon: 'logo-usd',
-    meta: {
-      access: ['paas_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/paas/deposit.vue')
-  },
-  {
-    title: '我的同工',
-    path: 'paasWorker',
-    icon: 'md-contacts',
-    meta: {
-      access: ['paas_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/paas/worker.vue')
-  },
-  {
-    title: '用户权限',
-    path: 'authorization',
-    icon: 'ios-paw',
-    meta: {
-      access: ['admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/authorization/list.vue')
-  },
-  {
-    title: '用户推荐',
-    path: 'referres',
-    icon: 'logo-yen',
-    meta: {
-      access: ['admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/referres/list.vue')
+    component: () => import('@/view/article/list.vue')
   },
   {
     title: '用户列表',
@@ -126,18 +60,7 @@ const data = [
     component: () => import('@/view/users/list.vue')
   },
   {
-    title: '用户充值',
-    path: 'userPay',
-    icon: 'logo-usd',
-    meta: {
-      access: ['admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/userPay/list.vue')
-  },
-  {
-    title: '用户订单',
+    title: '用户管理',
     path: 'orders',
     icon: 'ios-paper',
     meta: {
@@ -148,53 +71,19 @@ const data = [
     component: () => import('@/view/orders/list.vue')
   },
   {
-    title: '红娘服务',
-    path: 'redlove',
-    icon: 'md-contacts',
-    meta: {
-      access: ['admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/redlove/list.vue')
-  },
-  {
-    title: '实名认证',
-    path: 'authentication',
-    icon: 'ios-card',
+    title: '兼职管理',
+    path: 'jobList',
+    icon: 'ios-wine',
     meta: {
       access: ['admin', 'paas_admin'],
-      hideInMenu: false,
-      notCache: true
+      hideInMenu: false
     },
-    component: () => import('@/view/authentication/list.vue')
+    component: () => import('@/view/job/list.vue')
   },
   {
-    title: '认证申请',
-    path: 'beloved',
-    icon: 'md-clipboard',
-    meta: {
-      access: ['admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/beloved/list.vue')
-  },
-  {
-    title: '审核头像',
-    path: 'auditPhoto',
-    icon: 'md-clipboard',
-    meta: {
-      access: ['admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/auditPhoto/list.vue')
-  },
-  {
-    title: '活动列表',
-    path: 'activityList',
-    icon: 'ios-wine',
+    title: '兼职类型',
+    path: 'md-contacts',
+    icon: 'md-cog',
     meta: {
       access: ['admin', 'paas_admin'],
       hideInMenu: false
@@ -202,47 +91,15 @@ const data = [
     component: () => import('@/view/activity/list.vue')
   },
   {
-    title: '用户反馈',
-    path: 'feedbacks',
-    icon: 'md-chatbubbles',
+    title: '后台权限',
+    path: 'admin',
+    icon: 'ios-paw',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
-    component: () => import('@/view/users/feedbacks.vue')
-  },
-  {
-    title: '投诉列表',
-    path: 'complain',
-    icon: 'md-bonfire',
-    meta: {
-      access: ['admin', 'paas_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/users/complain.vue')
-  },
-  {
-    title: '我的客户',
-    path: 'client',
-    icon: 'ios-people',
-    meta: {
-      access: ['matcher', 'worker'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/client/list.vue')
-  },
-  {
-    title: '服务跟进',
-    path: 'myService',
-    icon: 'logo-sass',
-    meta: {
-      access: ['admin', 'matcher', 'worker'],
-      hideInMenu: false
-    },
-    component: () => import('@/view/myService/list.vue')
+    component: () => import('@/view/admin/list.vue')
   }
 ]
 const setRouter = () => {
@@ -292,51 +149,51 @@ export const staticRouters = [
     }]
   },
   ...setRouter(),
-  {
-    path: '/',
-    name: '设置',
-    meta: {
-      access: ['admin', 'paas_admin'],
-      notCache: true, hideInMenu: false,
-      icon: 'logo-sass',
-    },
-    component: routerMap['Main'],
-    children: [
-      {
-        path: 'homeSet',
-        name: '首页通知',
-        icon: 'md-cog',
-        meta: {
-          access: ['admin', 'paas_admin'],
-          hideInMenu: false,
-          notCache: true
-        },
-        component: () => import('@/view/home/homeSet.vue')
-      },
-      {
-        path: 'homeRecommend',
-        name: '首页推荐',
-        icon: 'md-cog',
-        meta: {
-          access: ['admin', 'paas_admin'],
-          hideInMenu: false,
-          notCache: true
-        },
-        component: () => import('@/view/home/homeRecommend.vue')
-      },
-      {
-        path: 'massTexting',
-        name: '群发信息',
-        icon: 'md-cog',
-        meta: {
-          access: ['admin', 'paas_admin'],
-          hideInMenu: false,
-          notCache: true
-        },
-        component: () => import('@/view/home/massTexting.vue')
-      },
-    ]
-  },
+  // {
+  //   path: '/',
+  //   name: '设置',
+  //   meta: {
+  //     access: ['admin', 'paas_admin'],
+  //     notCache: true, hideInMenu: false,
+  //     icon: 'logo-sass',
+  //   },
+  //   component: routerMap['Main'],
+  //   children: [
+  //     {
+  //       path: 'homeSet',
+  //       name: '首页通知',
+  //       icon: 'md-cog',
+  //       meta: {
+  //         access: ['admin', 'paas_admin'],
+  //         hideInMenu: false,
+  //         notCache: true
+  //       },
+  //       component: () => import('@/view/home/homeSet.vue')
+  //     },
+  //     {
+  //       path: 'homeRecommend',
+  //       name: '首页推荐',
+  //       icon: 'md-cog',
+  //       meta: {
+  //         access: ['admin', 'paas_admin'],
+  //         hideInMenu: false,
+  //         notCache: true
+  //       },
+  //       component: () => import('@/view/home/homeRecommend.vue')
+  //     },
+  //     {
+  //       path: 'massTexting',
+  //       name: '群发信息',
+  //       icon: 'md-cog',
+  //       meta: {
+  //         access: ['admin', 'paas_admin'],
+  //         hideInMenu: false,
+  //         notCache: true
+  //       },
+  //       component: () => import('@/view/home/massTexting.vue')
+  //     },
+  //   ]
+  // },
   {
     path: '/',
     name: '二级页面',
@@ -349,6 +206,25 @@ export const staticRouters = [
     },
     component: routerMap['Main'],
     children: [
+      {
+        path: 'articleDetail/:id',
+        name: 'articleDetail',
+        meta: {
+          title: '文章详情',
+          hideInMenu: true
+        },
+        component: () => import('@/view/article/detail.vue')
+      },
+      {
+        path: 'jobDetail/:id',
+        name: 'jobDetail',
+        meta: {
+          title: '兼职详情',
+          hideInMenu: true
+        },
+        component: () => import('@/view/job/activity.vue')
+      },
+      // ---分------
       {
         path: 'paasDetail/:id',
         name: 'paasDetail',
