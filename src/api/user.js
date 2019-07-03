@@ -15,6 +15,6 @@ export const login = ({ userName, password }) => {
 export const logout = () => {
   return axios.request({
     url: 'logout',
-    method: 'DELETE'
+    method: 'post'
   })
 }

@@ -52,7 +52,7 @@ export default {
           commit('setPaas', data.paas_obj)
           commit('setUserName', data.name)
           commit('setUserId', data.id)
-          commit('setAccess', [data.admin_type])
+          commit('setAccess', [data.is_admin == 1 ? 'admin' : ''])
           resolve(res.data)
         }).catch(err => {
           reject(err)

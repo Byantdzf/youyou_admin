@@ -8,7 +8,7 @@
           <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`">
             <common-icon :type="item.children[0].icon || ''"/>
             <span style="position: relative">{{ showTitle(item.children[0]) }}
-               <span class="notices" v-if="showNotices(item.children[0], notices)">{{ showNotices(item.children[0], notices) }}</span>
+               <!--<span class="notices" v-if="showNotices(item.children[0], notices)">{{ showNotices(item.children[0], notices) }}</span>-->
           </span>
           </menu-item>
         </template>
@@ -115,11 +115,11 @@ export default {
   },
   mounted () {
     this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
-    uAxios.get(`admin/notices`)
-      .then(res => {
-        let result = res.data.data;
-        this.notices = result
-      });
+    // uAxios.get(`admin/notices`)
+    //   .then(res => {
+    //     let result = res.data.data;
+    //     this.notices = result
+    //   });
   }
 }
 </script>

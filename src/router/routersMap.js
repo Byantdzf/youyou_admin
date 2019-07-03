@@ -20,7 +20,7 @@ const data = [
     path: 'statistics',
     icon: 'md-analytics',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -31,7 +31,7 @@ const data = [
     path: 'advertising',
     icon: 'md-cog',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: true
     },
@@ -53,7 +53,7 @@ const data = [
     path: 'userlist',
     icon: 'ios-contact',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['admin'],
       hideInMenu: false,
       notCache: false
     },
@@ -75,7 +75,7 @@ const data = [
     path: 'jobList',
     icon: 'ios-wine',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['admin'],
       hideInMenu: false
     },
     component: () => import('@/view/job/list.vue')
@@ -85,7 +85,7 @@ const data = [
     path: 'md-contacts',
     icon: 'md-cog',
     meta: {
-      access: ['admin', 'paas_admin'],
+      access: ['admin'],
       hideInMenu: false
     },
     component: () => import('@/view/activity/list.vue')
@@ -200,7 +200,7 @@ export const staticRouters = [
     meta: {
       icon: 'logo-windows',
       title: 'admin',
-      access: ['admin', 'paas_admin', 'matcher', 'worker'],
+      access: ['admin'],
       // notCache: "true",
       hideInMenu: true
     },
