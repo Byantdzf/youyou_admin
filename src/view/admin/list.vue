@@ -27,11 +27,11 @@
         <Input
           v-model="mobile"
           placeholder="登录手机号"
-          style="width: 160px; margin-bottom: 22px;"/>
+          style="width: 240px; margin-bottom: 22px;"/><br/>
         <Input
           v-model="code"
           placeholder="登录密码"
-          style="width: 160px; margin-bottom: 22px;"/>
+          style="width: 240px; margin-bottom: 22px;"/>
         <!--<Tree :data="baseData" :multiple="multiple" @on-select-change="changeTree"></Tree>-->
       </Modal>
     </Card>
