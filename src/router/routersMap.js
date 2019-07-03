@@ -49,7 +49,7 @@ const data = [
     component: () => import('@/view/article/list.vue')
   },
   {
-    title: '用户列表',
+    title: '用户管理',
     path: 'userlist',
     icon: 'ios-contact',
     meta: {
@@ -59,17 +59,17 @@ const data = [
     },
     component: () => import('@/view/users/list.vue')
   },
-  {
-    title: '用户管理',
-    path: 'orders',
-    icon: 'ios-paper',
-    meta: {
-      access: ['admin', 'paas_admin'],
-      hideInMenu: false,
-      notCache: true
-    },
-    component: () => import('@/view/orders/list.vue')
-  },
+  // {
+  //   title: '用户管理',
+  //   path: 'orders',
+  //   icon: 'ios-paper',
+  //   meta: {
+  //     access: ['admin', 'paas_admin'],
+  //     hideInMenu: false,
+  //     notCache: true
+  //   },
+  //   component: () => import('@/view/orders/list.vue')
+  // },
   {
     title: '兼职管理',
     path: 'jobList',
