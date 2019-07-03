@@ -40,11 +40,12 @@
         searchKeyword: '',
         loading: false,
         switchLoading: false,
+        recommend: false,
         activeTab: 'signIn',
         orgTotal: 0,
         Columns: [
           {
-            title: '活动ID',
+            title: 'ID',
             align: 'center',
             width: 80,
             key: 'id'
@@ -52,20 +53,14 @@
           {
             title: '名称',
             align: 'center',
-            key: 'theme'
+            key: 'title'
           },
           {
-            title: '举办方',
-            align: 'center',
-            key: 'host'
-          },
-          {
-            title: '活动海报',
-            key: 'poster',
+            title: '兼职图片',
             render: (h, params) => {
               return h('img', {
                 attrs: {
-                  src: params.row.poster
+                  src: params.row.pic
                 },
                 style: {
                   height: '48px',
@@ -86,32 +81,57 @@
             align: 'center'
           },
           {
-            title: '活动地址',
+            title: '地址',
             align: 'center',
-            key: 'address'
+            render: (h, params) => {
+              let address = `${params.row.province}-${params.row.city}-${params.row.dist}`
+              return h('span', params.row.dist !== null ? address : '未填写')
+            },
           },
           {
-            title: '活动价钱',
+            title: '兼职类型',
             align: 'center',
-            key: 'fee'
+            render: (h, params) => {
+              return h('span', params.row.pay_type !== 'DAILY' ? '月结' : '日结')
+            },
           },
           {
-            title: '开始时间',
+            title: '招聘时间',
             align: 'center',
             width: 100,
-            key: 'start_time'
+            key: 'job_time'
           },
           {
-            title: '结束时间',
+            title: '招聘人数',
             align: 'center',
             width: 100,
-            key: 'end_time'
+            key: 'need_num'
+          },
+          {
+            title: '是否推荐',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              if (params.row.is_cancel > 0 || params.row.is_deadline > 0) {
+                return h('span', '已结束')
+              }
+              return h('i-switch', {
+                props: {
+                  value: params.row.is_recommend > 0,
+                  recommend: this.recommend
+                },
+                on: {
+                  'on-change': (value) => {
+                    this.is_recommend(value, params.row.id)
+                  }
+                }
+              })
+            }
           },
           {
             title: '是否置顶',
             align: 'center',
             width: 100,
-            key: 'is_top',
             render: (h, params) => {
               if (params.row.is_cancel > 0 || params.row.is_deadline > 0) {
                 return h('span', '已结束')
@@ -229,14 +249,21 @@
           }
         }
       },
-      handlePage (num) {
-        // 分页
+      is_recommend (val, id) {
+        this.recommend = true
+        uAxios.put(`admin/recommend/jobs/${id}`, this.activity).then(response => {
+          if (response.data.code === 0) {
+            this.$Message.success('设置成功!')
+            this.recommend = false
+            this.getlist(1)
+          } else {
+            alert('操作失败！')
+          }
+        })
+      },
+      handlePage (num) { // 分页
         this.currentPage = num
-        // if (this.social.length == 0) {
         this.getlist(num)
-        // } else {
-        //   this.filterLabel(num)
-        // }
       },
       handleSearch () {
         this.getlist(1)
@@ -253,10 +280,9 @@
         this.activeTab = type
       },
       getlist (page) {
-        let self = this,
-          jump = ''
+        let self = this
         self.loading = true
-        uAxios.get('admin/activities?page=' + page + '&keyword=' + self.searchKeyword)
+        uAxios.get('admin/jobs?page=' + page + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
             self.total = res.data.data.total
