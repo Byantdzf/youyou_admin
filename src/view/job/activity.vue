@@ -6,60 +6,66 @@
           <Col span="22" style="margin: 22px">
             <Card>
               <Form ref="activity" :model="activity" :label-width="100">
-                <FormItem label="兼职轮播" prop="image">
-                  <Card>
-                    <uploadImage v-on:uploadPictures="uploadPicture" :pic="activity.poster"></uploadImage>
+                <FormItem label="兼职图片" prop="image">
+                  <Card style="max-width: 400px;">
+                    <uploadImage v-on:uploadPictures="uploadPicture" :pic="jobData.pic"></uploadImage>
                   </Card>
                 </FormItem>
-                <FormItem label="兼职主题" prop="name">
-                  <Input v-model="activity.theme" placeholder="Enter activity theme"></Input>
+                <FormItem label="兼职名称" prop="name" >
+                  <Input v-model="jobData.title" placeholder="Enter title"></Input>
                 </FormItem>
-                <FormItem label="主办方" prop="name">
+                <FormItem label="兼职类型" prop="name" v-if="id!==0">
+                  <span style="color: red;">{{jobData.typeName}}</span>
+                </FormItem>
+                <FormItem label="报名人数(人)" prop="number" v-if="id!==0">
+                  <span style="color: red;">{{jobData.joined_num}}</span>
+                </FormItem>
+                <FormItem label="报酬(￥)" prop="number">
                   <Row>
-                    <Input v-model="activity.host" placeholder="Enter activity host" :readonly="access=='admin'?false:true"></Input>
+                    <Input v-model="jobData.reward" placeholder="例： 99" ></Input>
                   </Row>
                 </FormItem>
-                <FormItem label="费用(￥)" prop="number">
+                <FormItem label="招聘人数(人)" prop="number">
                   <Row>
-                    <Input v-model="activity.fee" placeholder="例： 99.00" ></Input>
-                  </Row>
-                </FormItem>
-                <FormItem label="详情图片" prop="image">
-                  <Card>
-                    <uploadImages v-on:uploadPictures="uploadPictures" :pic="activity.detail_pic"></uploadImages>
-                  </Card>
-                </FormItem>
-                <FormItem label="兼职说明" prop="name">
-                  <Row>
-                    <Input v-model="activity.detail" placeholder="Enter activity detail" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
-                  </Row>
-                </FormItem>
-                <FormItem label="详情链接" prop="name">
-                  <Row>
-                    <Input v-model="activity.detail_path" placeholder="例：http://love.ufutx.com"></Input>
+                    <Input v-model="jobData.need_num" placeholder="人数" ></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="兼职时间" prop="name">
                   <Row>
-                    <DatePicker type="datetimerange" format="yyyy-MM-dd HH:mm" placement="top" @on-change="getDate"
-                                placeholder="Select date and time(Excluding seconds)" style="width: 300px" :value="date"></DatePicker>
+                    <DatePicker type="date" format="yyyy-MM-dd HH:mm" placement="top" @on-change="getDate"
+                                placeholder="Select date and time(Excluding seconds)" style="max-width: 400px;" :value="jobData.job_time"></DatePicker>
                   </Row>
                 </FormItem>
-                <!--<FormItem label="活动地址" prop="name">-->
-                  <!--<Row>-->
-                    <!--&lt;!&ndash;<Input v-model="activity.province" placeholder="输入省份" style="max-width: 200px"></Input>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<Input v-model="activity.city" placeholder="输入活动城市" style="max-width: 200px"></Input>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<Input v-model="activity.dist" placeholder="输入市区" style="max-width: 200px"></Input>&ndash;&gt;-->
-                    <!--<v-distpicker @selected="onSelected" :province="activity.province" :city="activity.city" :area="activity.dist"></v-distpicker>-->
-                  <!--</Row>-->
-                <!--</FormItem>-->
-                <FormItem label="地址" prop="name">
+                <FormItem label="联系人" prop="number">
                   <Row>
-                    <!--<Input v-model="activity.address" placeholder="Enter activity address"></Input>-->
-                    <Input  placeholder="右侧地图定位选择地址" :value="address" style="width: 68%;margin-right: 22px;"
+                    <Input v-model="jobData.linkman" placeholder="名称" ></Input>
+                  </Row>
+                </FormItem>
+                <FormItem label="联系人电话" prop="number">
+                  <Row>
+                    <Input v-model="jobData.link_mobile" placeholder="联系电话" ></Input>
+                  </Row>
+                </FormItem>
+                <FormItem label="联系人微信" prop="number">
+                  <Row>
+                    <Input v-model="jobData.wechat" placeholder="微信号" ></Input>
+                  </Row>
+                </FormItem>
+                <FormItem label="联系人邮箱" prop="number">
+                  <Row>
+                    <Input v-model="jobData.link_email" placeholder="邮箱" ></Input>
+                  </Row>
+                </FormItem>
+                <FormItem label="联系地址" prop="name">
+                  <Row>
+                    <Input  placeholder="右侧地图定位选择地址" :value="address" style="max-width: 400px;margin-right: 22px;"
                             :readonly="address?false:true" @input="editAddress"/>
                     <Button type="primary" @click="showMapModel = true">地图定位</Button>
                   </Row>
+                </FormItem>
+                <FormItem label="兼职介绍" prop="name">
+                  <editor ref="editor" @on-change="handleChange"/>
+                  <!--<button @click="changeContent">修改编辑器内容</button>-->
                 </FormItem>
               </Form>
               <div style="text-align: center">
@@ -92,18 +98,22 @@
   import uploadImage from '../components/uploadImage'
   import dropdown from '../components/dropdown'
   import VDistpicker from 'v-distpicker'
+  import Editor from '_c/editor'
+
 
   export default {
-    name: 'Org',
     components: {
       dropdown,
       uploadImage,
       uploadImages,
       VDistpicker,
-      Geolocation
+      Geolocation,
+      Editor
     },
     data () {
       return {
+        intro: '',
+        jobData: {},
         articlesId: '',
         showMapModel: false,
         address: '',
@@ -114,7 +124,7 @@
         disabled: false,
         user_is_admin: 0,
         date: [],
-        title: '活动详情',
+        title: '兼职详情',
         BtnText: '保存',
         loading: false,
         columns: [
@@ -149,13 +159,17 @@
           },
           {
             title: '用户ID',
-            key: 'user_id',
-            align: 'center'
+            align: 'center',
+            render: (h, params) => {
+              return h('span', params.row.user.id)
+            }
           },
           {
             title: '用户名',
-            key: 'name',
-            align: 'center'
+            align: 'center',
+            render: (h, params) => {
+              return h('span', params.row.user.name)
+            }
           },
           {
             title: '头像',
@@ -163,7 +177,7 @@
             render: (h, params) => {
               return h('img', {
                 attrs: {
-                  src: params.row.avatar
+                  src: params.row.user.avatar
                 },
                 style: {
                   width: '48px',
@@ -193,54 +207,29 @@
             editable: true
           },
           {
-            title: '退款状态',
-            align: 'center',
-            render: (h, params) => {
-              if (params.row.is_refund) {
-                return h('div', '已经退款')
-              } else {
-                return h('div', '未退款')
-              }
-            }
-          },
-          {
             title: '操作',
             key: 'title',
             align: 'center',
             render: (h, params) => {
-              if (params.row.can_refund && !params.row.is_refund) {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'primary',
-                    },
-                    style: {
-                      margin: '5px'
-                    },
-                    on: {
-                      click: () => {
-                        this.Index = params.index
-                        this.refund(params.row.id,params.row.name)
-                      }
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      let argu = {id: params.row.user_id}
+                      this.$router.push({
+                        name: 'user_detail',
+                        params: argu
+                      })
                     }
-                  }, '申请退款')
-                ])
-              }else{
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      disabled: true
-                    },
-                    style: {
-                      margin: '5px'
-                    },
-                    on: {
-                      click: () => {
-                      }
-                    }
-                  }, '暂无退款')
-                ])
-              }
+                  }
+                }, '查看详情')
+              ])
             }
           }
         ],
@@ -271,6 +260,13 @@
       }
     },
     methods: {
+      handleChange (html, text) {
+        this.intro = html
+        console.log(this.intro)
+      },
+      changeContent () {
+        this.$refs.editor.setHtml('<p>powered by wangeditor</p>')
+      },
       editAddress (value) {
         this.activity.address = value.split(' ')[3]
       },
@@ -279,12 +275,12 @@
       },
       getLocation (childValue, lnglat) {
         this.address = `${childValue.address}`
-        this.activity.province = childValue.province
-        this.activity.city = childValue.city
-        this.activity.dist = childValue.dist
-        this.activity.address = `${childValue.address}`
-        this.activity.location_longitude = lnglat[0]
-        this.activity.location_latitude = lnglat[1]
+        this.jobData.province = childValue.province
+        this.jobData.city = childValue.city
+        this.jobData.dist = childValue.dist
+        this.jobData.address = `${childValue.address}`
+        this.jobData.lng = lnglat[0]
+        this.jobData.lat = lnglat[1]
       },
       ok () {
         console.log('确定')
@@ -316,13 +312,14 @@
       },
       // 提交表单
       handleSubmit () {
+        this.jobData.intro = this.intro
         if (this.id == 0) {
-          uAxios.post(`admin/activities`, this.activity).then(response => {
+          uAxios.post(`admin/jobs`, this.jobData).then(response => {
             if (response.data.code === 0) {
               this.$Message.success('创建成功!')
               setTimeout(() => {
                 this.$router.push({
-                  name: 'activityList'
+                  name: 'jobList'
                 })
               }, 800)
             } else {
@@ -332,7 +329,8 @@
           console.log(this.activity)
           return
         }
-        uAxios.put(`admin/activities/${this.id}`, this.activity).then(response => {
+        console.log(this.jobData)
+        uAxios.put(`admin/jobs/${this.id}`, this.jobData).then(response => {
           if (response.data.code === 0) {
             this.$Message.success('保存成功!')
           } else {
@@ -364,7 +362,7 @@
       getOrder (page) {
         let self = this
         self.loading = true
-        uAxios.get(`admin/activity/${self.id}/members?page=` + page + '&type=' + self.activeTab + '&keyword=' + self.searchKeyword)
+        uAxios.get(`admin/jobs/${self.id}/members?page=` + page + '&type=' + self.activeTab + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
             console.log(result)
@@ -416,16 +414,32 @@
       getlist (page) {
         let self = this
         self.loading = true
-        uAxios.get('admin/activities/' + self.id)
+        uAxios.get(`admin/jobs/${self.id}`)
           .then(res => {
             console.log(res, '999999')
             let result = res.data.data
+            this.jobData = result
+            switch (result.status) {
+              case 'UNDERWAY':
+                this.jobData.typeName = '进行中'
+                break
+              case 'FINISHED':
+                this.jobData.typeName = '已结束'
+                break
+              case 'UNPLAYED':
+                this.jobData.typeName = '待开始'
+                break
+              case 'CANCELED':
+                this.jobData.typeName = '已取消'
+                break
+            }
+            this.$refs.editor.setHtml(result.intro)
             this.data = []
             this.address = `${result.address}`
-            this.activity = result
-            this.date.push(result.start_time)
-            this.date.push(result.end_time)
-            this.setLocation = [result.location_longitude, result.location_latitude]
+            // this.activity = result
+            // this.date.push(result.start_time)
+            // this.date.push(result.end_time)
+            this.setLocation = [result.lng, result.lat]
             console.log(this.activity)
           })
       },
@@ -436,7 +450,8 @@
         this.getlist()
         return
       }
-      this.title = this.BtnText = '创建活动'
+      this.$refs.editor.setHtml('')
+      this.title = this.BtnText = '新增兼职'
       this.activity.host = localStorage.getItem('paas')
     }
   }
@@ -457,5 +472,8 @@
     padding: 0 12px !important;
     margin-right: 12px !important;
     font-size: 14px !important;
+  }
+  Input{
+    max-width: 400px;
   }
 </style>

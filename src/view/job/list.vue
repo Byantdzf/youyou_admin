@@ -2,8 +2,81 @@
   <div id="name">
     <div v-model="activeTab">
       <Card>
+
         <Tabs @on-click="getTab">
-          <TabPane label="兼职列表" name="search">
+          <TabPane label="全部" name="ALL">
+            <Input
+              v-model="searchKeyword"
+              @on-enter="handleSearch"
+              placeholder="关键字搜索..."
+              style="width: 200px; margin-bottom: 22px;"/>
+            <span @click="handleSearch">
+                        <Button type="primary" icon="ios-search"
+                                style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+                    </span>
+            <span @click="creatParty">
+                        <Button type="success" style=" margin-bottom: 22px; float: right;">创建兼职</Button>
+                    </span>
+            <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+            <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                  style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+            <div style="clear: both"></div>
+          </TabPane>
+          <TabPane label="进行中" name="UNDERWAY">
+            <Input
+              v-model="searchKeyword"
+              @on-enter="handleSearch"
+              placeholder="关键字搜索..."
+              style="width: 200px; margin-bottom: 22px;"/>
+            <span @click="handleSearch">
+                        <Button type="primary" icon="ios-search"
+                                style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+                    </span>
+            <span @click="creatParty">
+                        <Button type="success" style=" margin-bottom: 22px; float: right;">创建兼职</Button>
+                    </span>
+            <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+            <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                  style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+            <div style="clear: both"></div>
+          </TabPane>
+          <TabPane label="待开始" name="UNPLAYED">
+            <Input
+              v-model="searchKeyword"
+              @on-enter="handleSearch"
+              placeholder="关键字搜索..."
+              style="width: 200px; margin-bottom: 22px;"/>
+            <span @click="handleSearch">
+                        <Button type="primary" icon="ios-search"
+                                style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+                    </span>
+            <span @click="creatParty">
+                        <Button type="success" style=" margin-bottom: 22px; float: right;">创建兼职</Button>
+                    </span>
+            <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+            <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                  style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+            <div style="clear: both"></div>
+          </TabPane>
+          <TabPane label="已结束" name="FINISHED">
+            <Input
+              v-model="searchKeyword"
+              @on-enter="handleSearch"
+              placeholder="关键字搜索..."
+              style="width: 200px; margin-bottom: 22px;"/>
+            <span @click="handleSearch">
+                        <Button type="primary" icon="ios-search"
+                                style=" margin-bottom: 22px;margin-left: 12px;">搜索</Button>
+                    </span>
+            <span @click="creatParty">
+                        <Button type="success" style=" margin-bottom: 22px; float: right;">创建兼职</Button>
+                    </span>
+            <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
+            <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
+                  style="float:right;margin-top:20px;margin-bottom:20px;"></Page>
+            <div style="clear: both"></div>
+          </TabPane>
+          <TabPane label="已取消" name="CANCELED">
             <Input
               v-model="searchKeyword"
               @on-enter="handleSearch"
@@ -41,7 +114,7 @@
         loading: false,
         switchLoading: false,
         recommend: false,
-        activeTab: 'signIn',
+        activeTab: 'ALL',
         orgTotal: 0,
         Columns: [
           {
@@ -223,35 +296,19 @@
       },
       switchFn (val, id) {
         this.switchLoading = true
-        switch (val) {
-          case true: {
-            uAxios.put(`admin/activity/${id}/top`, this.activity).then(response => {
-              if (response.data.code === 0) {
-                this.$Message.success('设置成功!')
-                this.switchLoading = false
-                this.getlist(1)
-              } else {
-                alert('操作失败！')
-              }
-            })
+        uAxios.put(`admin/top/jobs/${id}`).then(response => {
+          if (response.data.code === 0) {
+            this.$Message.success('设置成功!')
+            this.switchLoading = false
+            this.getlist(1)
+          } else {
+            alert('操作失败！')
           }
-            break
-          default: {
-            uAxios.put(`admin/activity/${id}/cancel/top`, this.activity).then(response => {
-              if (response.data.code === 0) {
-                this.$Message.success('设置成功!')
-                this.switchLoading = false
-                this.getlist(1)
-              } else {
-                alert('操作失败！')
-              }
-            })
-          }
-        }
+        })
       },
       is_recommend (val, id) {
         this.recommend = true
-        uAxios.put(`admin/recommend/jobs/${id}`, this.activity).then(response => {
+        uAxios.put(`admin/recommend/jobs/${id}`).then(response => {
           if (response.data.code === 0) {
             this.$Message.success('设置成功!')
             this.recommend = false
@@ -278,11 +335,12 @@
       getTab (type) {
         // 获得激活的Tab页
         this.activeTab = type
+        this.getlist()
       },
-      getlist (page) {
+      getlist (page=1) {
         let self = this
         self.loading = true
-        uAxios.get('admin/jobs?page=' + page + '&keyword=' + self.searchKeyword)
+        uAxios.get(`admin/jobs?page=${page}&keyword=${self.searchKeyword}&status=${self.activeTab}`)
           .then(res => {
             let result = res.data.data
             self.total = res.data.data.total
