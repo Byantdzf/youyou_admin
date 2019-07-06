@@ -245,23 +245,19 @@
                     }
                   }
                 }, '兼职详情'),
-                // h('Button', {
-                //   props: {
-                //     type: 'warning'
-                //   },
-                //   style: {
-                //     margin: '5px'
-                //   },
-                //   on: {
-                //     click: () => {
-                //       let argu = {id: params.row.id}
-                //       this.$router.push({
-                //         name: 'activity_detail',
-                //         params: argu
-                //       })
-                //     }
-                //   }
-                // }, '活动现场'),
+                h('Button', {
+                  props: {
+                    type: 'error'
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.deleteJob(params.row.id)
+                    }
+                  }
+                }, '删除兼职')
                 // h('Button', {
                 //   props: {
                 //     type: 'success'
@@ -315,6 +311,23 @@
             this.getlist(1)
           } else {
             alert('操作失败！')
+          }
+        })
+      },
+      deleteJob (id) {
+        this.$Modal.confirm({
+          title: '系统提示',
+          content: '<p>是否确认删除？</p>',
+          onOk: () => {
+            uAxios.delete(`admin/jobs/${id}`).then(response => {
+              if (response.data.code === 0) {
+                this.$Message.success('删除成功!')
+                this.recommend = false
+                this.getlist(1)
+              } else {
+                alert('操作失败！')
+              }
+            })
           }
         })
       },

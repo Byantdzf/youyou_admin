@@ -9,16 +9,14 @@
                 <Form ref="paasDetail" :model="paasDetail" :label-width="100">
                   <FormItem label="文章图片" prop="image">
                     <Card style="max-width: 360px;">
-                      <uploadImage v-on:uploadPictures="uploadPicture" :pic="paasDetail.logo"></uploadImage>
+                      <uploadImage v-on:uploadPictures="uploadPicture" :pic="paasDetail.pic"></uploadImage>
                     </Card>
-                  </FormItem>
-                  <FormItem label="文章名称" prop="name">
-                    <Input v-if="id != 0" v-model="paasDetail.name" placeholder="Enter paasDetail name"
-                           readonly="readonly" style="max-width: 360px;"></Input>
-                    <Input v-else v-model="paasDetail.name" placeholder="Enter paasDetail name" style="max-width: 360px;"></Input>
                   </FormItem>
                   <FormItem label="文章标题" prop="name">
                     <Input v-model="paasDetail.title" placeholder="Enter paasDetail title" style="max-width: 360px;"></Input>
+                  </FormItem>
+                  <FormItem label="文章副标题" prop="name">
+                    <Input v-model="paasDetail.sub_title" placeholder="Enter paasDetail sub_title" style="max-width: 360px;"></Input>
                   </FormItem>
                   <FormItem label="文章内容" prop="name">
                     <editor ref="editor" :value="content" @on-change="handleChange"/>
@@ -89,7 +87,7 @@ export default {
   },
   data () {
     return {
-      content: '12312323',
+      content: '',
       disabled: false,
       user_is_admin: 0,
       date: [],
@@ -419,7 +417,8 @@ export default {
   },
   methods: {
     handleChange (html, text) {
-      console.log(html, text)
+      this.paasDetail.content = html
+      console.log(this.paasDetail)
     },
     changeContent () {
       this.$refs.editor.setHtml('<p>powered by wangeditor</p>')
@@ -538,25 +537,22 @@ export default {
       })
     },
     uploadPicture (image) {  // 单
-      this.paasDetail.logo = image // 轮播banna
-    },
-    uploadLogo (image) {  // 单
-      this.platform.logo = image // 轮播banna
+      this.paasDetail.pic = image // 轮播banna
     },
     // 提交表单
     handleSubmit () {
       console.log(this.paasDetail)
-      if (!this.paasDetail.logo) return this.$Message.error('缺少logo图!')
-      if (!this.paasDetail.name) return this.$Message.error('缺少名称!')
+      if (!this.paasDetail.pic) return this.$Message.error('缺少图片!')
       if (!this.paasDetail.title) return this.$Message.error('缺少标题!')
-      if (!this.paasDetail.intro) return this.$Message.error('缺少简介!')
+      if (!this.paasDetail.sub_title) return this.$Message.error('缺少副标题!')
+      if (!this.paasDetail.content) return this.$Message.error('缺少内容!')
       if (this.id == 0) {
-        uAxios.post(`admin/paas`, this.paasDetail).then(response => {
+        uAxios.post(`admin/articles`, this.paasDetail).then(response => {
           if (response.data.code === 0) {
             this.$Message.success('创建成功!')
             setTimeout(() => {
               this.$router.push({
-                name: 'paasList'
+                name: 'article'
               })
             }, 800)
           } else {
@@ -567,7 +563,7 @@ export default {
         return
       }
       console.log(this.paasDetail)
-      uAxios.put(`admin/paas/${this.id}`, this.paasDetail).then(response => {
+      uAxios.put(`admin/articles/${this.id}`, this.paasDetail).then(response => {
         if (response.data.code === 0) {
           this.$Message.success('保存成功!')
         } else {
@@ -608,10 +604,11 @@ export default {
     getlist (page) {
       let self = this
       self.loading = true
-      uAxios.get('admin/paas/' + self.id)
+      uAxios.get('admin/articles/' + self.id)
         .then(res => {
           let result = res.data.data
           this.paasDetail = result
+          this.$refs.editor.setHtml(result.content)
           console.log(this.paasDetail)
         })
     },
@@ -630,6 +627,7 @@ export default {
     }
   },
   mounted () {
+    this.$refs.editor.setHtml('')
     if (this.$route.params.id != 0) {
       this.id = this.$route.params.id
       this.getlist()

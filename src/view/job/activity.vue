@@ -11,61 +11,75 @@
                     <uploadImage v-on:uploadPictures="uploadPicture" :pic="jobData.pic"></uploadImage>
                   </Card>
                 </FormItem>
-                <FormItem label="兼职名称" prop="name" >
+                <FormItem label="兼职名称" prop="name">
                   <Input v-model="jobData.title" placeholder="Enter title"></Input>
                 </FormItem>
-                <FormItem label="兼职类型" prop="name" v-if="id!==0">
-                  <span style="color: red;">{{jobData.typeName}}</span>
+                <FormItem label="兼职状态" prop="name" v-if="id!==0">
+                  <!--<span style="color: red;">{{jobData.typeName}}</span>-->
+                  <RadioGroup v-model="jobData.typeName" @on-change="setStatus">
+                    <Radio label="上架"></Radio>
+                    <Radio label="下架"></Radio>
+                    <Radio label="取消"></Radio>
+                    <Radio label="结束"></Radio>
+                  </RadioGroup>
                 </FormItem>
                 <FormItem label="报名人数(人)" prop="number" v-if="id!==0">
                   <span style="color: red;">{{jobData.joined_num}}</span>
                 </FormItem>
                 <FormItem label="报酬(￥)" prop="number">
                   <Row>
-                    <Input v-model="jobData.reward" placeholder="例： 99" ></Input>
+                    <Input v-model="jobData.reward" placeholder="例： 99"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="招聘人数(人)" prop="number">
                   <Row>
-                    <Input v-model="jobData.need_num" placeholder="人数" ></Input>
+                    <Input v-model="jobData.need_num" placeholder="人数"></Input>
                   </Row>
+                </FormItem>
+                <FormItem label="兼职类型" prop="number">
+                  <Cascader :data="jobTypeData" v-model="jobTypeValue" style="max-width:184px"></Cascader>
                 </FormItem>
                 <FormItem label="兼职时间" prop="name">
                   <Row>
                     <DatePicker type="date" format="yyyy-MM-dd HH:mm" placement="top" @on-change="getDate"
-                                placeholder="Select date and time(Excluding seconds)" style="max-width: 400px;" :value="jobData.job_time"></DatePicker>
+                                placeholder="Select date and time(Excluding seconds)" style="max-width: 400px;"
+                                :value="jobData.job_time"></DatePicker>
                   </Row>
+                </FormItem>
+                <FormItem label="结算方式" prop="number">
+                  <Select v-model="jobData.pay_type" style="max-width:184px">
+                    <Option v-for="item,index in payType" :value="item.type" :key="index">{{ item.title }}</Option>
+                  </Select>
                 </FormItem>
                 <FormItem label="联系人" prop="number">
                   <Row>
-                    <Input v-model="jobData.linkman" placeholder="名称" ></Input>
+                    <Input v-model="jobData.linkman" placeholder="名称"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="联系人电话" prop="number">
                   <Row>
-                    <Input v-model="jobData.link_mobile" placeholder="联系电话" ></Input>
+                    <Input v-model="jobData.link_mobile" placeholder="联系电话"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="联系人微信" prop="number">
                   <Row>
-                    <Input v-model="jobData.wechat" placeholder="微信号" ></Input>
+                    <Input v-model="jobData.wechat" placeholder="微信号"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="联系人邮箱" prop="number">
                   <Row>
-                    <Input v-model="jobData.link_email" placeholder="邮箱" ></Input>
+                    <Input v-model="jobData.link_email" placeholder="邮箱"></Input>
                   </Row>
                 </FormItem>
                 <FormItem label="联系地址" prop="name">
                   <Row>
-                    <Input  placeholder="右侧地图定位选择地址" :value="address" style="max-width: 400px;margin-right: 22px;"
-                            :readonly="address?false:true" @input="editAddress"/>
+                    <Input placeholder="右侧地图定位选择地址" :value="address" style="max-width: 400px;margin-right: 22px;"
+                           :readonly="address?false:true" @input="editAddress"/>
                     <Button type="primary" @click="showMapModel = true">地图定位</Button>
                   </Row>
                 </FormItem>
                 <FormItem label="兼职介绍" prop="name">
                   <editor ref="editor" @on-change="handleChange"/>
-                  <!--<button @click="changeContent">修改编辑器内容</button>-->
                 </FormItem>
               </Form>
               <div style="text-align: center">
@@ -82,7 +96,7 @@
       </TabPane>
     </Tabs>
     <Modal v-model="showMapModel" width="860" title="活动地址" @on-ok="ok">
-      <Geolocation  @getLocation="getLocation"  @hideModal="hideModal" :setLocation="setLocation" ></Geolocation>
+      <Geolocation @getLocation="getLocation" @hideModal="hideModal" :setLocation="setLocation"></Geolocation>
     </Modal>
   </div>
 </template>
@@ -91,15 +105,12 @@
   import axios from 'axios'
   import uAxios from '../../api/index'
   import config from '../../api/config'
-  //  import md5 from 'js-md5';
-  //	import moment from 'moment';
   import Geolocation from '../components/Geolocation'
   import uploadImages from '../components/uploadImages'
   import uploadImage from '../components/uploadImage'
   import dropdown from '../components/dropdown'
   import VDistpicker from 'v-distpicker'
   import Editor from '_c/editor'
-
 
   export default {
     components: {
@@ -110,8 +121,15 @@
       Geolocation,
       Editor
     },
+    watch: {
+      value1(){
+        console.log(this.value1)
+      }
+    },
     data () {
       return {
+        jobTypeValue: [1, 1], // 类型
+        jobTypeData: [], // 类型数组
         intro: '',
         jobData: {},
         articlesId: '',
@@ -120,13 +138,22 @@
         switch1: false,
         Index: 0,
         setLocation: [],
-        redMun: [],    // 红娘列表
         disabled: false,
         user_is_admin: 0,
         date: [],
         title: '兼职详情',
         BtnText: '保存',
         loading: false,
+        payType: [
+          {
+            title: '日结',
+            type: 'DAILY'
+          },
+          {
+            title: '月结',
+            type: 'MONTHLY'
+          }
+        ],
         columns: [
           {
             title: 'Name',
@@ -305,10 +332,10 @@
         this.client_id = _id
       },
       uploadPicture (image) {  // 单
-        this.activity.poster = image // 轮播banna
+        this.jobData.pic = image // 轮播banna
       },
       uploadPictures (image) {  // 多
-        this.activity.detail_pic = image // 详情image
+        this.jobData.detail_pic = image // 详情image
       },
       // 提交表单
       handleSubmit () {
@@ -338,28 +365,7 @@
           }
         })
       },
-      refund (id, name) {
-        let self = this
-        this.$Modal.confirm({
-          title: '温馨提示',
-          content: `<p>是否 <span class="_bold">${name}</span>执行 <span style="color: orange">"申请退款"</span> 操作？</p>`,
-          onOk: () => {
-            uAxios.post(`admin/activity/members/${id}/refund`)
-              .then(res => {
-                if (res.data.code === 0) {
-                  setTimeout(() => {
-                    this.$Modal.remove();
-                    this.$Message.info('操作成功');
-                  }, 200);
-                  self.information.splice(this.Index,1)
-                } else {
-                  alert('操作失败！')
-                }
-              })
-          }
-        });
-      },
-      getOrder (page) {
+      getOrder (page) { // 用户列表
         let self = this
         self.loading = true
         uAxios.get(`admin/jobs/${self.id}/members?page=` + page + '&type=' + self.activeTab + '&keyword=' + self.searchKeyword)
@@ -367,24 +373,40 @@
             let result = res.data.data
             console.log(result)
             self.information = result.data
-            console.log(self.information)
             self.orgTotal = result.total
             self.loading = false
           })
       },
-      getmatchmakers () {
-        let self = this
-        self.loading = true
-        uAxios.get('admin/matchmakers?nopage=1&keyword=' + self.searchKeyword)
+      // 赋值子类型
+      getJobChildren (item) {
+        let subs = []
+        for (let item_son of item) {
+          subs.push(
+            {
+              value: item_son.id,
+              label: item_son.name
+            }
+          )
+        }
+        return subs
+      },
+      getJobType () {
+        let vm = this
+        uAxios.get('admin/job/categories?nopage=1')
           .then(res => {
             let result = res.data.data
-            this.redMun = result.map((item) => {
-              return {
-                name: item.name,
-                id: item.id
-              }
-            })
-            console.log(this.redMun)
+            console.log(result)
+            let typeList = []
+            for (let item of result) {
+              typeList.push(
+                {
+                  value: item.id,
+                  label: item.name,
+                  children: vm.getJobChildren(item.sub_categories)
+                }
+              )
+            }
+            vm.jobTypeData = typeList
           })
       },
       handlePage (num) {
@@ -392,59 +414,60 @@
         this.getOrder(num)
 
       },
-      showModal (item, type) {
-        console.log(this.character)
-        if (type == 'test') {
-          this.modal = true
-          this.message = item
-          this.message.type_v = 'test'
-          this.message.title_v = item.title
-        } else if (type == 'image') {
-          this.modal = true
-          this.message.title_v = '预览'
-          this.message.type_v = 'image'
-          this.message.image = item
-        } else {
-          this.modal = true
-          this.message.title_v = '了解自己的优势'
-          this.message.type_v = 'character'
+      setStatus () {
+        let status = ''
+        switch (this.jobData.typeName) {
+          case '上架':
+            status = 'UNDERWAY'
+            break
+          case '结束':
+            status = 'FINISHED'
+            break
+          case '下架':
+            status = 'UNPLAYED'
+            break
+          case '取消':
+            status = 'CANCELED'
+            break
         }
-        console.log(this.message)
-      },
-      getlist (page) {
-        let self = this
-        self.loading = true
-        uAxios.get(`admin/jobs/${self.id}`)
+        uAxios.put(`admin/jobs/${this.id}/status?status=${status}`)
           .then(res => {
-            console.log(res, '999999')
+            this.$Message.info('操作成功')
+          })
+      },
+      getlist (page = 1) {
+        let vm = this
+        vm.loading = true
+        uAxios.get(`admin/jobs/${vm.id}`)
+          .then(res => {
             let result = res.data.data
-            this.jobData = result
+            vm.jobTypeValue = [result.category.parent_id, result.category.id]
+            vm.jobData = result
             switch (result.status) {
               case 'UNDERWAY':
-                this.jobData.typeName = '进行中'
+                vm.jobData.typeName = '上架'
                 break
               case 'FINISHED':
-                this.jobData.typeName = '已结束'
+                vm.jobData.typeName = '结束'
                 break
               case 'UNPLAYED':
-                this.jobData.typeName = '待开始'
+                vm.jobData.typeName = '下架'
                 break
               case 'CANCELED':
-                this.jobData.typeName = '已取消'
+                vm.jobData.typeName = '取消'
                 break
             }
-            this.$refs.editor.setHtml(result.intro)
-            this.data = []
-            this.address = `${result.address}`
-            // this.activity = result
-            // this.date.push(result.start_time)
-            // this.date.push(result.end_time)
-            this.setLocation = [result.lng, result.lat]
-            console.log(this.activity)
+            vm.$refs.editor.setHtml(result.intro)
+            vm.data = []
+            vm.address = `${result.address}`
+            vm.setLocation = [result.lng, result.lat]
           })
       },
     },
+    created () {
+    },
     mounted () {
+      this.getJobType()
       if (this.$route.params.id != 0) {
         this.id = this.$route.params.id
         this.getlist()
@@ -452,7 +475,6 @@
       }
       this.$refs.editor.setHtml('')
       this.title = this.BtnText = '新增兼职'
-      this.activity.host = localStorage.getItem('paas')
     }
   }
 </script>
@@ -461,11 +483,16 @@
   ._bold {
     font-weight: bold
   }
-  #container {width:300px; height: 180px;}
+
+  #container {
+    width: 300px;
+    height: 180px;
+  }
 
   .float_l {
     float: left
   }
+
   .distpicker-address-wrapper select {
     height: 32px !important;
     line-height: 32px !important;
@@ -473,7 +500,8 @@
     margin-right: 12px !important;
     font-size: 14px !important;
   }
-  Input{
+
+  Input {
     max-width: 400px;
   }
 </style>

@@ -50,22 +50,22 @@
             key: 'id'
           },
           {
-            title: '文章名称',
-            align: 'center',
-            key: 'name'
-          },
-          {
-            title: '文章标题',
+            title: '标题',
             align: 'center',
             key: 'title'
           },
           {
-            title: '文章logo',
+            title: '子标题',
+            align: 'center',
+            key: 'sub_title'
+          },
+          {
+            title: '文章图片',
             key: 'logo',
             render: (h, params) => {
               return h('img', {
                 attrs: {
-                  src: params.row.logo
+                  src: params.row.pic
                 },
                 style: {
                   height: '48px',
@@ -82,11 +82,11 @@
             },
             align: 'center'
           },
-          {
-            title: '文章简介',
-            align: 'center',
-            key: 'intro'
-          },
+          // {
+          //   title: '文章简介',
+          //   align: 'center',
+          //   key: 'content'
+          // },
           {
             title: '创建时间',
             align: 'center',
@@ -114,7 +114,20 @@
                       })
                     }
                   }
-                }, '文章详情')
+                }, '文章详情'),
+                h('Button', {
+                  props: {
+                    type: 'error'
+                  },
+                  style: {
+                    margin: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.deleteArticle(params.row.id, params.index)
+                    }
+                  }
+                }, '删除文章')
               ])
             }
           }
@@ -123,15 +136,25 @@
       }
     },
     methods: {
-      handlePage (num) {
-        // 分页
+      handlePage (num) { // 分页
         this.currentPage = num
-        if (this.social.length == 0) {
           this.getlist(num)
-        } else {
-          this.filterLabel(num)
-        }
-
+      },
+      deleteArticle (id) { // 删除文章
+        this.$Modal.confirm({
+          title: '系统提示',
+          content: '<p>是否确认删除？</p>',
+          onOk: () => {
+            uAxios.delete(`admin/articles/${id}`).then(response => {
+              if (response.data.code === 0) {
+                this.$Message.success('删除成功!')
+                this.getlist(1)
+              } else {
+                alert('操作失败！')
+              }
+            })
+          }
+        })
       },
       handleSearch () {
         this.getlist(1)
@@ -151,7 +174,7 @@
         let self = this,
           jump = ''
         self.loading = true
-        uAxios.get('admin/paas/list?page=' + page + '&keyword=' + self.searchKeyword)
+        uAxios.get('admin/articles?page=' + page + '&keyword=' + self.searchKeyword)
           .then(res => {
             let result = res.data.data
             self.total = res.data.total

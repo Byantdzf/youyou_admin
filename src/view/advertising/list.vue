@@ -10,15 +10,15 @@
                 <div @click="getIndex(index)">
                   <informPic v-on:uploadPictures="uploadInformPic" :pic="item.pic"></informPic>
                 </div>
-                <Input v-model="item.title" type="textarea" placeholder="Enter message..."/>
               </Col>
               <Col span="12" offset="1">
-                <Input v-model="item.path" placeholder="跳转路径（path）" style="max-width: 300px"/>
-                <Select v-model="item.type" style="max-width: 300px;margin-top: 8px;">
-                  <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-                <DatePicker type="daterange" v-model="item.date" placement="bottom-end" placeholder="通知显示时间" style="max-width: 220px;margin-top: 8px
-;margin-right: 12px"></DatePicker>
+                <Input v-model="item.path" placeholder="跳转路径（'https://XXX.com'）"/>
+                <Input v-model="item.content" type="textarea" placeholder="广告内容..." style="margin: 12px 0;"/>
+                <!--<Select v-model="item.type" style="max-width: 300px;margin-top: 8px;">-->
+                  <!--<Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>-->
+                <!--</Select>-->
+                <!--<DatePicker type="daterange" v-model="item.date" placement="bottom-end" placeholder="通知显示时间" style="max-width: 220px;margin-top: 8px-->
+<!--;margin-right: 12px"></DatePicker>-->
                 <Button type="error" @click="removeMessage(index)">删除</Button>
               </Col>
             </Col>
@@ -110,12 +110,8 @@
       addMessage () {
         // 增加message数据
         this.messageList.push({
-          title: '',
-          date: [],
-          start_time: '',
-          end_time: '',
+          content: '',
           path: '',
-          type: '',
           pic: ''
         })
       },
@@ -136,8 +132,6 @@
       saveMessage () {
         console.log(this.messageList)
         for (let item of this.messageList) {
-          item.start_time = this.returnDate(item.date[0])
-          item.end_time = this.returnDate(item.date[1])
           for (let key in item) {
             if (item[key].toString().replace(/(^\s*)|(\s*$)/g, '') == '') {
               return this.$Message.error('请填写完整信息后再保存！')
@@ -145,9 +139,9 @@
           }
         }
         let data = {
-          announcement: this.messageList
+          ads: this.messageList
         }
-        uAxios.post(`admin/announcements`, data).then((response) => {
+        uAxios.post(`admin/ads`, data).then((response) => {
           if (response.data.code === 0) {
             this.$Message.info('设置成功')
           } else {
@@ -182,53 +176,20 @@
           })
         }
       },
-      // 征婚推荐
-      allocation () {
-        if (this.client_id == 0) {
-          return this.$Modal.error({
-            content: '请选择会员'
-          })
-        }
-        let self = this
-        uAxios.post(`admin/home/recommends?user_id=${self.client_id}&photo=${self.photo}`).then((response) => {
-          if (response.data.code === 0) {
-            this.$Message.info('设置成功')
-            location.reload()
-          } else {
-            this.$Modal.error({
-              content: response.data.message
-            })
-          }
-        })
-      },
-
       getlist (page) {
         let self = this
-        uAxios.get('admin/home/recommends')
+        uAxios.get('admin/ads')
           .then(res => {
             let result = res.data.data
             self.information = result.map((item, index) => {
               return {
-                photo: item.photo,
+                path: item.path,
                 id: item.id,
-                // name: item.user.name
+                pic: item.pic,
+                content: item.content
               }
             })
-          })
-        uAxios.get('admin/announcements')
-          .then(res => {
-            let result = res.data.data
-            for (let item of result) {
-              this.messageList.unshift({
-                title: item.title,
-                date: [item.start_time, item.end_time],
-                start_time: item.start_time,
-                end_time: item.end_time,
-                path: item.path,
-                type: item.type,
-                pic: item.pic
-              })
-            }
+            self.messageList = self.information
           })
       }
     },
@@ -276,4 +237,7 @@
     }
   }
 
+  Input{
+    max-width: 300px;
+  }
 </style>

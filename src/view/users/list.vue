@@ -167,13 +167,19 @@
       },
       deleteUser () {
         let self = this
-        uAxios.delete('admin/users/' + self.id).then((response) => {
-          if (response.data.code === 0) {
-            this.$Message.info('删除成功')
-            this.getlist(this.currentPage)
-          } else {
-            this.$Modal.error({
-              content: response.data.message
+        self.$Modal.confirm({
+          title: '系统提示',
+          content: '<p>是否确认删除？</p>',
+          onOk: () => {
+            uAxios.delete('admin/users/' + self.id).then((response) => {
+              if (response.data.code === 0) {
+                this.$Message.info('删除成功')
+                this.getlist(this.currentPage)
+              } else {
+                this.$Modal.error({
+                  content: response.data.message
+                })
+              }
             })
           }
         })
