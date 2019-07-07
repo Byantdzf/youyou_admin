@@ -53,7 +53,7 @@ export default {
           type: 'line',
           stack: '总量',
           areaStyle: {normal: {
-            color: '#2d8cf0'
+            color: 'none'
           }},
           data: [120, 132, 101, 134, 90, 230, 210]
         },

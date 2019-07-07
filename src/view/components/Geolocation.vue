@@ -5,7 +5,7 @@
       <input id="tipinput" class="input" placeholder="输入地址关键字" v-model="keyword" @keydown.enter="geoCode"/>
       <!--<input class="input" placeholder="输入地址关键字" v-model="keyword" />-->
       <!--<input class="input" placeholder="地址补充说明(选填)" v-model="doorplate" style="width: 28%;"/>-->
-      <!--不懂？<span style="color: #2d8cf0" @click="showCodeFn">查看示例</span>-->
+      <!--不懂？<span style="color: none" @click="showCodeFn">查看示例</span>-->
     </div>
     <div id="container" style="width: 100%;height: 600px;"></div>
     <Modal v-model="showCode" width="680" title="这是示例图">

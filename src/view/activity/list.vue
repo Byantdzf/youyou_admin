@@ -59,7 +59,7 @@
                         <Button type="success" style=" margin-bottom: 22px; float: right;">创建活动</Button>
                     </span>
             <Card>
-              <p slot="title" style="color: #ff6c4c ">活动列表</p>
+              <p slot="title" style="color: none ">活动列表</p>
               <Table :loading="loading" :columns="Columns" :data="information" style="width: 100%;" border></Table>
               <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
                     style="float:right;margin-top:20px;margin-bottom:20px;"></Page>

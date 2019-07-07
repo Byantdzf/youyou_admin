@@ -82,13 +82,13 @@ const data = [
   },
   {
     title: '兼职类型',
-    path: 'md-contacts',
+    path: 'jobType',
     icon: 'md-cog',
     meta: {
       access: ['admin'],
       hideInMenu: false
     },
-    component: () => import('@/view/activity/list.vue')
+    component: () => import('@/view/jobType/list.vue')
   },
   {
     title: '后台权限',

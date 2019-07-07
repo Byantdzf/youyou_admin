@@ -60,7 +60,7 @@
                   id-name="user_created_count"
                   :end-val="count.createUser"
                   iconType="android-person-add"
-                  color="#2d8cf0"
+                  color="none"
                   intro-text="签到总人数"
                 ></infor-card>
               </Col>
@@ -209,7 +209,7 @@
                         <Button type="primary" icon="ios-search" style=" margin-bottom: 22px;">搜索</Button>
                     </span>
           <Card>
-            <p slot="title" style="color: #ff6c4c">报名信息</p>
+            <p slot="title" >报名信息</p>
             <Table :columns="Columns" :data="list" style="width: 100%;" border></Table>
             <Page :total="orgTotal" @on-change="handlePage" :page-size="15"
                   style="float:right;margin-top:20px;margin-bottom:20px;"></Page>

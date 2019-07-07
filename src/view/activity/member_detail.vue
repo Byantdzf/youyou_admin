@@ -9,7 +9,7 @@
     <Row>
       <Col span="11" style="margin: 22px">
         <Card>
-          <p slot="title" style="color: #ff6c4c">基本信息</p>
+          <p slot="title" >基本信息</p>
           <div>
             <img :src="avatar" alt="" width="100rpx" style="box-shadow: 1px 1px 12px #c1c1c1;float: left">
             <span class="_bold" style="font-size: 22px;margin-left: 12px;float: left">{{name}}</span>
@@ -27,7 +27,7 @@
       </Col>
       <Col span="11" style="margin: 22px">
         <Card>
-          <p slot="title" style="color: #ff6c4c">详细信息</p>
+          <p slot="title" >详细信息</p>
 
           <!--<Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px" size="large"></Table>-->
           <Table :columns="columns" :data="information1" :show-header="false" :border="false" style="margin-top: 26px;"

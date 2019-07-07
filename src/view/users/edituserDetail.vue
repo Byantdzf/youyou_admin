@@ -9,7 +9,7 @@
     <Row>
       <Col span="8" style="margin: 22px 0;">
         <Card>
-          <p slot="title" style="color: #ff6c4c">用户信息</p>
+          <p slot="title" >用户信息</p>
           <div style="width:100%;border-bottom: 2px solid #ececec;padding: 12px;">
             <span class="font_16 _bold">头像：</span>
             <img
@@ -98,7 +98,7 @@
       </Col>
       <Col span="15" offset="1" style="margin-top: 22px;">
         <Card>
-          <p slot="title" style="color: #ff6c4c">VIP信息</p>
+          <p slot="title" >VIP信息</p>
           <!--<Table :columns="columns1" :data="VIPinformation" :show-header="false" :border="false" style="margin-top: 26px"></Table>-->
           <Card style="margin-top: 12px;">
             <p slot="title">生活照</p>

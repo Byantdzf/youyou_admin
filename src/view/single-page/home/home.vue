@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       inforCardData: [
-        { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
+        { title: '新增用户', icon: 'md-person-add', count: 803, color: 'none' },
         { title: '累计点击', icon: 'md-locate', count: 23432, color: '#19be6b' },
         { title: '新增问答', icon: 'md-help-circle', count: 142, color: '#ff9900' },
         { title: '分享统计', icon: 'md-share', count: 657, color: '#ed3f14' },

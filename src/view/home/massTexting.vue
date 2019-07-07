@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <Card style="margin-top: 18px;overflow: hidden;">
-      <p slot="title" style="color: #ff6c4c;">小助手信息</p>
+      <p slot="title" style="color: none;">小助手信息</p>
       <Input
         v-model="searchKeyword"
         @on-enter="handleSearch"

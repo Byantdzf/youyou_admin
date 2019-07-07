@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <Card style="margin-top: 18px;">
-      <p slot="title" style="color: #ff6c4c;">群发详情</p>
+      <p slot="title" style="color: none;">群发详情</p>
       <Row>
         <Col span="14" >
           <Card style="overflow: hidden;">

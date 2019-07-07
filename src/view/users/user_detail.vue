@@ -8,7 +8,7 @@
     </Menu>
     <Row>
       <Card shadow>
-        <p slot="title" style="color: #ff6c4c">管理员操作</p>
+        <p slot="title" >管理员操作</p>
         <div style="width: 100%;">
           <Row>
             <i-col span="10">
@@ -28,7 +28,7 @@
       </Card>
       <Col span="10" style="margin: 22px 0;position: relative">
         <Card>
-          <p slot="title" style="color: #ff6c4c">用户信息</p>
+          <p slot="title" >用户信息</p>
           <div style="display: inline-block">
             <span class="font_16 _bold">头像：<img
               :src="avatar?avatar:'http://images.ufutx.com/201905/13/599151d27fc07ba1bc4cc57a291525e5.jpeg'" alt=""

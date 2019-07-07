@@ -27,7 +27,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#2d8cf0'
+      default: 'none'
     },
     icon: {
       type: String,

@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <Card style="margin-top: 18px;">
-      <p slot="title" style="color: #ff6c4c;">广告管理</p>
+      <p slot="title" style="color: none;">广告管理</p>
       <div style="display: inline-block;margin-left: 22px;width: 100%;">
         <Col span="14">
             <Row>

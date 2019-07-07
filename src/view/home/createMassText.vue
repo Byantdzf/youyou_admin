@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <Card style="margin-top: 18px;">
-      <p slot="title" style="color: #ff6c4c;">编辑信息</p>
+      <p slot="title" style="color: none;">编辑信息</p>
       <Row>
         <Col span="15" style="min-height: 60vh">
           <Card title="发送内容" icon="md-mail">
