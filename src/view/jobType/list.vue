@@ -5,7 +5,7 @@
       <Row>
         <Col span="6">
           <p class="title _bold">一级目录</p>
-          <div class="text-center oneStair">
+          <div class="text-center oneStair" >
             <p class="bc_p">
               <span>技术兼职</span>
               <Icon type="ios-paper-outline" size="18" color="#2D8cF0" style="margin: 0 6px;"/>
@@ -25,9 +25,11 @@
   </Card>
 </template>
 <script>
+  import uAxios from '../../api'
   export default {
     data () {
       return {
+        information: []
       }
     },
     methods: {
@@ -35,8 +37,24 @@
       },
       append (data) {
       },
-      remove (root, node, data) {
+      getlist (page) {
+        let self = this
+        uAxios.get('admin/job/categories?nopage=1')
+          .then(res => {
+            let result = res.data.data
+            self.information = result.map((item, index) => {
+              return {
+                name: item.name,
+                id: item.id,
+                sub_categories: item.sub_categories
+              }
+            })
+            console.log(self.information )
+          })
       }
+    },
+    mounted () {
+      this.getlist(1)
     }
   }
 </script>
