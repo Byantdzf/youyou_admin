@@ -3,12 +3,14 @@
     <p slot="title" style="color: none;">兼职类型</p>
     <div>
       <Row>
-        <Col span="4">
+        <Col span="6">
           <p class="title _bold">一级目录</p>
           <div class="text-center oneStair">
-            <p class="bc_p">技术兼职
+            <p class="bc_p">
+              <span>技术兼职</span>
               <Icon type="ios-paper-outline" size="18" color="#2D8cF0" style="margin: 0 6px;"/>
-              <Icon type="md-trash" size="18" color="#f50323"/>
+              <Icon type="ios-trash-outline" size="18" color="#f50323"/>
+              <Icon type="ios-arrow-dropright-circle" size="18" color="#666666" style="margin-left: 6px;"/>
             </p>
           </div>
         </Col>
@@ -60,8 +62,8 @@
       margin: 0;
     }
     .bc_p{
-      width: 68%;
-      border-bottom: 1px solid #67647D;
+      width: 180px;
+      border-bottom: 1px solid #666666;
       margin: auto;
       padding: 4px;
     }

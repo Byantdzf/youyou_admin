@@ -14,6 +14,6 @@ export default {
    */
   baseUrl: {
       dev: 'http://job.hankin.ufutx.cn/api/',
-      pro: 'http://love.ufutx.com/api/'
+      pro: 'http://119.23.46.246/api/'
   }
 }
