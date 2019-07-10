@@ -25,14 +25,17 @@
         @on-ok="ok"
       >
         <Input
+          v-model="name"
+          placeholder="登录用户名"
+          style="width: 51%; margin-bottom: 22px;"/>
+        <Input
           v-model="mobile"
           placeholder="登录手机号"
-          style="width: 240px; margin-bottom: 22px;"/><br/>
+          style="width: 51%; margin-bottom: 22px;"/><br/>
         <Input
-          v-model="code"
+          v-model="password"
           placeholder="登录密码"
-          style="width: 240px; margin-bottom: 22px;"/>
-        <!--<Tree :data="baseData" :multiple="multiple" @on-select-change="changeTree"></Tree>-->
+          style="width: 51%; margin-bottom: 22px;"/>
       </Modal>
     </Card>
   </div>
@@ -51,8 +54,9 @@
     },
     data () {
       return {
+        name: '',
         mobile: '',
-        code: '',
+        password: '',
         multiple: false,
         activeTab: 'score',
         workerTotal: 0,
@@ -65,100 +69,7 @@
         id: '',
         modalCode: false,
         baseData: [],
-        workerColumns: [
-          {
-            title: 'ID',
-            key: 'id',
-            align: 'center',
-            width: 80,
-            editable: true
-          },
-          {
-            title: '用户名',
-            key: 'name',
-            align: 'center',
-            editable: true
-          },
-          {
-            title: '头像',
-            key: 'photo',
-            render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: params.row.photo
-                },
-                style: {
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '50%',
-                  marginTop: '6px',
-                  border: '4px solid #f4f4f4'
-                },
-                on: {
-                  click: () => {
-                    let argu = {id: params.row.id}
-                    this.$router.push({
-                      name: 'user_detail',
-                      params: argu
-                    })
-                  }
-                }
-              })
-            },
-            width: 80,
-            align: 'center'
-          },
-          {
-            title: '性别',
-            key: 'sex',
-            align: 'center',
-            editable: true
-          },
-          {
-            title: '单身状态',
-            key: 'type',
-            align: 'center',
-            editable: true
-          },
-          {
-            title: '加入时间',
-            key: 'created_at',
-            align: 'center',
-            editable: true
-          },
-          {
-            title: '操作',
-            key: 'title',
-            align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary'
-                  },
-                  style: {
-                    margin: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.addAdminId = params.row.id
-                      this.modalCode = true
-                      this.baseData = this.getTreeData(this.paasList)
-                    }
-                  }
-                }, '配置权限')
-              ])
-            }
-          }
-        ],
         orgColumns: [
-          {
-            title: 'ID',
-            key: 'adminId',
-            align: 'center',
-            width: 100,
-            editable: true
-          },
           {
             title: 'UserID',
             key: 'id',
@@ -173,45 +84,17 @@
             editable: true
           },
           {
-            title: '头像',
-            key: 'photo',
+            title: '手机号',
+            key: 'mobile',
+            align: 'center',
+            editable: true
+          },
+          {
+            title: '性别',
+            align: 'center',
             render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: params.row.photo
-                },
-                style: {
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '50%',
-                  marginTop: '6px',
-                  border: '4px solid #f4f4f4'
-                },
-                on: {
-                  click: () => {
-                    let argu = {id: params.row.id}
-                    this.$router.push({
-                      name: 'user_detail',
-                      params: argu
-                    })
-                  }
-                }
-              })
-            },
-            width: 80,
-            align: 'center'
-          },
-          {
-            title: '单身/介绍人',
-            key: 'type',
-            align: 'center',
-            editable: true
-          },
-          {
-            title: '权限类型',
-            key: 'admin_type',
-            align: 'center',
-            editable: true
+              return h('span', params.row.sex == 1 ? '男' : '女')
+            }
           },
           {
             title: '操作',
@@ -229,7 +112,7 @@
                         title: '温馨提示',
                         content: `<p>是否将 <span class="_bold">${params.row.name}</span> 移除权限?</p>`,
                         onOk: () => {
-                          this.removeAdmin(params.row.adminId, params.index)
+                          this.removeAdmin(params.row.id, params.index)
                         },
                         onCancel: () => {
                           console.log('点击了取消')
@@ -237,7 +120,7 @@
                       })
                     }
                   }
-                }, '移除权限')
+                }, '删除管理员')
               ])
             }
           }
@@ -265,157 +148,52 @@
         }
       },
       ok () {
-        let type = this.paasName
-        if (!type) {
-          return this.$Message.error('已取消！')
+        let vm = this
+        if (!vm.name) {
+          return vm.$Message.error('请输入名字！')
+        } else if (!vm.mobile) {
+          return vm.$Message.error('请输入手机号！')
+        } else if (!vm.password) {
+          return vm.$Message.error('请输入登录密码！')
         }
-        if (this.paasName === 'super') {
-          type = 'SUPER'
-        }
-        uAxios.post(`admin/admins?user_id=${this.addAdminId}&type=${type}`)
+        uAxios.post(`admin/admins`, {name: vm.name, mobile: vm.mobile, password: vm.password})
           .then(res => {
             let result = res.data
             if (result.code == 0) {
-              this.$Message.success('添加成功！')
+              vm.$Message.success('添加成功！')
+              vm.getlist()
             }
           }).catch(() => {
-          this.$Message.error(result.message)
+          vm.$Message.error(result.message)
         })
       },
       removeAdmin (id, index) {
-        uAxios.delete(`admin/admins/${id}`)
+        uAxios.delete(`admin/users/${id}/admin`)
           .then(res => {
             let result = res.data
             if (result.code == 0) {
               this.information.splice(index, 1)
-              this.$Message.success('移除成功！')
+              this.$Message.success('删除成功！')
             }
           }).catch(() => {
           this.$Message.error(res.message)
         })
       },
-      workerPage (num) {
-        this.userSearch(num)
-      },
-      userSearch (page) {
-        let self = this
-        this.$Message.loading({
-          content: '加载中...',
-          duration: 1,
-          onClose: () => {
-          }
-        })
-        self.loading = true
-        uAxios.get(`admin/users?page=${page}&keyword=${self.search}`)
-          .then(res => {
-            let result = res.data.data
-            if (result.data) {
-              self.addInformation = result.data
-              for (let item of self.addInformation) {
-                item.type = item.type == 'single' ? '单身' : '介绍人'
-              }
-              self.workerTotal = result.total
-            }
-            self.loading = false
-          }).catch(() => {
-          self.loading = false
-        })
-      },
-      // setReferres () {
-      //   // 设置为推荐人
-      //   console.log(this.referresID)
-      //   if (!this.referresID) {
-      //     return this.$Message.error('请选择要设置为推荐人的用户！')
-      //   }
-      //   // let reg = /^[0-9]*$/
-      //   // if (!reg.test(this.money)) {
-      //   //   return this.$Message.error('请输入正确的充值金额！')
-      //   // }
-      //   uAxios.post(`admin/referres/users/${this.referresID}`)
-      //     .then(res => {
-      //       let result = res.data
-      //       if (result.code == 0) {
-      //         this.$Message.success('设置成功！')
-      //         this.getlist()
-      //       }
-      //     })
-      // },
-      // getGropData (value) {
-      //   let self = this
-      //   self.loading = true
-      //   uAxios.get(`admin/users?keyword=${value}`)
-      //     .then(res => {
-      //       let result = res.data.data.data
-      //       this.userList = result.map((item) => {
-      //         return {
-      //           name: item.name,
-      //           id: item.id
-      //         }
-      //       })
-      //     })
-      // },
       getTab (type) {
         this.activeTab = type
-        switch (type) {
-          case 'adminList':
-            this.getlist(1)
-            break
-          default:
-            console.log('添加管理员')
-        }
       },
       handlePage (num) { // 分页
         this.getlist(num)
       },
-      getTreeData (result) {
-        let data = [
-          {
-            expand: true,
-            selected: false,
-            title: '超级管理员'
-          },
-          {
-            expand: true,
-            title: '平台管理员',
-            disabled: true,
-            selected: false,
-            children: []
-          }
-        ]
-        console.log(data[1].children)
-        for (let item of result) {
-          data[1].children.push({title: item.title})
-        }
-        return data
-      },
-      getPaasList () {
-        uAxios.get('admin/paas/list?nopage=0')
-          .then(res => {
-            let result = res.data.data
-            this.paasList = result
-            this.baseData = this.getTreeData(this.paasList)
-          })
-          .catch(() => {
-          })
-      },
-      getlist (page) {
+      getlist (page = 1) {
         let self = this
         self.loading = true
         uAxios.get(`admin/admins?page=${page}&keyword=${self.searchKeyword}`)
           .then(res => {
             let result = res.data.data
             if (result.data) {
-              self.information = result.data.map((item) => {
-                let {user} = item
-                user.adminId = item.id
-                user.created_at = item.created_at
-                user.sex = user.sex == 1 ? '男' : '女'
-                user.type = user.type == 'single' ? '单身' : '介绍人'
-                user.admin_type = item.type == 'SUPER' ? '超级管理员' : `《${item.paas.title}》管理员`
-                return user
-              })
+              self.information = result.data
               self.orgTotal = result.total
-              console.log(this.information)
             }
             self.loading = false
           })
@@ -425,8 +203,7 @@
       }
     },
     mounted () {
-      this.getlist(1)
-      this.getPaasList()
+      this.getlist()
     }
   }
 </script>

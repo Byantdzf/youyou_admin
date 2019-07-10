@@ -8,7 +8,7 @@
               id-name="user_created_count"
               :end-val="allUser"
               iconType="android-person-add"
-              color="none"
+              color="#2D8cF0"
               intro-text="全部用户"
             ></infor-card>
           </Col>

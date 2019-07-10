@@ -473,6 +473,7 @@
         this.getlist()
         return
       }
+      this.$refs.editor.customConfig.uploadImgServer = '/upload'
       this.$refs.editor.setHtml('')
       this.title = this.BtnText = '新增兼职'
     }

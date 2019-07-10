@@ -1,7 +1,7 @@
 <template>
   <div class="user-avator-dropdown">
     <Dropdown @on-click="handleClick">
-      <Avatar :src="userAvator"/>
+      <Avatar src="https://images.ufutx.com/201907/10/1332cdb360434a169a2b46f120e7d918.png"/>
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
         <DropdownItem name="resetPassword">
@@ -38,7 +38,7 @@
     props: {
       userAvator: {
         type: String,
-        default: ''
+        default: 'https://images.ufutx.com/201907/10/1332cdb360434a169a2b46f120e7d918.png'
       }
     },
     data () {
