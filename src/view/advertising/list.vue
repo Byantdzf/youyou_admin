@@ -39,7 +39,6 @@
   import dropdown from '../components/dropdown'
 
   export default {
-    name: 'Org',
     components: {
       dropdown: dropdown,
       uploadImage: uploadImage,

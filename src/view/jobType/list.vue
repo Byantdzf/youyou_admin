@@ -58,7 +58,7 @@
         value: '',
         index: 0,
         parent_id: 0,
-        showSub: false,
+        showSub: true,
         valueClass: ''
       }
     },
@@ -141,17 +141,6 @@
               })
           }
         })
-        // vm.$Modal.confirm({
-        //   title: '温馨提示',
-        //   content: '<p>是否确定删除该类目</p>',
-        //   onOk: () => {
-        //     uAxios.delete(`admin/job/categories/${id}`)
-        //       .then(res => {
-        //         vm.$Message.success('删除成功')
-        //         vm.getlist()
-        //       })
-        //   }
-        // });
       },
       handleRender (type) {
         this.modal = true
@@ -170,6 +159,8 @@
                 sub_categories: item.sub_categories
               }
             })
+            self.information[0].active = true
+            self.sub_categories = self.information[0].sub_categories?self.information[0].sub_categories:[]
             if (this.parent_id) {
               for (let item of self.information) {
                 if (item.id == this.parent_id) {

@@ -59,17 +59,6 @@ const data = [
     },
     component: () => import('@/view/users/list.vue')
   },
-  // {
-  //   title: '用户管理',
-  //   path: 'orders',
-  //   icon: 'ios-paper',
-  //   meta: {
-  //     access: ['admin', 'paas_admin'],
-  //     hideInMenu: false,
-  //     notCache: true
-  //   },
-  //   component: () => import('@/view/orders/list.vue')
-  // },
   {
     title: '兼职管理',
     path: 'jobList',
@@ -149,51 +138,6 @@ export const staticRouters = [
     }]
   },
   ...setRouter(),
-  // {
-  //   path: '/',
-  //   name: '设置',
-  //   meta: {
-  //     access: ['admin', 'paas_admin'],
-  //     notCache: true, hideInMenu: false,
-  //     icon: 'logo-sass',
-  //   },
-  //   component: routerMap['Main'],
-  //   children: [
-  //     {
-  //       path: 'homeSet',
-  //       name: '首页通知',
-  //       icon: 'md-cog',
-  //       meta: {
-  //         access: ['admin', 'paas_admin'],
-  //         hideInMenu: false,
-  //         notCache: true
-  //       },
-  //       component: () => import('@/view/home/homeSet.vue')
-  //     },
-  //     {
-  //       path: 'homeRecommend',
-  //       name: '首页推荐',
-  //       icon: 'md-cog',
-  //       meta: {
-  //         access: ['admin', 'paas_admin'],
-  //         hideInMenu: false,
-  //         notCache: true
-  //       },
-  //       component: () => import('@/view/home/homeRecommend.vue')
-  //     },
-  //     {
-  //       path: 'massTexting',
-  //       name: '群发信息',
-  //       icon: 'md-cog',
-  //       meta: {
-  //         access: ['admin', 'paas_admin'],
-  //         hideInMenu: false,
-  //         notCache: true
-  //       },
-  //       component: () => import('@/view/home/massTexting.vue')
-  //     },
-  //   ]
-  // },
   {
     path: '/',
     name: '二级页面',
@@ -226,15 +170,6 @@ export const staticRouters = [
       },
       // ---分------
       {
-        path: 'paasDetail/:id',
-        name: 'paasDetail',
-        meta: {
-          title: '活动详情',
-          hideInMenu: true
-        },
-        component: () => import('@/view/paas/index.vue')
-      },
-      {
         path: 'user_detail/:id',
         name: 'user_detail',
         meta: {
@@ -244,181 +179,6 @@ export const staticRouters = [
           // access: ['super_admin']
         },
         component: () => import('@/view/users/user_detail.vue')
-      },
-      {
-        path: 'createMassText',
-        name: 'createMassText',
-        meta: {
-          title: '群发消息',
-          hideInMenu: true,
-          notCache: false,
-          // access: ['super_admin']
-        },
-        component: () => import('@/view/home/createMassText.vue')
-      },
-      {
-        path: 'messageDetail/:id',
-        name: 'messageDetail',
-        meta: {
-          title: '群发详情',
-          hideInMenu: true,
-          notCache: false,
-          // access: ['super_admin']
-        },
-        component: () => import('@/view/home/messageDetail.vue')
-      },
-      {
-        path: 'userMembers/:id',
-        name: 'userMembers',
-        meta: {
-          title: '用户会员',
-          hideInMenu: true,
-          notCache: false,
-          // access: ['super_admin']
-        },
-        component: () => import('@/view/users/userMembers.vue')
-      },
-      {
-        path: 'user_recommend/:id',
-        name: 'user_recommend',
-        meta: {
-          title: '推荐',
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/user_recommend.vue')
-      },
-      {
-        path: 'record/:id',
-        name: 'record',
-        meta: {
-          title: '收益记录',
-          hideInMenu: true,
-          access: ['admin', 'paas_admin']
-        },
-        component: () => import('@/view/referres/record.vue')
-      },
-      {
-        path: 'referralBonuses/:id',
-        name: 'referralBonuses',
-        meta: {
-          title: '推荐奖励',
-          access: ['admin'],
-          hideInMenu: true,
-        },
-        component: () => import('@/view/referres/referralBonuses.vue')
-      },
-      {
-        path: 'referrer/:id',
-        name: 'referrer',
-        meta: {
-          title: '推荐记录',
-          hideInMenu: true,
-          access: ['admin', 'paas_admin']
-        },
-        component: () => import('@/view/paas/referrers.vue')
-      },
-      {
-        path: 'user_note/:id',
-        name: 'user_note',
-        meta: {
-          title: '备注管理',
-          hideInMenu: true,
-          notCache: true
-        },
-        component: () => import('@/view/users/user_note.vue')
-      },
-      {
-        path: 'note_detail/:id',
-        name: 'note_detail',
-        meta: {
-          title: '备注详情',
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/noteDetail.vue')
-      },
-      {
-        path: 'order/:id',
-        name: 'order-detail',
-        meta: {
-          title: '订单详情',
-          hideInMenu: true
-        },
-        component: () => import('@/view/orders/detail.vue')
-      },
-      {
-        path: 'clients/:id',
-        name: 'clients',
-        meta: {
-          title: '客户列表',
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/clientlist.vue')
-      },
-      {
-        path: 'edit_user_detail/:id',
-        name: 'edit_user_detail',
-        meta: {
-          title: '编辑用户',
-          access: ['admin', 'paas_admin'],
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/edituserDetail.vue')
-      },
-      {
-        path: 'user_order/:id',
-        name: 'user_order',
-        meta: {
-          title: '订单列表',
-          access: ['admin', 'paas_admin'],
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/user_order.vue')
-      },
-      {
-        path: 'user_gift/:id',
-        name: 'user_gift',
-        meta: {
-          title: '礼物列表',
-          access: ['admin', 'paas_admin'],
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/user_gift.vue')
-      },
-      {
-        path: 'user_integral/:id',
-        name: 'user_integral',
-        meta: {
-          title: '福分记录',
-          hideInMenu: true
-        },
-        component: () => import('@/view/users/user_integral.vue')
-      },
-      {
-        path: 'activity/:id',
-        name: 'activity',
-        meta: {
-          title: '活动详情',
-          hideInMenu: true
-        },
-        component: () => import('@/view/activity/activity.vue')
-      },
-      {
-        path: 'activity_detail/:id',
-        name: 'activity_detail',
-        meta: {
-          title: '活动现场',
-          hideInMenu: true
-        },
-        component: () => import('@/view/activity/index.vue')
-      },
-      {
-        path: 'member_detail/:id',
-        name: 'member_detail',
-        meta: {
-          title: '会员详情',
-          hideInMenu: true
-        },
-        component: () => import('@/view/activity/member_detail.vue')
       }
     ]
   }
