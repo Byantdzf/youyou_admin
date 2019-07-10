@@ -14,6 +14,9 @@
                 <FormItem label="兼职名称" prop="name">
                   <Input v-model="jobData.title" placeholder="Enter title"></Input>
                 </FormItem>
+                <FormItem label="兼职简介" prop="name">
+                  <Input v-model="jobData.sub_title" placeholder="Enter title"></Input>
+                </FormItem>
                 <FormItem label="兼职状态" prop="name" v-if="id!==0">
                   <!--<span style="color: red;">{{jobData.typeName}}</span>-->
                   <RadioGroup v-model="jobData.typeName" @on-change="setStatus">
@@ -78,7 +81,7 @@
                     <Button type="primary" @click="showMapModel = true">地图定位</Button>
                   </Row>
                 </FormItem>
-                <FormItem label="兼职介绍" prop="name">
+                <FormItem label="兼职详情" prop="name">
                   <editor ref="editor" @on-change="handleChange"/>
                 </FormItem>
               </Form>
@@ -122,7 +125,7 @@
       Editor
     },
     watch: {
-      value1(){
+      value1 () {
         console.log(this.value1)
       }
     },
@@ -441,7 +444,9 @@
         uAxios.get(`admin/jobs/${vm.id}`)
           .then(res => {
             let result = res.data.data
-            vm.jobTypeValue = [result.category.parent_id, result.category.id]
+            if (result.category) {
+              vm.jobTypeValue = [result.category.parent_id, result.category.id]
+            }
             vm.jobData = result
             switch (result.status) {
               case 'UNDERWAY':
