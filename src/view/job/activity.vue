@@ -44,7 +44,7 @@
                 </FormItem>
                 <FormItem label="兼职时间" prop="name">
                   <Row>
-                    <DatePicker type="date" format="yyyy-MM-dd HH:mm" placement="top" @on-change="getDate"
+                    <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placement="top" @on-change="getDate"
                                 placeholder="Select date and time(Excluding seconds)" style="max-width: 400px;"
                                 :value="jobData.job_time"></DatePicker>
                   </Row>
@@ -321,8 +321,7 @@
         console.log('确定')
       },
       getDate (e) {
-        this.activity.start_time = e[0]
-        this.activity.end_time = e[1]
+        this.jobData.job_time = e
       },
       getTab (type) {
         // 获得激活的Tab页

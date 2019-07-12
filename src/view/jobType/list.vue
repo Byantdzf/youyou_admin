@@ -159,15 +159,16 @@
                 sub_categories: item.sub_categories
               }
             })
-            self.information[0].active = true
-            self.sub_categories = self.information[0].sub_categories?self.information[0].sub_categories:[]
             if (this.parent_id) {
               for (let item of self.information) {
                 if (item.id == this.parent_id) {
                   item.active = true
-                  this.sub_categories = item.sub_categories?item.sub_categories:[]
+                  self.sub_categories = item.sub_categories?item.sub_categories:[]
                 }
               }
+            }else {
+              self.information[0].active = true
+              self.sub_categories = self.information[0].sub_categories?self.information[0].sub_categories:[]
             }
             console.log(self.information)
           })
