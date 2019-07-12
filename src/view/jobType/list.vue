@@ -167,6 +167,7 @@
                 }
               }
             }else {
+              self.parent_id = self.information[0].id
               self.information[0].active = true
               self.sub_categories = self.information[0].sub_categories?self.information[0].sub_categories:[]
             }
