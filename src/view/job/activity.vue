@@ -20,10 +20,10 @@
                 <FormItem label="兼职状态" prop="name" v-if="id!==0">
                   <!--<span style="color: red;">{{jobData.typeName}}</span>-->
                   <RadioGroup v-model="jobData.typeName" @on-change="setStatus">
-                    <Radio label="上架"></Radio>
-                    <Radio label="下架"></Radio>
-                    <Radio label="取消"></Radio>
-                    <Radio label="结束"></Radio>
+                    <Radio label="进行中"></Radio>
+                    <Radio label="已结束"></Radio>
+                    <Radio label="待开始"></Radio>
+                    <Radio label="已取消"></Radio>
                   </RadioGroup>
                 </FormItem>
                 <FormItem label="报名人数(人)" prop="number" v-if="id!==0">
@@ -347,6 +347,7 @@
       // 提交表单
       handleSubmit () {
         this.jobData.intro = this.intro
+        this.jobData.category_id = this.jobTypeValue[1]
         if (this.id == 0) {
           uAxios.post(`admin/jobs`, this.jobData).then(response => {
             if (response.data.code === 0) {
@@ -424,16 +425,16 @@
       setStatus () {
         let status = ''
         switch (this.jobData.typeName) {
-          case '上架':
+          case '进行中':
             status = 'UNDERWAY'
             break
-          case '结束':
+          case '已结束':
             status = 'FINISHED'
             break
-          case '下架':
+          case '待开始':
             status = 'UNPLAYED'
             break
-          case '取消':
+          case '已取消':
             status = 'CANCELED'
             break
         }
@@ -454,16 +455,16 @@
             vm.jobData = result
             switch (result.status) {
               case 'UNDERWAY':
-                vm.jobData.typeName = '上架'
+                vm.jobData.typeName = '进行中'
                 break
               case 'FINISHED':
-                vm.jobData.typeName = '结束'
+                vm.jobData.typeName = '已结束'
                 break
               case 'UNPLAYED':
-                vm.jobData.typeName = '下架'
+                vm.jobData.typeName = '待开始'
                 break
               case 'CANCELED':
-                vm.jobData.typeName = '取消'
+                vm.jobData.typeName = '已取消'
                 break
             }
             vm.$refs.editor.setHtml(result.intro)
