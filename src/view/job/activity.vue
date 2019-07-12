@@ -81,6 +81,11 @@
                     <Button type="primary" @click="showMapModel = true">地图定位</Button>
                   </Row>
                 </FormItem>
+                <FormItem label="报名说明" prop="name">
+                  <div style="max-width: 420px;">
+                    <Input v-model="jobData.explain" placeholder="Enter activity explain" style="font-size: 12px;" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                  </div>
+                </FormItem>
                 <FormItem label="兼职详情" prop="name">
                   <editor ref="editor" @on-change="handleChange"/>
                 </FormItem>

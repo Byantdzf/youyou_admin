@@ -13,10 +13,10 @@
       <!--</p>-->
       <!--</div>-->
       <!--</Card>-->
-      <Card icon="md-heart-outline" class="interim" title="福恋智能后台管理系统" :bordered="false">
+      <Card icon="ios-analytics" class="interim" title="后台管理系统" :bordered="false">
         <div class="form-con">
           <login-code @on-changePassword="changePassword" :load="loading"></login-code>
-          <p class="login-tip">【福恋智能】 -- 后台
+          <p class="login-tip">【猴犀利】 -- 后台
             <!--<a style="float: right;" @click="changeCode=false">登录系统 </a>-->
           </p>
         </div>
