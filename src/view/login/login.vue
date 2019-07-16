@@ -9,7 +9,7 @@
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit" :load="loading"></login-form>
           <p class="login-tip">【猴犀利】 -- 后台
-            <a style="float: right;" @click="changeCode=true">忘记密码？</a>
+            <!--<a style="float: right;" @click="changeCode=true">忘记密码？</a>-->
           </p>
         </div>
       </Card>
