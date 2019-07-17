@@ -21,13 +21,13 @@
                   <FormItem label="文章类型" prop="name">
                     <RadioGroup v-model="paasDetail.type">
                       <Radio label="OF">公众号</Radio>
-                      <Radio label="MP">自定义</Radio>
+                      <Radio label="H5">自定义</Radio>
                     </RadioGroup>
                   </FormItem>
-                  <FormItem label="文章链接" prop="name">
-                    <Input v-model="paasDetail.link" placeholder="Enter paasDetail sub_title" style="max-width: 360px;"></Input>
+                  <FormItem label="文章链接" prop="name" v-show="paasDetail.type == 'OF'">
+                    <Input v-model="paasDetail.path" placeholder="Enter paasDetail sub_title" style="max-width: 360px;"></Input>
                   </FormItem>
-                  <FormItem label="文章内容" prop="name">
+                  <FormItem label="文章内容" prop="name" v-show="paasDetail.type == 'H5'">
                     <editor ref="editor" :value="content" @on-change="handleChange"/>
                   </FormItem>
                 </Form>
