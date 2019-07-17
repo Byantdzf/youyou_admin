@@ -89,13 +89,13 @@
             align: 'center',
             editable: true
           },
-          {
-            title: '性别',
-            align: 'center',
-            render: (h, params) => {
-              return h('span', params.row.sex == 1 ? '男' : '女')
-            }
-          },
+          // {
+          //   title: '性别',
+          //   align: 'center',
+          //   render: (h, params) => {
+          //     return h('span', params.row.sex == 1 ? '男' : '女')
+          //   }
+          // },
           {
             title: '操作',
             key: 'id',

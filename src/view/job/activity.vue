@@ -40,7 +40,7 @@
                   </Row>
                 </FormItem>
                 <FormItem label="兼职类型" prop="number">
-                  <Cascader :data="jobTypeData" v-model="jobTypeValue" style="max-width:184px"></Cascader>
+                  <Cascader :data="jobTypeData" v-model="jobTypeValue" style="max-width:184px" @on-change="CascaderChange"></Cascader>
                 </FormItem>
                 <FormItem label="兼职时间" prop="name">
                   <Row>
@@ -295,6 +295,9 @@
       }
     },
     methods: {
+      CascaderChange(value, selectedData){
+        console.log(value, selectedData)
+      },
       handleChange (html, text) {
         this.intro = html
         console.log(this.intro)
@@ -477,6 +480,7 @@
     created () {
     },
     mounted () {
+      this.$refs.editor.setHtml('')
       this.getJobType()
       if (this.$route.params.id != 0) {
         this.id = this.$route.params.id
@@ -484,7 +488,6 @@
         return
       }
       // this.$refs.editor.customConfig.uploadImgServer = '/upload'
-      this.$refs.editor.setHtml('')
       this.title = this.BtnText = '新增兼职'
     }
   }

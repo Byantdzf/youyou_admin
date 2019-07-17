@@ -111,8 +111,8 @@
         formData.append('signature', self.ossConfig.signature);
         formData.append('file', self.file);
         formData.append('filename', self.file.name);
-        // console.log(formData);
-        axios.post(self.ossConfig.host, formData, {headers: {'Content-Type': 'multipart/form-data'}}
+        console.log(formData);
+        axios.post(self.ossConfig.host, formData, {headers: {'Content-Type': 'multipart/form-data'}}  // aliyu
         ).then(function (response) {
           if (response.status === 200) {
             console.log(filePath);
