@@ -17,7 +17,7 @@
                 <FormItem label="兼职简介" prop="name">
                   <Input v-model="jobData.sub_title" placeholder="Enter title"></Input>
                 </FormItem>
-                <FormItem label="兼职状态" prop="name" v-if="id!==0">
+                <FormItem label="兼职状态" prop="name">
                   <!--<span style="color: red;">{{jobData.typeName}}</span>-->
                   <RadioGroup v-model="jobData.typeName" @on-change="setStatus">
                     <Radio label="进行中"></Radio>
