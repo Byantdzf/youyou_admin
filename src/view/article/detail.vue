@@ -553,7 +553,6 @@ export default {
       if (!this.paasDetail.pic) return this.$Message.error('缺少图片!')
       if (!this.paasDetail.title) return this.$Message.error('缺少标题!')
       if (!this.paasDetail.sub_title) return this.$Message.error('缺少副标题!')
-      if (!this.paasDetail.content) return this.$Message.error('缺少内容!')
       if (this.id == 0) {
         uAxios.post(`admin/articles`, this.paasDetail).then(response => {
           if (response.data.code === 0) {
